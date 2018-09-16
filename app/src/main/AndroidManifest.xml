@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.darkknight.cinemateatralv2">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        android:windowSoftInputMode="adjustNothing">
+        <activity
+            android:name=".Clases.activity_registro"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".Clases.Login"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Clases.MenuprincipalActivity"
+            android:label="@string/title_activity_menu_administracion"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity android:name=".menu_cines" />
+        <activity
+            android:name="layouts.altaDeCine"
+            android:label="@string/title_activity_alta_de_cine"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
+        <!--
+            <activity
+            android:name=".listarCines"
+            android:label="@string/title_activity_listar_cines"
+            android:theme="@style/AppTheme.NoActionBar" />!
+        -->
+        <activity
+            android:name="layouts.altaDeTeatro"
+            android:label="@string/title_activity_alta_de_teatro"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
+        <!--
+       <activity
+           android:name=".layouts.altaDePelicula"
+           android:label="@string/title_activity_alta_de_pelicula"
+           android:launchMode="singleTop"
+           android:screenOrientation="portrait"
+           android:windowSoftInputMode="adjustNothing"/>
+            -->
+
+       <activity android:name=".layouts.alta_de_reservas_cine" />
+       <activity android:name=".seleccion_lugares_cine" />
+       <activity android:name=".layouts.mostrar_usuario" />
+       <activity
+           android:name=".menu_lateral_principal"
+           android:label="@string/title_activity_menu_lateral"
+           android:theme="@style/AppTheme.NoActionBar"></activity>
+
+   </application>
+
+</manifest>

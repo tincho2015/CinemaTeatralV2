@@ -1,0 +1,175 @@
+<resources>
+    <string name="app_name">CinemaTeatralV2</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_alta_de_cine">altaDeCine</string>
+    <string name="title_activity_alta_de_teatro">altaDeTeatro</string>
+    <string name="title_activity_alta_de_pelicula">altaDePelicula</string>
+    <string name="title_activity_alta_de_obra_teatro">altaDeObraTeatro</string>
+    <string name="title_activity_alta_de_entrada">altaDeEntrada</string>
+    <string name="title_activity_menu_administracion">menuAdministracion</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_login_activiy">Menu de registro</string>
+
+    <!-- Menu sala -->
+    <string name="in_precio_sala">Ingrese precio de la sala...</string>
+    <string name="in_descripcion_sala">Ingrese una descripción...</string>
+    <string name="in_tipo_sala">Ingrese un tipo de sala...</string>
+    <string name="btn_agregar_sala">Agregar sala</string>
+
+
+    <!-- Menu lateral -->
+
+    <string name="menu_lateral_opcion_1">Bienvenida</string>
+    <string name="menu_lateral_opcion_2">Reservas</string>
+    <string name="menu_lateral_opcion_3">Cine</string>
+    <string name="menu_lateral_opcion_4">Teatro</string>
+    <string name="menu_admin_titulo">Administración</string>
+    <string name="menu_admin_opc_1">ABM Cine</string>
+    <string name="menu_admin_opc_2">ABM Teatro</string>
+    <string name="menu_admin_opc_3">ABM Pelicula</string>
+    <string name="menu_admin_opc_4">ABM Obra de teatro</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">CinemaTeatral</string>
+    <string name="nav_header_subtitle">cinema@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="title_activity_menu_principal_lateral">menu_principal_lateral</string>
+
+    <!--Strings para login y registro-->
+    <string name="input_email">Email</string>
+    <string name="input_contraseña">Contraseña</string>
+    <string name="input_nombre">Nombre de usuario</string>
+    <string name="input_genero">Sexo</string>
+    <string name="input_genero_masculino">Masculino</string>
+    <string name="input_genero_femenino">Femenino</string>
+    <string name="btn_login_menu">Iniciar sesión</string>
+    <string name="btn_register">Crear cuenta de usuario</string>
+    <string name="btn_link_to_register">¿No estas registrado? registrate ahora.</string>
+    <string name="btn_link_to_login">¿Ya registrado? Inicia sesión!.</string>
+    <string name="welcome">Bienvenido/a!</string>
+    <string name="btn_logout">LOGOUT</string>
+    <string name="btnMenu">Ir al menú principal</string>
+    <string name="titleID">Id de usuario</string>
+    <string name="show_id_usuario">id_usuario</string>
+    <string name="show_nombre_usuario">nombre_usuario</string>
+    <string name="show_email">email_usuario</string>
+    <string name="show_sexo_usuario">sexo_usuario</string>
+    <string name="btnEditarUsuario">Editar perfil</string>
+    <string name="enlace_a_registro">¿No estas registrado?.¡Registrate ahora!</string>
+
+    <!-- String Menu Principal -->
+
+    <string name="btnReserva">Generar reserva</string>
+    <string name="btnAdmin">Administración</string>
+
+    <!-- String Menu admin-->
+    <string name="btnCine">Cines</string>
+    <string name="btnTeatro">Teatros</string>
+
+    <!-- String Menu cine -->
+    <string name="btnAlta">Alta de nuevo cine</string>
+    <string name="btnBaja">Baja de un cine</string>
+    <string name="btnModificacion">Modificación de un cine</string>
+    <string name="btnDatosDeCine">Datos de un cine</string>
+    <string name="btnDatosDeCines">Listar todos los cines</string>
+
+    <!-- String Alta de cine -->
+    <string name="txtNombre">Ingrese nombre...</string>
+    <string name="txtDireccion">Ingrese dirección...</string>
+    <string name="txtMail">Email:(Si posee)</string>
+    <string name="txtTelefono">Ingrese teléfono...</string>
+    <string name="txtURL">Ingrese nombre de sitio web...</string>
+    <string name="btnNuevoCine">Aceptar</string>
+    <string name="btnActualizar">Actualizar</string>
+    <string name="btnEliminar">Eliminar</string>
+    <string name="titleNombreCine">nombre_cine</string>
+    <string name="btnAM">Agregar</string>
+    <string name="title_activity_listar_cines">listarCines</string>
+
+    <string name="titleNombreObraTeatro">nombre_obra_teatro</string>
+
+    <!-- String Alta de Pelicula -->
+
+    <string name="txtTitulo">Ingrese titulo...</string>
+    <string name="txtGenero">Ingrese genero...</string>
+    <string name="txtDirector">Ingrese director...</string>
+    <string name="txtProtagonista">Ingrese protagonista...</string>
+    <string name="txtDuracion">Ingrese duracion...</string>
+    <string name="titleNombrePelicula">nombre_peli</string>
+    <string name="txtSinopsis">Ingrese sinopsis...</string>
+    <string name="txtClasificacion">Ingrese clasificación...</string>
+
+    <!-- String Alta de teatro -->
+
+    <string name="txtTelefonoTeatro">Ingrese teléfono...</string>
+    <string name="txtDireccionTeatro">Ingrese dirección...</string>
+    <string name="txtNombreTeatro">Ingrese nombre...</string>
+    <string name="title_activity_listar_teatros">listarTeatros</string>
+    <string name="titleNombreTeatro">nombre_teatro</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <string name="title_activity_login_activity">Menú de registro</string>
+    <string name="title_activity_registro">RegistroActivity</string>
+    <string name="title_activity_bienvenida">bienvenida</string>
+
+    <!-- Strings alta de reserva de cine-->
+
+    <string name="txtViewCine">Seleccione el cine:</string>
+    <string name="txtViewPelicula">Seleccione una pelicula:</string>
+    <string name="txtSala">Seleccione la sala:</string>
+    <string name="txtViewFuncion">Seleccione una función:</string>
+    <string name="txtViewDía">Seleccione un día:</string>
+    <string name="btnSeleccionAsiento">Seleccionar lugares</string>
+
+    <!-- Strings alta de reserva de teatro-->
+
+    <string name="txtViewTeatro">Seleccione el teatro:</string>
+    <string name="txtViewObraTeatro">Seleccione la obra de teatro:</string>
+    <string name="txtViewFuncionTeatro">Seleccione una función:</string>
+    <string name="txtViewHorarioTeatro">Seleccione un horario:</string>
+
+    <!-- Strings Datos de la reserva de cine-->
+
+    <string name="txtViewNroReserva">Código de reserva:</string>
+    <string name="txtViewDatoCine">Cine:</string>
+    <string name="txtViewSala">Sala:</string>
+    <string name="txtViewDatoPelicula">Pelicula:</string>
+    <string name="txtViewFecha">Fecha:</string>
+    <string name="txtViewHorario">Horario:</string>
+    <string name="txtViewEntradas">Entradas:</string>
+    <string name="txtViewPagoTotal">Pago total:</string>
+    <string name="titleCodReserva">cod.reserva</string>
+    <string name="titleDatoCine">nombre_cine</string>
+    <string name="titleDatoPelicula">nombre_pelicula</string>
+    <string name="titleFecha">fecha</string>
+    <string name="titleHorario">horario</string>
+    <string name="titlePagoTotal">pagoTotal</string>
+    <string name="titleDatoSala">sala</string>
+    <string name="btnGenerarReserva">Generar reserva</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_menu_principal">menu_principal</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="action_example">Example action</string>
+    <string name="title_activity_menu_lateral">menu_lateral</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>
