@@ -45,11 +45,13 @@ public class abmSala extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    EditText txtDescripcionSala;
-    EditText txtPrecioSala;
-    EditText txtTipoSala;
-    Button btnAgregarSala;
-    ProgressBar barraEspera;
+    private EditText txtDescripcionSala;
+    private EditText txtPrecioSala;
+    private EditText txtTipoSala;
+    private Button btnAgregarSala;
+    private int idCine;
+    private ProgressBar barraEspera;
+    private EditText showIdCine;
 
     private static final int CODE_GET_REQUEST = 1;
     private static final int CODE_POST_REQUEST = 2;
@@ -64,17 +66,26 @@ public class abmSala extends Fragment {
 
         getActivity().setTitle("Agregar una sala");
 
+
+        showIdCine = view.findViewById(R.id.showIdCine);
         txtDescripcionSala = view.findViewById(R.id.editTextDesSala);
         txtPrecioSala = view.findViewById(R.id.editTextPrecio);
         txtTipoSala = view.findViewById(R.id.editTextTipoSala);
         btnAgregarSala = view.findViewById(R.id.btnAgregarSala);
         barraEspera = view.findViewById(R.id.progresoBarra);
 
+        Bundle bundle = this.getArguments();
+        if(bundle != null){
+
+            idCine = bundle.getInt("id_cine");
+            showIdCine.setText(bundle.getInt("id_cine"));
+        }
+
         btnAgregarSala.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                agregarSala();
+                agregarSala(idCine);
             }
         });
 
@@ -127,7 +138,7 @@ public class abmSala extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-    private void agregarSala() {
+    private void agregarSala(int idcine) {
 
 
         String nombre_sala = this.txtDescripcionSala.getText().toString().trim();
@@ -158,11 +169,12 @@ public class abmSala extends Fragment {
         params.put("descripcion", nombre_sala);
         params.put("precio_sala", precio_sala);
         params.put("descripcion_tipo_sala", tipo_sala);
+        params.put("id_cine", String.valueOf(idcine));
 
 
 
         //Calling the create hero API
-        request request = new request(AppConfig.URL_CREAR_SALA + id, params, CODE_POST_REQUEST);
+        request request = new request(AppConfig.URL_CREAR_SALA + idcine, params, CODE_POST_REQUEST);
         request.execute();
     }
     private class request extends AsyncTask<Void, Void, String> {

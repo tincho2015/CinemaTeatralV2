@@ -85,6 +85,7 @@
     <string name="titleNombreCine">nombre_cine</string>
     <string name="btnAM">Agregar</string>
     <string name="title_activity_listar_cines">listarCines</string>
+    <string name="btnAgregarSala">Agregar nueva sala</string>
 
     <string name="titleNombreObraTeatro">nombre_obra_teatro</string>
 

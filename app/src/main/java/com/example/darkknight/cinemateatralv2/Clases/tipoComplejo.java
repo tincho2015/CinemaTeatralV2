@@ -1,5 +1,7 @@
 package com.example.darkknight.cinemateatralv2.Clases;
 
+import java.util.ArrayList;
+
 /**
  * Created by Dark Knight on 12/08/2016.
  */
@@ -11,6 +13,7 @@ public class tipoComplejo {
         private int ID;
         private String nombre;
         private String telefono;
+        private ArrayList<sala> salas;
 
 
 
@@ -26,6 +29,8 @@ public class tipoComplejo {
             this.nombre = nombre;
             this.telefono = telefono;
             this.url = url;
+            this.salas = new ArrayList<sala>();
+
             /*
             this.ubicacion = ubicacion;
             */
@@ -55,7 +60,11 @@ public class tipoComplejo {
         this.url = url;
     }
 
+    public ArrayList<sala> getSalas() {
+        return salas;
+    }
 
-
-
+    public void setSalas(ArrayList<sala> salas) {
+        this.salas = salas;
+    }
 }

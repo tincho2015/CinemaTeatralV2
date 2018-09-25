@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter;
 import com.example.darkknight.cinemateatralv2.Usuarios.Usuario;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Administradora
 {
@@ -35,20 +36,30 @@ public class Administradora
 
     public void agregarCine(cine nuevocine)
     {
+        if(nuevocine != null && !cines.contains(nuevocine))
         cines.add(nuevocine);
     }
-    public void agregarPelicula(cine cine,pelicula nuevapelicula)
-    {
-        if(cine != null && cines.contains(cine))
-        cine.agregarPeliculas(nuevapelicula);
+    public int darCine(int idcine){
+
+        int i = 0;
+        while(i < this.cines.size() && !this.cines.get(i).sosCine(idcine)){
+            i++;
+
+        }
+        if(i < this.cines.size()){
+
+            return this.cines.get(i).getID();
+        }else{
+
+            return 0;
+        }
+
+
     }
     public void agregarTeatro(teatro nuevoteatro)
     {
+        if(nuevoteatro!=null && !teatros.contains(nuevoteatro))
         teatros.add(nuevoteatro);
-    }
-    public void agregarObraDeTeatro(obraDeTeatro nuevaobra)
-    {
-     obrasTeatro.add(nuevaobra);
     }
     public void agregarUsuario(Usuario usuario){
 

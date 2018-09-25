@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -22,7 +24,9 @@ import android.widget.Toast;
 
 import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.jSonParser;
+import com.example.darkknight.cinemateatralv2.Clases.pelicula;
 import com.example.darkknight.cinemateatralv2.ConexionBD.AppConfig;
+import com.example.darkknight.cinemateatralv2.Interfaces.comunicador;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,11 +37,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import static android.view.View.GONE;
+import static android.view.View.generateViewId;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link abm_cine_fragment.OnFragmentInteractionListener} interface
+ * {@link abm_cine_fragment.OnFragmentInteractionListenerListaCines} interface
  * to handle interaction events.
  * Use the {@link abm_cine_fragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -47,6 +52,7 @@ public class abm_cine_fragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "listaCines";
 
+    private comunicador comunicador;
 
     private EditText nombre;
     private EditText direccion;
@@ -54,10 +60,10 @@ public class abm_cine_fragment extends Fragment {
     private EditText cineid;
     private EditText urlCine;
     private Button aceptar;
+    private Button agregarNuevaSala;
     private ProgressBar barra;
     private List<cine> ListaCines;
     private ListView cines;
-    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
     private static final int CODE_GET_REQUEST = 1;
     private static final int CODE_POST_REQUEST = 2;
@@ -67,7 +73,7 @@ public class abm_cine_fragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
 
-    private OnFragmentInteractionListener mListener;
+
 
     public abm_cine_fragment() {
         // Required empty public constructor
@@ -77,15 +83,14 @@ public class abm_cine_fragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     *
      * @return A new instance of fragment abm_cine_fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static abm_cine_fragment newInstance(String param1, String param2) {
+    public static abm_cine_fragment newInstance(ArrayList<cine>listaCines) {
         abm_cine_fragment fragment = new abm_cine_fragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putParcelable(ARG_PARAM1, (Parcelable) listaCines);
         fragment.setArguments(args);
         return fragment;
     }
@@ -136,11 +141,13 @@ public class abm_cine_fragment extends Fragment {
     }
     private void agregarCine() {
 
+        int id = 0;
+        final String nombre = this.nombre.getText().toString().trim();
+        final String direccion = this.direccion.getText().toString().trim();
+        final String telefono = this.telefono.getText().toString().trim();
+        final String url = this.urlCine.getText().toString().trim();
 
-        String nombre = this.nombre.getText().toString().trim();
-        String direccion = this.direccion.getText().toString().trim();
-        String telefono = this.telefono.getText().toString().trim();
-        String url = this.urlCine.getText().toString().trim();
+
 
         //validating the inputs
         if (TextUtils.isEmpty(nombre)) {
@@ -164,9 +171,27 @@ public class abm_cine_fragment extends Fragment {
             this.urlCine.setError("Por favor, ingrese un sitio web válido");
         }
 
+        agregarNuevaSala.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("id_cine",comunicador.darCine(Integer.parseInt(cineid.getText().toString())));
+                bundle.putString("nombre",nombre);
+                bundle.putString("direccion",direccion);
+                bundle.putString("telefono",telefono);
+                bundle.putString("url",url);
+                abmSala abmSala = null;
+                boolean fxtx = false;
+                cambiarFragment(fxtx,abmSala,bundle);
+            }
+        });
+
+
         //if validation passes
 
         HashMap<String, String> params = new HashMap<>();
+        params.put("id",String.valueOf(id+=1));
         params.put("nombre", nombre);
         params.put("direccion", direccion);
         params.put("telefono", telefono);
@@ -174,12 +199,29 @@ public class abm_cine_fragment extends Fragment {
 
 
 
+
         //Calling the create hero API
         request request = new request(AppConfig.URL_CREAR_CINE, params, CODE_POST_REQUEST);
         request.execute();
 
-        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        if(params != null) {
+
+            agregarNuevaSala.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("id_cine",comunicador.darCine(Integer.parseInt(cineid.getText().toString())));
+                    abmSala abmSala = null;
+                    boolean fxtx = false;
+                    cambiarFragment(fxtx,abmSala,bundle);
+                }
+            });
+        }
+
+       // getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
+
     private class request extends AsyncTask<Void, Void, String> {
 
         //the url where we need to send the request
@@ -216,6 +258,9 @@ public class abm_cine_fragment extends Fragment {
                 if (!object.getBoolean("error")) {
                     Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
                     refrescarLista(object.getJSONArray("cines"));
+                    comunicador.mandarCineAdmin((ArrayList<cine>) ListaCines);
+                    agregarNuevaSala.setVisibility(View.VISIBLE);
+
                     //refreshing the herolist after every operation
                     //so we get an updated list
                     //we will create this method right now it is commented
@@ -241,37 +286,6 @@ public class abm_cine_fragment extends Fragment {
 
             return null;
         }
-    }
-    public void confirmacionSala(){
-
-        builder.setTitle("Agregar nuevas salas")
-                .setMessage("¿Desea agregar nuevas salas al cine?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        android.app.Fragment fragment;
-                        boolean fragmentTX = false;
-
-                        fragment = new abmSala();
-
-                        //agregar fragment de sala
-                        if (fragmentTX) {
-                            android.app.FragmentManager fm = getFragmentManager();
-                            android.app.FragmentTransaction ft = fm.beginTransaction();
-                            ft.replace(R.id.content_frame, fragment);
-                            ft.commit();
-                        }
-
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        dialog.cancel();//permanece en la misma pantalla
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_info)
-                .show();
     }
     class cineAdapter extends ArrayAdapter<cine> {
 
@@ -330,6 +344,8 @@ public class abm_cine_fragment extends Fragment {
             textViewDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
                     builder.setTitle("Eliminar " + cine.getNombre())
                             .setMessage("¿Esta seguro que quiere eliminarlo?")
@@ -430,13 +446,13 @@ public class abm_cine_fragment extends Fragment {
                     obj.getString("nombre"),
                     obj.getString("telefono"),
                     obj.getString("url")
+
             ));
         }
         //creating the adapter and setting it to the listview
         cineAdapter adapter = new cineAdapter(getActivity().getApplicationContext(),ListaCines);
         this.cines.setAdapter(adapter);
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -460,12 +476,17 @@ public class abm_cine_fragment extends Fragment {
         barra = view.findViewById(R.id.progressBar);
         cineid = view.findViewById(R.id.editTextCineID);
         urlCine = view.findViewById(R.id.editTextURL);
+        comunicador = (comunicador)getActivity();
+        agregarNuevaSala = view.findViewById(R.id.btnAgregarSala);
+
+        agregarNuevaSala.setVisibility(view.GONE);
 
         ListaCines = new ArrayList<>();
 
         cines = view.findViewById(R.id.listViewCines);
 
         aceptar = view.findViewById(R.id.btnAM);
+
 
         aceptar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -490,28 +511,40 @@ public class abm_cine_fragment extends Fragment {
         return view;
     }
 
+    public void cambiarFragment(boolean fragmentTX,Fragment fragment,Bundle b){
+
+        if (fragmentTX) {
+            android.app.FragmentManager fm = getFragmentManager();
+            android.app.FragmentTransaction ft = fm.beginTransaction();
+            fragment.setArguments(b);
+            ft.replace(R.id.content_frame, fragment);
+            ft.commit();
+        }
+    }
+
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(ArrayList<cine>listaCines) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(listaCines);
+        if (comunicador != null) {
+            comunicador.mandarCineAdmin(listaCines);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof comunicador) {
+            comunicador = (comunicador) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement comunicador");
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        comunicador = null;
     }
 
     /**
@@ -524,8 +557,10 @@ public class abm_cine_fragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnFragmentInteractionListenerListaCines {
         // TODO: Update argument type and name
-        void onFragmentInteraction(ArrayList<cine>listaCines);
+        void mandarListaCines(List<cine>listaCines);
     }
+
+
 }

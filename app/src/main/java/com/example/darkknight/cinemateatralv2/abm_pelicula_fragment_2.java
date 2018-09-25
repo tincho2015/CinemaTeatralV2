@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
 import android.text.TextUtils;
@@ -21,9 +22,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.jSonParser;
 import com.example.darkknight.cinemateatralv2.Clases.pelicula;
 import com.example.darkknight.cinemateatralv2.ConexionBD.AppConfig;
+import com.example.darkknight.cinemateatralv2.Interfaces.comunicador;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +41,7 @@ import static android.view.View.GONE;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link abm_pelicula_fragment_2.OnFragmentInteractionListener} interface
+ * {@link abm_pelicula_fragment_2.OnFragmentInteractionListenerPelis} interface
  * to handle interaction events.
  * Use the {@link abm_pelicula_fragment_2#newInstance} factory method to
  * create an instance of this fragment.
@@ -49,7 +52,7 @@ public class abm_pelicula_fragment_2 extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-
+    private EditText avisoCine;
     private EditText titulo;
     private EditText director;
     private EditText genero;
@@ -61,9 +64,13 @@ public class abm_pelicula_fragment_2 extends Fragment {
     private Button aceptar;
     private ProgressBar barra;
     private List<pelicula> ListaPeliculas;
+    private List<cine>ListaCines;
     private ListView peliculas;
     private static final int CODE_GET_REQUEST = 1;
     private static final int CODE_POST_REQUEST = 2;
+    private comunicador comunicador;
+
+    private OnFragmentInteractionListenerPelis mListener;
 
 
     //as the same button is used for create and update
@@ -74,7 +81,6 @@ public class abm_pelicula_fragment_2 extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
 
     public abm_pelicula_fragment_2() {
         // Required empty public constructor
@@ -89,14 +95,16 @@ public class abm_pelicula_fragment_2 extends Fragment {
      * @return A new instance of fragment abm_pelicula_fragment_2.
      */
     // TODO: Rename and change types and number of parameters
-    public static abm_pelicula_fragment_2 newInstance(String param1, String param2) {
+    public static abm_pelicula_fragment_2 newInstance(String param1,String param2) {
         abm_pelicula_fragment_2 fragment = new abm_pelicula_fragment_2();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM1,param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
+
+
     private void agregarPelicula() {
 
 
@@ -439,7 +447,8 @@ public class abm_pelicula_fragment_2 extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam2 =getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -459,6 +468,10 @@ public class abm_pelicula_fragment_2 extends Fragment {
         duracion = view.findViewById(R.id.editTextDuracion);
         protagonistas = view.findViewById(R.id.editTextProtagonista);
         clasificacion = view.findViewById(R.id.editTextClasificacion);
+
+        comunicador = (comunicador)getActivity();
+
+        avisoCine = getActivity().findViewById(R.id.avisoCines);
 
         ListaPeliculas = new ArrayList<>();
 
@@ -530,20 +543,20 @@ public class abm_pelicula_fragment_2 extends Fragment {
     */
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(ArrayList<pelicula>listaPeliculas) {
+    public void onButtonPressed(ArrayList<cine>listaCines,ArrayList<pelicula>listaPeliculas) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(listaPeliculas);
+            mListener.mandarPeliculas(listaCines,listaPeliculas);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnFragmentInteractionListenerPelis) {
+            mListener = (OnFragmentInteractionListenerPelis) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnFragmentInteractionListenerPelis");
         }
     }
 
@@ -563,8 +576,23 @@ public class abm_pelicula_fragment_2 extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+
+
+    public interface OnFragmentInteractionListenerPelis {
         // TODO: Update argument type and name
-        void onFragmentInteraction(ArrayList<pelicula>listaPeliculas);
+        void mandarPeliculas(List<cine>listaCines,List<pelicula>listaPeliculas);
     }
+    public void recibirCines(List<cine>listaCines){
+
+        ListaCines.addAll(listaCines);
+        if(ListaCines.isEmpty())
+        {
+            avisoCine.setText("Lista vacia");
+        }else{
+            avisoCine.setText("Lista llena");
+        }
+
+
+    }
+
 }

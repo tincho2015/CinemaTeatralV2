@@ -13,6 +13,12 @@
         android:layout_height="match_parent">
 
 
+        <TextView
+            android:id="@+id/showIdCine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="muestra_id_cine" />
+
         <EditText
             android:id="@+id/editTextTipoSala"
             android:layout_width="0dp"

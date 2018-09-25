@@ -53,6 +53,7 @@ public class abm_pelicula_fragment extends Fragment {
     private ProgressBar barra;
     private List<pelicula> ListaPeliculas;
     private ListView peliculas;
+    //private comunicador comunicador;
 
     //as the same button is used for create and update
     //we need to track whether it is an update or create operation

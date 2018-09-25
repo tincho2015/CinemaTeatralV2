@@ -8,24 +8,18 @@ import java.util.ArrayList;
 public class cine extends tipoComplejo
 {
 
-        private ArrayList<pelicula> peliculas;
-        private ArrayList<sala>salas;
+
 
         public cine(String direccion,int id,String nombre,String telefono,String url)
         {
             super(direccion, id, nombre, telefono,url);
-            peliculas = new ArrayList<pelicula>();
-            salas = new ArrayList<sala>();
 
         }
 
 
-    public ArrayList<pelicula> getPeliculas() {
-        return peliculas;
-    }
 
     public ArrayList<sala> getSalas() {
-        return salas;
+       return super.getSalas();
     }
 
 
@@ -45,9 +39,21 @@ public class cine extends tipoComplejo
 
         return super.getTelefono();
     }
-    public void agregarPeliculas(pelicula nuevaPeli){
+    public void agregarSala(sala s){
 
-            peliculas.add(nuevaPeli);
+            if(s != null && !super.getSalas().contains(s)){
+
+                super.getSalas().add(s);
+            }
+    }
+    public boolean sosCine(int id){
+
+            if(this.getID() == id){
+                return true;
+            }
+            else{
+                return false;
+            }
     }
 
 }

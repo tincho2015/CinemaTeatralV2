@@ -1,6 +1,7 @@
 package com.example.darkknight.cinemateatralv2;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,14 +16,17 @@ import com.example.darkknight.cinemateatralv2.Clases.Administradora;
 import com.example.darkknight.cinemateatralv2.Clases.bienvenida;
 import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.pelicula;
+import com.example.darkknight.cinemateatralv2.Interfaces.comunicador;
 import com.example.darkknight.cinemateatralv2.Usuarios.SharedPrefManager;
 import com.example.darkknight.cinemateatralv2.Usuarios.Usuario;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class menu_lateral_principal extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,abm_cine_fragment.OnFragmentInteractionListenerCine,abm_pelicula_fragment_2.OnFragmentInteractionListenerPeli {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        comunicador {
 
     public Administradora admin = Administradora.getIntance();
 
@@ -141,18 +145,37 @@ public class menu_lateral_principal extends AppCompatActivity
         //replacing the fragment
        this.setearFragment(fragmentTX,fragment);
 
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
 
+/*
     @Override
-    public void onFragmentInteractionCine(ArrayList<cine> listaCines) {
+    public void pasarCine(List<cine> cines) {
 
-        for(cine c:listaCines) {
+
+        FragmentManager fragmentManager = getFragmentManager();
+        abm_pelicula_fragment_2 abmPeliculaFragment2 = (abm_pelicula_fragment_2)fragmentManager.findFragmentById(R.id.content_frame);
+        abmPeliculaFragment2.recibirCines(cines);
+
+    }
+    */
+
+    @Override
+    public void mandarCineAdmin(ArrayList<cine> cines) {
+
+        for(cine c:cines) {
             admin.agregarCine(c);
         }
     }
 
+    @Override
+    public int darCine(int idcine) {
+
+        return admin.darCine(idcine);
+
+    }
 
 
 }
