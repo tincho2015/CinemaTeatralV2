@@ -6,26 +6,22 @@ import java.util.Hashtable;
 /**
  * Created by Dark Knight on 30/10/2015.
  */
-public class sala
+public class sala_cine extends tipoSalas
 {
-    private ArrayList<asiento>asientos;
     private ArrayList<pelicula>peliculasSala;
-    private String descripcion;
-    private int ID;
 
-    public sala(ArrayList<asiento> asientos, ArrayList<pelicula> peliculasSala, String descripcion, int ID) {
-        this.asientos = asientos;
-        this.peliculasSala = peliculasSala;
-        this.descripcion = descripcion;
-        this.ID = ID;
+    public sala_cine(String descripcion, int ID,String des_tipo_sala,float precio_sala) {
+        super(descripcion,ID,des_tipo_sala,precio_sala);
+        peliculasSala = new ArrayList<>();
+
     }
 
     public ArrayList<asiento> getAsientos() {
-        return asientos;
+        return super.getAsientos();
     }
 
     public void setAsientos(ArrayList<asiento> asientos) {
-        this.asientos = asientos;
+        super.setAsientos(asientos);
     }
 
     public ArrayList<pelicula> getPeliculasSala() {
@@ -36,24 +32,31 @@ public class sala
         this.peliculasSala = peliculasSala;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String toString() {
+        return super.getDescripcion();
     }
 
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        super.setDescripcion(descripcion);
     }
 
     public int getID() {
-        return ID;
+        return super.getID();
     }
 
     public void setID(int ID) {
-        this.ID = ID;
+        super.setID(ID);
     }
 
     public void agregarPeliculas(pelicula p){
          if(p != null && !peliculasSala.contains(p))
         peliculasSala.add(p);
+    }
+    public void eliminarPeliculas(pelicula p){
+
+        if(p!= null && peliculasSala.contains(p)){
+
+            peliculasSala.remove(p);
+        }
     }
 }

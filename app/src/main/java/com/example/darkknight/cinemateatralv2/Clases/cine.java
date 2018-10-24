@@ -18,8 +18,8 @@ public class cine extends tipoComplejo
 
 
 
-    public ArrayList<sala> getSalas() {
-       return super.getSalas();
+    public ArrayList<sala_cine> getSala_cines() {
+       return super.getSala_cines();
     }
 
 
@@ -31,7 +31,7 @@ public class cine extends tipoComplejo
 
         return super.getID();
     }
-    public String nombre(){
+    public String toString(){
 
         return super.getNombre();
     }
@@ -39,11 +39,18 @@ public class cine extends tipoComplejo
 
         return super.getTelefono();
     }
-    public void agregarSala(sala s){
+    public void agregarSala(sala_cine s){
 
-            if(s != null && !super.getSalas().contains(s)){
+            if(s != null && !super.getSala_cines().contains(s)){
 
-                super.getSalas().add(s);
+                super.getSala_cines().add(s);
+            }
+    }
+    public void eliminarSala(sala_cine s){
+
+            if(s != null && super.getSala_cines().contains(s)){
+
+                super.getSala_cines().remove(s);
             }
     }
     public boolean sosCine(int id){

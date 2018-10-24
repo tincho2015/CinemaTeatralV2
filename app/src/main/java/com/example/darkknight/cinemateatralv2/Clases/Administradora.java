@@ -34,27 +34,20 @@ public class Administradora
 
     }
 
+
     public void agregarCine(cine nuevocine)
     {
         if(nuevocine != null && !cines.contains(nuevocine))
         cines.add(nuevocine);
     }
-    public int darCine(int idcine){
-
-        int i = 0;
-        while(i < this.cines.size() && !this.cines.get(i).sosCine(idcine)){
-            i++;
-
+    public void eliminarCine(cine cine){
+        if(cine != null && cines.contains(cine)){
+            cines.remove(cine);
         }
-        if(i < this.cines.size()){
+    }
+    public ArrayList darCines(){
 
-            return this.cines.get(i).getID();
-        }else{
-
-            return 0;
-        }
-
-
+            return this.cines;
     }
     public void agregarTeatro(teatro nuevoteatro)
     {
@@ -66,8 +59,54 @@ public class Administradora
         usuarios.add(usuario);
     }
 
+    public void agregarSalaCine(cine c, sala_cine sc)
+    {
+        if(c != null && sc != null){
+            if(cines.contains(c)){
 
+                c.agregarSala(sc);
+            }
+        }
 
+    }
+    public void eliminarSalaCine(cine c,sala_cine sc){
+
+        if(c != null && sc != null){
+            if(cines.contains(c)){
+                c.eliminarSala(sc);
+            }
+        }
+    }
+    public ArrayList darSalas(cine c){
+
+        return c.getSala_cines();
+
+    }
+    public ArrayList darPelis(sala_cine sc){
+
+        return sc.getPeliculasSala();
+    }
+    public void agregarPeliculasSala(sala_cine sc, pelicula nuevapeli){
+
+        if(sc != null && nuevapeli != null){
+
+            if(cines.contains(sc)){
+
+                sc.agregarPeliculas(nuevapeli);
+            }
+        }
+    }
+
+    public void eliminarPeliculaSala(sala_cine sc, pelicula peli){
+
+        if(sc != null && peli != null){
+
+            if(cines.contains(sc)){
+
+                sc.eliminarPeliculas(peli);
+            }
+        }
+    }
 
 
 }

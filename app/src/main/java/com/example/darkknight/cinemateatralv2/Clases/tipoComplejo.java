@@ -13,11 +13,8 @@ public class tipoComplejo {
         private int ID;
         private String nombre;
         private String telefono;
-        private ArrayList<sala> salas;
-
-
-
-    private String url;
+        private ArrayList<sala_cine> sala_cines;
+        private String url;
         /*
         private Map ubicacion;
         */
@@ -29,7 +26,7 @@ public class tipoComplejo {
             this.nombre = nombre;
             this.telefono = telefono;
             this.url = url;
-            this.salas = new ArrayList<sala>();
+            this.sala_cines = new ArrayList<sala_cine>();
 
             /*
             this.ubicacion = ubicacion;
@@ -60,11 +57,11 @@ public class tipoComplejo {
         this.url = url;
     }
 
-    public ArrayList<sala> getSalas() {
-        return salas;
+    public ArrayList<sala_cine> getSala_cines() {
+        return sala_cines;
     }
 
-    public void setSalas(ArrayList<sala> salas) {
-        this.salas = salas;
+    public void setSala_cines(ArrayList<sala_cine> sala_cines) {
+        this.sala_cines = sala_cines;
     }
 }

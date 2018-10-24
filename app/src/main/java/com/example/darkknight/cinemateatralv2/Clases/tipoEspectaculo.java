@@ -32,6 +32,7 @@ public class tipoEspectaculo {
       this.titulo = nombre;
       this.sinopsis = sinopsis;
       this.clasificacion = clasificacion;
+      funciones = new ArrayList<>();
       //this.puntaje = puntaje;
 
     }

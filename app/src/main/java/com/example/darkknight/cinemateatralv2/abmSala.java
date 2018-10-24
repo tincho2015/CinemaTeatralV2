@@ -10,25 +10,34 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.darkknight.cinemateatralv2.Clases.bienvenida;
+import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerSala;
+import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.jSonParser;
-import com.example.darkknight.cinemateatralv2.Clases.sala;
-import com.example.darkknight.cinemateatralv2.Clases.teatro;
+import com.example.darkknight.cinemateatralv2.Clases.sala_cine;
 import com.example.darkknight.cinemateatralv2.ConexionBD.AppConfig;
+import com.example.darkknight.cinemateatralv2.Interfaces.comunicador;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,20 +47,27 @@ import static android.view.View.GONE;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link abmSala.OnFragmentInteractionListener} interface
+ * {@link comunicador} interface
  * to handle interaction events.
  */
-public class abmSala extends Fragment {
+public class abmSala extends Fragment{
 
-    private OnFragmentInteractionListener mListener;
+    private comunicador comunicador;
 
     private EditText txtDescripcionSala;
     private EditText txtPrecioSala;
     private EditText txtTipoSala;
+    private EditText salaId;
     private Button btnAgregarSala;
-    private int idCine;
     private ProgressBar barraEspera;
-    private EditText showIdCine;
+    private Spinner listaDeCines;
+    private ArrayList<cine>cinesAdmin;
+    private ArrayList<sala_cine>salasDelCine;
+    private ListView listaDeSalas;
+    private boolean seEstaActualizando = false;
+    private ArrayAdapter<cine> adaptadorCines;
+    private cine cine_sala = null;
+
 
     private static final int CODE_GET_REQUEST = 1;
     private static final int CODE_POST_REQUEST = 2;
@@ -60,69 +76,102 @@ public class abmSala extends Fragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void cargarSpinner(ArrayList<cine>cinesAdmin, ArrayAdapter<cine> adaptadorCines){
 
-        getActivity().setTitle("Agregar una sala");
-
-
-        showIdCine = view.findViewById(R.id.showIdCine);
-        txtDescripcionSala = view.findViewById(R.id.editTextDesSala);
-        txtPrecioSala = view.findViewById(R.id.editTextPrecio);
-        txtTipoSala = view.findViewById(R.id.editTextTipoSala);
-        btnAgregarSala = view.findViewById(R.id.btnAgregarSala);
-        barraEspera = view.findViewById(R.id.progresoBarra);
-
-        Bundle bundle = this.getArguments();
-        if(bundle != null){
-
-            idCine = bundle.getInt("id_cine");
-            showIdCine.setText(bundle.getInt("id_cine"));
-        }
-
-        btnAgregarSala.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                agregarSala(idCine);
-            }
-        });
-
-
+        listaDeCines.setAdapter(adaptadorCines);
 
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.abm_sala_fragment, container, false);
+        View view = inflater.inflate(R.layout.abm_sala_fragment, container, false);
+
+        getActivity().setTitle("Agregar una sala_cine");
+
+
+        txtDescripcionSala = view.findViewById(R.id.editTextNombre);
+        txtPrecioSala = view.findViewById(R.id.editTextPrecio);
+        txtTipoSala = view.findViewById(R.id.editTextTipo);
+        btnAgregarSala = view.findViewById(R.id.btnSala);
+        barraEspera = view.findViewById(R.id.barraProgreso);
+        salaId = view.findViewById(R.id.salaId);
+
+        listaDeCines = view.findViewById(R.id.listCines);
+        listaDeSalas = view.findViewById(R.id.listaSalas);
+
+        cinesAdmin = comunicador.darCines();
+
+        adaptadorCines = new adaptadorSpinnerSala(getActivity(),cinesAdmin);
+
+        salasDelCine = new ArrayList<>();
+
+        cargarSpinner(cinesAdmin,adaptadorCines);
+
+
+        listaDeCines.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?>parent , View view, int position, long id) {
+
+
+
+                cine_sala = adaptadorCines.getItem(position);
+                Toast.makeText(getActivity(),"ID:" + cine_sala.getID(),Toast.LENGTH_LONG).show();
+
+                darSalas(cine_sala.getID());
+                btnAgregarSala.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if(seEstaActualizando){
+
+                            actualizarSala();
+                        }else{
+
+                        agregarSala(cine_sala.getID());
+                           }
+                    }
+                });
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+
+        });
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    public void onButtonPressed(ArrayList<sala_cine>salaCines,cine c) {
+        if (comunicador != null) {
+            comunicador.mandarSalasCineAdmin(salaCines,c);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof comunicador) {
+            comunicador = (comunicador) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement comunicador");
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        comunicador = null;
     }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -138,6 +187,85 @@ public class abmSala extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+    private void refrescarListaSalas(JSONArray salas) throws JSONException {
+        //clearing previous heroes
+        salasDelCine.clear();
+
+        //traversing through all the items in the json array
+        //the json we got from the response
+        for (int i = 0; i < salas.length(); i++) {
+            //getting each hero object
+            JSONObject obj = salas.getJSONObject(i);
+
+            //adding the hero to the list
+            salasDelCine.add(new sala_cine(
+                    obj.getString("descripcion"),
+                    obj.getInt("id_sala"),
+                    obj.getString("descripcion_tipo_sala"),
+                    obj.getInt("precio_sala")
+            ));
+        }
+        //creating the adapter and setting it to the listview
+
+        //Revisar con respecto a la clase "Adaptador"
+        adaptadorSalas adapter = new adaptadorSalas(getActivity().getApplicationContext(),salasDelCine);
+        this.listaDeSalas.setAdapter(adapter);
+    }
+    private void darSalas(int idCine) {
+
+        request request = new request(AppConfig.URL_LISTAR_SALAS + idCine, null, CODE_GET_REQUEST);
+        request.execute();
+    }
+    public void eliminarSala(int idsala){
+
+        request request = new request(AppConfig.URL_ELIMINAR_SALA + idsala,null,CODE_GET_REQUEST);
+        request.execute();
+
+
+    }
+    private void actualizarSala() {
+
+            String id = this.salaId.getText().toString().trim();
+            String descripcion = this.txtDescripcionSala.getText().toString();
+            String precio_sala = this.txtPrecioSala.getText().toString().trim();
+            String tipo_sala = this.txtPrecioSala.getText().toString().trim();
+
+
+            if (TextUtils.isEmpty(descripcion)) {
+                this.txtDescripcionSala.setError("Por favor, ingrese el nombre de la sala");
+                this.txtDescripcionSala.requestFocus();
+                return;
+            }
+
+            if (TextUtils.isEmpty(precio_sala)) {
+                this.txtPrecioSala.setError("Por favor, ingrese un precio de sala");
+                this.txtPrecioSala.requestFocus();
+                return;
+            }
+            if(TextUtils.isEmpty(tipo_sala)){
+                this.txtTipoSala.setError("Por favor, ingrese el tipo de sala ");
+                this.txtTipoSala.requestFocus();
+            }
+
+            HashMap<String, String> params = new HashMap<>();
+            params.put("id",id);
+            params.put("descripcion_sala", descripcion);
+            params.put("precio_sala", precio_sala);
+            params.put("descripcion_tipo_sala", tipo_sala);
+
+            //getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+            request request = new request(AppConfig.URL_ACTUALIZAR_SALA, params, CODE_POST_REQUEST);
+            request.execute();
+
+            btnAgregarSala.setText("Agregar");
+
+            this.txtDescripcionSala.setText("");
+            this.txtPrecioSala.setText("");
+            this.txtTipoSala.setText("");
+
+            seEstaActualizando = false;
+        }
     private void agregarSala(int idcine) {
 
 
@@ -147,13 +275,13 @@ public class abmSala extends Fragment {
 
         //validating the inputs
         if (TextUtils.isEmpty(nombre_sala)) {
-            txtDescripcionSala.setError("Por favor, ingrese el nombre de la sala");
+            txtDescripcionSala.setError("Por favor, ingrese el nombre de la sala_cine");
             txtDescripcionSala.requestFocus();
             return;
         }
 
         if (TextUtils.isEmpty(tipo_sala)) {
-            txtTipoSala.setError("Por favor, ingrese un tipo de sala");
+            txtTipoSala.setError("Por favor, ingrese un tipo de sala_cine");
             txtTipoSala.requestFocus();
             return;
         }
@@ -212,6 +340,8 @@ public class abmSala extends Fragment {
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
                     Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                    refrescarListaSalas(object.getJSONArray("salas"));
+                    comunicador.mandarSalasCineAdmin(salasDelCine,cine_sala);
 
                 }
             } catch (JSONException e) {
@@ -234,6 +364,90 @@ public class abmSala extends Fragment {
             return null;
         }
     }
+
+    public class adaptadorSalas extends ArrayAdapter<sala_cine> {
+
+        ArrayList<sala_cine>listaDeSalas;
+        Context context = getContext();
+
+
+        //constructor to get the list
+        public adaptadorSalas(Context context, ArrayList<sala_cine>listaDeSalas) {
+            super(context, R.layout.listar_salas,listaDeSalas);
+            this.listaDeSalas = listaDeSalas;
+        }
+
+
+        //method returning list item
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View listViewItem = inflater.inflate(R.layout.listar_salas, null, true);
+
+            //getting the textview for displaying name
+            TextView textViewName = listViewItem.findViewById(R.id.textViewName);
+
+            //the update and delete textview
+            TextView textViewUpdate = listViewItem.findViewById(R.id.textViewUpdate);
+            TextView textViewDelete = listViewItem.findViewById(R.id.textViewDelete);
+
+            final sala_cine sala_c = listaDeSalas.get(position);
+
+            textViewName.setText(sala_c.getDescripcion());
+
+            //attaching click listener to update
+            textViewUpdate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //so when it is updating we will
+                    //make the isUpdating as true
+                    seEstaActualizando = true;
+
+                    //we will set the selected hero to the UI elements
+                    salaId.setText(String.valueOf(sala_c.getID()));
+                    txtDescripcionSala.setText(sala_c.getDescripcion());
+                    txtPrecioSala.setText(String.valueOf(sala_c.getPrecio_sala()));
+                    txtTipoSala.setText(sala_c.getDescripcion_tipo_sala());
+
+                    //we will also make the button text to Update
+                    btnAgregarSala.setText("Actualizar");
+                }
+            });
+
+            //when the user selected delete
+            textViewDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                    builder.setTitle("Eliminar " + sala_c.getDescripcion())
+                            .setMessage("¿Esta seguro que quiere eliminarlo?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    eliminarSala(sala_c.getID());
+                                    //if the choice is yes we will delete the hero
+                                    //method is commented because it is not yet created
+                                    //deleteHero(hero.getId());
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+
+                }
+            });
+
+            return listViewItem;
+        }
+    }
+
+
+
 
 
 

@@ -1,30 +1,34 @@
 package com.example.darkknight.cinemateatralv2;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerPelicula;
+import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerSala;
+import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.jSonParser;
 import com.example.darkknight.cinemateatralv2.Clases.pelicula;
+import com.example.darkknight.cinemateatralv2.Clases.sala_cine;
 import com.example.darkknight.cinemateatralv2.ConexionBD.AppConfig;
-import com.example.darkknight.cinemateatralv2.layouts.altaDePelicula;
+import com.example.darkknight.cinemateatralv2.Interfaces.comunicador;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,10 +40,19 @@ import java.util.List;
 
 import static android.view.View.GONE;
 
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link comunicador} interface
+ * to handle interaction events.
+ * Use the {@link abm_pelicula_fragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
 public class abm_pelicula_fragment extends Fragment {
-
-    private static final int CODE_GET_REQUEST = 1;
-    private static final int CODE_POST_REQUEST = 2;
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
     private EditText titulo;
     private EditText director;
@@ -50,72 +63,57 @@ public class abm_pelicula_fragment extends Fragment {
     private EditText protagonistas;
     private EditText clasificacion;
     private Button aceptar;
+    private Button agregarFuncion;
     private ProgressBar barra;
-    private List<pelicula> ListaPeliculas;
+    private ArrayList<pelicula> ListaPeliculas;
+    private ArrayList<sala_cine>salasAdmin;
+    private ArrayList<cine>cinesAdmin;
     private ListView peliculas;
-    //private comunicador comunicador;
+    private static final int CODE_GET_REQUEST = 1;
+    private static final int CODE_POST_REQUEST = 2;
+    private comunicador comunicador;
+    private Spinner spSalas;
+    private Spinner spCines;
+    private ArrayAdapter<sala_cine>adaptadorSalas;
+    private ArrayAdapter<cine>adaptadorCinesAdmin;
+    private cine c;
+    private sala_cine sc;
+
+
 
     //as the same button is used for create and update
     //we need to track whether it is an update or create operation
     //for this we have this boolean
     private boolean seEstaActualizando = false;
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
 
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public abm_pelicula_fragment() {
+        // Required empty public constructor
+    }
 
-
-        return inflater.inflate(R.layout.abm_pelicula,container,false);
-
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment abm_pelicula_fragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static abm_pelicula_fragment newInstance(String param1, String param2) {
+        abm_pelicula_fragment fragment = new abm_pelicula_fragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1,param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("ABM de Pelicula");
-
-        titulo = view.findViewById(R.id.editTextTitulo);
-        sinopsis = view.findViewById(R.id.editTextSinopsis);
-        director = view.findViewById(R.id.editTextDirector);
-        barra = view.findViewById(R.id.progressBar);
-        peliculaid = view.findViewById(R.id.editTextPID);
-        genero = view.findViewById(R.id.editTextGenero);
-        duracion = view.findViewById(R.id.editTextDuracion);
-        protagonistas = view.findViewById(R.id.editTextProtagonista);
-        clasificacion = view.findViewById(R.id.editTextClasificacion);
-
-        ListaPeliculas = new ArrayList<>();
-
-        peliculas = view.findViewById(R.id.listViewPeliculas);
-
-        aceptar = view.findViewById(R.id.btnAM);
-
-        aceptar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(seEstaActualizando) {
-
-                    actualizarPelicula();
-
-                }else
-                {
-
-                    agregarPelicula();
-                }
-            }
-        });
-        darPeliculas();
-
-
-
-
-    }
-
-    private void agregarPelicula() {
+    private void agregarPelicula(int idsala) {
 
 
         String titulo = this.titulo.getText().toString().trim();
@@ -181,20 +179,20 @@ public class abm_pelicula_fragment extends Fragment {
         params.put("protagonistas",protagonistas);
         params.put("duracion",duracion);
         params.put("clasificacion",clasificacion);
+        params.put("id_sala",String.valueOf(idsala));
 
 
-        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+     //   getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         //Calling the create hero API
-        request request = new request(AppConfig.URL_CREAR_PELICULA, params, CODE_POST_REQUEST);
+        request request = new request(AppConfig.URL_CREAR_PELICULA + idsala, params, CODE_POST_REQUEST);
         request.execute();
     }
-    private void darPeliculas() {
+    private void darPeliculas(int idsala) {
 
-        request request = new request(AppConfig.URL_LISTAR_PELICULAS, null, CODE_GET_REQUEST);
+        request request = new request(AppConfig.URL_LISTAR_PELICULAS + idsala, null, CODE_GET_REQUEST);
         request.execute();
     }
-    //inner class to perform network request extending an AsyncTask
     private class request extends AsyncTask<Void, Void, String> {
 
         //the url where we need to send the request
@@ -231,11 +229,7 @@ public class abm_pelicula_fragment extends Fragment {
                 if (!object.getBoolean("error")) {
                     Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
                     refrescarLista(object.getJSONArray("peliculas"));
-                    //refreshing the herolist after every operation
-                    //so we get an updated list
-                    //we will create this method right now it is commented
-                    //because we haven't created it yet
-                    //refreshHeroList(object.getJSONArray("heroes"));
+                    comunicador.mandarPelisSalaAdmin(ListaPeliculas,sc);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -317,7 +311,7 @@ public class abm_pelicula_fragment extends Fragment {
                 public void onClick(View view) {
 
                     // we will display a confirmation dialog before deleting
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity().getApplicationContext());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
                     builder.setTitle("Eliminar " + peli.getNombre())
                             .setMessage("¿Esta seguro que quiere eliminarlo?")
@@ -334,8 +328,7 @@ public class abm_pelicula_fragment extends Fragment {
                                 public void onClick(DialogInterface dialog, int which) {
                                 }
                             })
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
+                            .setIcon(android.R.drawable.ic_dialog_alert).show();
 
                 }
             });
@@ -344,7 +337,7 @@ public class abm_pelicula_fragment extends Fragment {
         }
 
     }
-    private void actualizarPelicula() {
+    private void actualizarPelicula(int salaid) {
 
         String pid = this.peliculaid.getText().toString();
         String titulo = this.titulo.getText().toString().trim();
@@ -404,8 +397,9 @@ public class abm_pelicula_fragment extends Fragment {
         params.put("protagonistas",protagonistas);
         params.put("duracion",duracion);
         params.put("clasificacion",clasificacion);
+        params.put("id_sala", String.valueOf(salaid));
 
-        request request = new request(AppConfig.URL_ACTUALIZAR_PELICULAS, params, CODE_POST_REQUEST);
+        request request = new request(AppConfig.URL_ACTUALIZAR_PELICULAS + salaid, params, CODE_POST_REQUEST);
         request.execute();
 
         aceptar.setText("Agregar");
@@ -452,5 +446,154 @@ public class abm_pelicula_fragment extends Fragment {
         peliAdapter adapter = new peliAdapter(getActivity().getApplicationContext(),ListaPeliculas);
         this.peliculas.setAdapter(adapter);
     }
-}
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 =getArguments().getString(ARG_PARAM2);
+
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        getActivity().setTitle("ABM de Pelicula");
+
+        View view = inflater.inflate(R.layout.abm_pelicula,container,false);
+
+        titulo = view.findViewById(R.id.editTextTitulo);
+        sinopsis = view.findViewById(R.id.editTextSinopsis);
+        director = view.findViewById(R.id.editTextDirector);
+        barra = view.findViewById(R.id.progressBar);
+        peliculaid = view.findViewById(R.id.editTextPID);
+        genero = view.findViewById(R.id.editTextGenero);
+        duracion = view.findViewById(R.id.editTextDuracion);
+        protagonistas = view.findViewById(R.id.editTextProtagonista);
+        clasificacion = view.findViewById(R.id.editTextClasificacion);
+        spSalas = view.findViewById(R.id.spSalas);
+        spCines = view.findViewById(R.id.spCines);
+        aceptar = view.findViewById(R.id.btnAM);
+
+        ListaPeliculas = new ArrayList<>();
+        salasAdmin = new ArrayList<>();
+        cinesAdmin = new ArrayList<>();
+
+        cinesAdmin = comunicador.darCines();
+
+
+        peliculas = view.findViewById(R.id.listViewPeliculas);
+
+        adaptadorCinesAdmin = new adaptadorSpinnerSala(getActivity(),cinesAdmin);
+
+        comunicador = (comunicador)getActivity();
+
+        cargarSpinnerCines(cinesAdmin,adaptadorCinesAdmin);
+
+
+        //Seleccion de cada uno de los items del spinner
+
+        spCines.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+                c = adaptadorCinesAdmin.getItem(position);
+
+                salasAdmin = comunicador.darSalas(c);
+                adaptadorSalas = new adaptadorSpinnerPelicula(getActivity(),salasAdmin);
+                cargarSpinnerSalas(salasAdmin,adaptadorSalas);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        spSalas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+                sc = adaptadorSalas.getItem(position);
+                Toast.makeText(getActivity(),"ID:" + sc.getID(),Toast.LENGTH_LONG).show();
+
+                darPeliculas(sc.getID());
+                aceptar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if(seEstaActualizando) {
+
+                            actualizarPelicula(sc.getID());
+                        }
+
+                        agregarPelicula(sc.getID());
+                    }
+                });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
+        return view;
+    }
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(ArrayList<pelicula>listaPeliculas,sala_cine sc) {
+        if (comunicador != null) {
+            //comunicador.mandarPelisSalaAdmin(listaPeliculas,sc);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof comunicador) {
+           comunicador = (comunicador) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement comunicador");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        comunicador = null;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+
+
+    public void cargarSpinnerSalas(ArrayList<sala_cine>salaCines,ArrayAdapter<sala_cine>adaptadorSalas){
+
+        spSalas.setAdapter(adaptadorSalas);
+
+
+    }
+    public void cargarSpinnerCines(ArrayList<cine>cinesAdmin,ArrayAdapter<cine>adaptadorCines){
+
+        spCines.setAdapter(adaptadorCines);
+
+}
+}

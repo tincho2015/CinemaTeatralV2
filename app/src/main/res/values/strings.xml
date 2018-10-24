@@ -9,13 +9,28 @@
     <string name="title_activity_menu_administracion">menuAdministracion</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_login_activiy">Menu de registro</string>
+    
+    
+    <!-- ABM funcion -->
+    
+    <string name="title_seleccion_fecha">Ingrese una fecha válida...</string>
+    <string name="title_seleccion_horario">Ingrese un horario válido...</string>
+    <string name="title_btn_funcion">Agregar función</string>
+    <string name="title_seleccion_pelicula">Seleccione la película a la cual desea agregar una función</string>
+    <string name="title_funcion">funcion</string>
+    <string name="btn_fecha_funcion">FECHA</string>
+    <string name="btn_hora_funcion">HORA</string>
+    <string name="title_seleccion_sala_pelicula">Seleccione una sala</string>
+    <string name="title_seleccion_cine_funcion">Seleccione un cine</string>
 
-    <!-- Menu sala -->
+
+    <!-- Menu sala_cine -->
     <string name="in_precio_sala">Ingrese precio de la sala...</string>
     <string name="in_descripcion_sala">Ingrese una descripción...</string>
     <string name="in_tipo_sala">Ingrese un tipo de sala...</string>
     <string name="btn_agregar_sala">Agregar sala</string>
-
+    <string name="titulo_cines">Seleccione el cine al cual desea agregar una sala</string>
+    <string name="nombre_sala">nombre_sala</string>
 
     <!-- Menu lateral -->
 
@@ -99,6 +114,10 @@
     <string name="titleNombrePelicula">nombre_peli</string>
     <string name="txtSinopsis">Ingrese sinopsis...</string>
     <string name="txtClasificacion">Ingrese clasificación...</string>
+    <string name="title_seleccion_sala">Seleccione la sala a cual quiere agregar una película </string>
+    <string name="btnAgregarFuncion">Agregar nueva función</string>
+    <string name="btnAgregarPelicula">Agregar película</string>
+    <string name="title_seleccion_cine">Seleccione el cine</string>
 
     <!-- String Alta de teatro -->
 

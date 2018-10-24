@@ -39,11 +39,11 @@ public class AppConfig {
 
         //Pelicula
 
-        public static String URL_CREAR_PELICULA= "http://campobd.esy.es/Campo/Api.php?apicall=agregarPelicula";
+        public static String URL_CREAR_PELICULA= "http://campobd.esy.es/Campo/Api.php?apicall=agregarPeliculaSala&id_sala=";
 
-        public static String URL_LISTAR_PELICULAS = "http://campobd.esy.es/Campo/Api.php?apicall=darPeliculas";
+        public static String URL_LISTAR_PELICULAS = "http://campobd.esy.es/Campo/Api.php?apicall=darPeliculasPorSala&id_sala=";
 
-        public static String URL_ACTUALIZAR_PELICULAS = "http://campobd.esy.es/Campo/Api.php?apicall=actualizarPeliculas";
+        public static String URL_ACTUALIZAR_PELICULAS = "http://campobd.esy.es/Campo/Api.php?apicall=actualizarPeliculas&id_sala=";
 
         public static String URL_ELIMINAR_PELICULAS = "http://campobd.esy.es/Campo/Api.php?apicall=borrarPelicula&pid=";
 
@@ -68,6 +68,23 @@ public class AppConfig {
         //Salas
 
         public static String URL_CREAR_SALA= "http://campobd.esy.es/Campo/Api.php?apicall=agregarSalaCine&id_cine=";
+
+        public static String URL_LISTAR_SALAS = "http://campobd.esy.es/Campo/Api.php?apicall=darSalasPorCine&id_cine=";
+
+        public static String URL_ACTUALIZAR_SALA = "http://campobd.esy.es/Campo/Api.php?apicall=actualizarSalaCine";
+
+        public static String URL_ELIMINAR_SALA = "http://campobd.esy.es/Campo/Api.php?apicall=borrarSala&id_sala=&id_cine=";
+
+        //Funciones
+
+        public static String URL_CREAR_FUNCION ="http://campobd.esy.es/Campo/Api.php?apicall=agregarFuncion&pid=";
+
+        public static String URL_ELIMINAR_FUNCION = "http://campobd.esy.es/Campo/Api.php?apicall=borrarFuncion&id_funcion=&id_pelicula=";
+
+        public static String URL_ACTUALIZAR_FUNCION = "http://campobd.esy.es/Campo/Api.php?apicall=actualizarFuncion&id_pelicula=";
+
+        public static String URL_LISTAR_FUNCIONES = "http://campobd.esy.es/Campo/Api.php?apicall=darFuncionPelicula&id_pelicula=";
+
 
 
 
