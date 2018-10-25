@@ -204,6 +204,11 @@ public class menu_lateral_principal extends AppCompatActivity
 
     }
 
+    @Override
+    public ArrayList darPelis(sala_cine sc) {
+        return admin.darPelis(sc);
+    }
+
     public void cambiarSala(){
 
         Fragment f = null;

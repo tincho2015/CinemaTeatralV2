@@ -8,7 +8,7 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.CollapsibleActionView;
@@ -42,6 +42,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -126,7 +127,7 @@ public class abm_funcion extends Fragment{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //barra.setVisibility(View.VISIBLE);
+            barraProgreso.setVisibility(View.VISIBLE);
         }
 
 
@@ -134,7 +135,7 @@ public class abm_funcion extends Fragment{
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            //barra.setVisibility(GONE);
+            barraProgreso.setVisibility(GONE);
             try {
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
@@ -227,10 +228,10 @@ public class abm_funcion extends Fragment{
 
         cinesAdmin = com.darCines();
 
+        adaptadorCine = new adaptadorSpinnerSala(getActivity(),cinesAdmin);
 
+        cargarSpinnerCines(cinesAdmin,adaptadorCine);
 
-        cargarSpinnerPeliculas(peliculasAdmin,adaptadorPelicula);
-        cargarSpinnerSalas(salasAdmin,adaptadorSalasCine);
 
         btnFecha.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -443,11 +444,11 @@ public class abm_funcion extends Fragment{
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof comunicador) {
+            com = (comunicador) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement comunicador");
         }
     }
 
@@ -494,8 +495,8 @@ public class abm_funcion extends Fragment{
 
         }
         //creating the adapter and setting it to the listview
-        //funcionAdapter adapter = new abm_cine_fragment.cineAdapter(getActivity().getApplicationContext(),ListaCines);
-        //this.cines.setAdapter(adapter);
+        funcionAdapter adapter = new funcionAdapter(getActivity().getApplicationContext(),this.funciones);
+        listaFunciones.setAdapter(adapter);
     }
     class funcionAdapter extends ArrayAdapter<funcion> {
 
@@ -587,6 +588,9 @@ public class abm_funcion extends Fragment{
 
         spPeliculas.setAdapter(adaptadorPelicula);
 
+    }
+    public void cargarSpinnerCines(ArrayList<cine>cinesAdmin,ArrayAdapter<cine>adaptadorCine){
+        spCines.setAdapter(adaptadorCine);
     }
 
 }

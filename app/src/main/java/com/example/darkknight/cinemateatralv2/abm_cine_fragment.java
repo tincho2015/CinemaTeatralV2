@@ -478,29 +478,7 @@ public class abm_cine_fragment extends Fragment {
 
                 Fragment sala = null;
                 boolean ftx = false;
-
-                sala = new abmSala();
-                ftx = true;
-
-                if (sala != null) {
-
-                    android.app.FragmentManager fm = getFragmentManager();
-                    android.app.Fragment currentFragment;
-                    currentFragment = fm.findFragmentById(R.id.content_frame);
-
-                    if (currentFragment == null) {
-                        //carga del primer fragment justo en la carga inicial de la app
-                        cambiarFragment(ftx, sala);
-                    } else
-                    if (!currentFragment.getClass().getName().equalsIgnoreCase(sala.getClass().getName())) {
-                        //currentFragment no concide con newFragment
-                       cambiarFragment(ftx,sala);
-
-                    } else {
-                        //currentFragment es igual a newFragment
-                    }
-                }
-
+                crearFragmentSala(sala,ftx);
 
                 //comunicador.cambiarSala();
             }
@@ -509,6 +487,31 @@ public class abm_cine_fragment extends Fragment {
 
         darCines();
         return view;
+    }
+    public void crearFragmentSala(Fragment sala, boolean ftx){
+
+
+        sala = new abmSala();
+        ftx = true;
+
+        if (sala != null) {
+
+            android.app.FragmentManager fm = getFragmentManager();
+            android.app.Fragment currentFragment;
+            currentFragment = fm.findFragmentById(R.id.content_frame);
+
+            if (currentFragment == null) {
+                //carga del primer fragment justo en la carga inicial de la app
+                cambiarFragment(ftx, sala);
+            } else
+            if (!currentFragment.getClass().getName().equalsIgnoreCase(sala.getClass().getName())) {
+                //currentFragment no concide con newFragment
+                cambiarFragment(ftx,sala);
+
+            } else {
+                //currentFragment es igual a newFragment
+            }
+        }
     }
 
     public void cambiarFragment(boolean fragmentTX,Fragment fragment){

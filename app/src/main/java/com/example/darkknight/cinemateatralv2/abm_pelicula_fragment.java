@@ -476,6 +476,8 @@ public class abm_pelicula_fragment extends Fragment {
         spSalas = view.findViewById(R.id.spSalas);
         spCines = view.findViewById(R.id.spCines);
         aceptar = view.findViewById(R.id.btnAM);
+        agregarFuncion = view.findViewById(R.id.btnAgregarFuncion);
+
 
         ListaPeliculas = new ArrayList<>();
         salasAdmin = new ArrayList<>();
@@ -544,10 +546,63 @@ public class abm_pelicula_fragment extends Fragment {
             }
         });
 
+        agregarFuncion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Fragment funcion = null;
+                boolean ftx = false;
+                crearFragmentFuncion(funcion,ftx);
+
+
+            }
+        });
+
 
 
 
         return view;
+    }
+
+    public void crearFragmentFuncion(Fragment funcion,boolean ftx){
+
+
+
+        funcion = new abm_funcion();
+        ftx = true;
+
+        if (funcion != null) {
+
+            android.app.FragmentManager fm = getFragmentManager();
+            android.app.Fragment currentFragment;
+            currentFragment = fm.findFragmentById(R.id.content_frame);
+
+            if (currentFragment == null) {
+                //carga del primer fragment justo en la carga inicial de la app
+                cambiarFragment(ftx, funcion);
+            } else
+            if (!currentFragment.getClass().getName().equalsIgnoreCase(funcion.getClass().getName())) {
+                //currentFragment no concide con newFragment
+                cambiarFragment(ftx,funcion);
+
+            } else {
+                //currentFragment es igual a newFragment
+            }
+        }
+    }
+
+    public void cambiarFragment(boolean fragmentTX,Fragment fragment){
+
+        if (fragmentTX) {
+            android.app.FragmentManager fm = getFragmentManager();
+            android.app.FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.content_frame, fragment,fragment.getClass().getName());
+            ft.addToBackStack("funcion_fragment");
+            ft.commit();
+        }
+
+
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(ArrayList<pelicula>listaPeliculas,sala_cine sc) {
