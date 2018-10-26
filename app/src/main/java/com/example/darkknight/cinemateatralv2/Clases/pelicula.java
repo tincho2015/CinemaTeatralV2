@@ -42,7 +42,7 @@ public class pelicula extends tipoEspectaculo{
             this.director = director;
         }
 
-        public String getTitulo(){
+        public String toString(){
 
             return super.getNombre();
         }

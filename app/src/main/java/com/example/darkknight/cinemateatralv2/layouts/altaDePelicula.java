@@ -265,7 +265,7 @@ public class altaDePelicula extends AppCompatActivity {
 
             final pelicula peli = peliList.get(position);
 
-            textViewName.setText(peli.getTitulo());
+            textViewName.setText(peli.toString());
 
             //attaching click listener to update
             textViewUpdate.setOnClickListener(new View.OnClickListener() {

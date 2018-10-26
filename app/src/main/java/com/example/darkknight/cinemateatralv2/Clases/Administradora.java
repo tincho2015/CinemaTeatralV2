@@ -86,11 +86,11 @@ public class Administradora
 
         return sc.getPeliculasSala();
     }
-    public void agregarPeliculasSala(sala_cine sc, pelicula nuevapeli){
+    public void agregarPeliculasSala(cine c,sala_cine sc, pelicula nuevapeli){
 
         if(sc != null && nuevapeli != null){
 
-            if(cines.contains(sc)){
+            if(c.getSala_cines().contains(sc)){
 
                 sc.agregarPeliculas(nuevapeli);
             }

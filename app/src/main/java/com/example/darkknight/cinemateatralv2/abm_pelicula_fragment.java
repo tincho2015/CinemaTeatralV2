@@ -185,6 +185,7 @@ public class abm_pelicula_fragment extends Fragment {
      //   getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         //Calling the create hero API
+
         request request = new request(AppConfig.URL_CREAR_PELICULA + idsala, params, CODE_POST_REQUEST);
         request.execute();
     }
@@ -229,7 +230,7 @@ public class abm_pelicula_fragment extends Fragment {
                 if (!object.getBoolean("error")) {
                     Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
                     refrescarLista(object.getJSONArray("peliculas"));
-                    comunicador.mandarPelisSalaAdmin(ListaPeliculas,sc);
+                    comunicador.mandarPelisSalaAdmin(ListaPeliculas,sc,c);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -280,7 +281,7 @@ public class abm_pelicula_fragment extends Fragment {
 
             final pelicula peli = peliList.get(position);
 
-            textViewName.setText(peli.getTitulo());
+            textViewName.setText(peli.toString());
 
             //attaching click listener to update
             textViewUpdate.setOnClickListener(new View.OnClickListener() {

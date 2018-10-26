@@ -26,7 +26,7 @@ public interface comunicador {
 
     public void eliminarPeliculasSala(ArrayList<sala_cine>salaCines,pelicula p);
 
-    public void mandarPelisSalaAdmin(ArrayList<pelicula>pelisSala,sala_cine sc);
+    public void mandarPelisSalaAdmin(ArrayList<pelicula>pelisSala,sala_cine sc,cine c);
 
    // public void mandarSalasTeatroAdmin(ArrayList<sala_teatro>salasTeatros);
 

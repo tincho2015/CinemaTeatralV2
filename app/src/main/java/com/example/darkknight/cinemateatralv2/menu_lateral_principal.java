@@ -269,12 +269,12 @@ public class menu_lateral_principal extends AppCompatActivity
     }
 
     @Override
-    public void mandarPelisSalaAdmin(ArrayList<pelicula> pelisSala, sala_cine sc) {
+    public void mandarPelisSalaAdmin(ArrayList<pelicula> pelisSala, sala_cine sc,cine c) {
 
         if(sc != null){
 
             for(pelicula p: pelisSala) {
-                admin.agregarPeliculasSala(sc,p);
+                admin.agregarPeliculasSala(c,sc,p);
 
             }
         }
