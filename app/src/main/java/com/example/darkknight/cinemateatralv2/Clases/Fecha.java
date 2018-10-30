@@ -1,10 +1,11 @@
 package com.example.darkknight.cinemateatralv2.Clases;
 import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by Dark Knight on 07/11/2015.
  */
-public class Fecha
-{
+public class Fecha extends Date {
         private int dia;
         private int mes;
         private int año;

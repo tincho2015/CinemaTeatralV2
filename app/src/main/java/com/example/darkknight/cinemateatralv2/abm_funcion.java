@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.CollapsibleActionView;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerFuncion;
 import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerPelicula;
 import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerSala;
+import com.example.darkknight.cinemateatralv2.Clases.Fecha;
 import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.funcion;
 import com.example.darkknight.cinemateatralv2.Clases.jSonParser;
@@ -43,10 +45,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.SimpleTimeZone;
 
 import static android.view.View.GONE;
 
@@ -93,6 +101,7 @@ public class abm_funcion extends Fragment{
     private sala_cine sc;
     private pelicula p;
     private cine c;
+
 
 
 
@@ -151,6 +160,8 @@ public class abm_funcion extends Fragment{
                     //refreshHeroList(object.getJSONArray("heroes"));
                 }
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
@@ -225,6 +236,7 @@ public class abm_funcion extends Fragment{
         peliculasAdmin = new ArrayList<>();
         salasAdmin = new ArrayList<>();
         cinesAdmin = new ArrayList<>();
+        funciones = new ArrayList<>();
 
         cinesAdmin = com.darCines();
 
@@ -236,7 +248,6 @@ public class abm_funcion extends Fragment{
         btnFecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final Calendar c = Calendar.getInstance();
                 dia = c.get(Calendar.DAY_OF_MONTH);
                 mes = c.get(Calendar.MONTH);
@@ -244,13 +255,12 @@ public class abm_funcion extends Fragment{
 
                 DatePickerDialog dpd = new DatePickerDialog(getContext(),new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                        editFecha.setText(year+"/"+month+"/"+dayOfMonth);
-
+                        editFecha.setText(year+"/"+(monthOfYear+1)+"/"+dayOfMonth);
                     }
                 }
-                ,dia,mes,año);
+                ,año,mes,dia);
                 dpd.show();
             }
 
@@ -301,7 +311,6 @@ public class abm_funcion extends Fragment{
 
                     p = adaptadorPelicula.getItem(position);
                     darFunciones(p.getID());
-
                     btnFuncion.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -473,30 +482,63 @@ public class abm_funcion extends Fragment{
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-    private void refrescarLista(JSONArray funciones) throws JSONException {
+    private void refrescarLista(JSONArray funciones) throws JSONException, ParseException {
         //clearing previous heroes
         this.funciones.clear();
+
 
         //traversing through all the items in the json array
         //the json we got from the response
       for (int i = 0; i < funciones.length(); i++) {
             //getting each hero object
            JSONObject obj = funciones.getJSONObject(i);
+            String fecha = obj.getString("fecha_funcion");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+            Date nuevaFecha = sdf.parse(fecha);
+            //sdf.format(fecha);
+
+            String hora = obj.getString("horario_funcion");
+            SimpleDateFormat sdf2 = new SimpleDateFormat("HH:MM");
+            //sdf.format(hora);
+            Date nuevaHora = sdf2.parse(hora);
 
             //adding the hero to the list
            this.funciones.add(new funcion(
-                    obj.getInt("día"),
-                    obj.getInt("mes"),
-                    obj.getInt("año"),
-                    obj.getInt("hora"),
-                    obj.getInt("minutos"),
-                    obj.getInt("id")
+                    nuevaFecha,
+                    nuevaHora,
+                    obj.getInt("id_funcion")
             ));
 
         }
         //creating the adapter and setting it to the listview
         funcionAdapter adapter = new funcionAdapter(getActivity().getApplicationContext(),this.funciones);
         listaFunciones.setAdapter(adapter);
+    }
+    public static String formatearDateFromString(String inputFormat, String outputFormat, String inputDate){
+        if(inputFormat.equals("")){ // if inputFormat = "", set a default input format.
+            inputFormat = "yyyy-MM-dd";
+        }
+        if(outputFormat.equals("")){
+            outputFormat = "EEEE d 'de' MMMM"; // if inputFormat = "", set a default output format.
+        }
+        Date parsed = null;
+        String outputDate = "";
+
+        SimpleDateFormat df_input = new SimpleDateFormat(inputFormat, java.util.Locale.getDefault());
+        SimpleDateFormat df_output = new SimpleDateFormat(outputFormat, java.util.Locale.getDefault());
+
+        // You can set a different Locale, This example set a locale of Country Mexico.
+        //SimpleDateFormat df_input = new SimpleDateFormat(inputFormat, new Locale("es", "MX"));
+        //SimpleDateFormat df_output = new SimpleDateFormat(outputFormat, new Locale("es", "MX"));
+
+        try {
+            parsed = df_input.parse(inputDate);
+            outputDate = df_output.format(parsed);
+        } catch (Exception e) {
+            Log.e("formattedDateFromString", "Exception in formateDateFromstring(): " + e.getMessage());
+        }
+        return outputDate;
+
     }
     class funcionAdapter extends ArrayAdapter<funcion> {
 
@@ -528,7 +570,7 @@ public class abm_funcion extends Fragment{
 
             final funcion funcion = funcionList.get(position);
 
-            textViewName.setText(funcion.getID());
+            textViewName.setText(funcion.toString());
 
             //attaching click listener to update
             textViewUpdate.setOnClickListener(new View.OnClickListener() {
@@ -540,8 +582,8 @@ public class abm_funcion extends Fragment{
 
                     //we will set the selected hero to the UI elements
                     funcionId.setText(String.valueOf(funcion.getID()));
-                    editFecha.setText(funcion.getAño()+"/"+ funcion.getMes()+"/"+funcion.getDia());
-                    editHora.setText(funcion.getHora()+":"+funcion.getMinutos());
+                    editFecha.setText(funcion.toString());
+                    editHora.setText(funcion.darHora());
 
                     //we will also make the button text to Update
                     btnFuncion.setText("Actualizar");
@@ -555,7 +597,7 @@ public class abm_funcion extends Fragment{
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                    builder.setTitle("Eliminar " + funcion.darFecha())
+                    builder.setTitle("Eliminar " + funcion.toString())
                             .setMessage("¿Esta seguro que quiere eliminarlo?")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {

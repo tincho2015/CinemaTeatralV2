@@ -91,46 +91,6 @@ public class abm_cine_fragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    /*
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        //you can set the title for your toolbar here for different fragments different titles
-        getActivity().setTitle("ABM de Cine");
-
-        nombre = view.findViewById(R.id.editTextNombreC);
-        telefono = view.findViewById(R.id.editTextTelefonoC);
-        direccion = view.findViewById(R.id.editTextDireccionC);
-        barra = view.findViewById(R.id.progressBar);
-        cineid = view.findViewById(R.id.editTextCineID);
-        urlCine = view.findViewById(R.id.editTextURL);
-
-        ListaCines = new ArrayList<>();
-
-        cines = view.findViewById(R.id.listViewCines);
-
-        aceptar = view.findViewById(R.id.btnAM);
-
-        aceptar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(seEstaActualizando) {
-
-
-                    actualizarCine();
-
-                }else
-                {
-
-                    agregarCine();
-
-                }
-            }
-        });
-        darCines();
-    }
-    */
     private void darCines() {
 
         request request = new request(AppConfig.URL_LISTAR_CINES, null, CODE_GET_REQUEST);

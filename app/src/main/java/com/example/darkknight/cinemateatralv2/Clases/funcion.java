@@ -1,8 +1,12 @@
 package com.example.darkknight.cinemateatralv2.Clases;
 
+import android.text.format.DateFormat;
+
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Dark Knight on 12/08/2016.
@@ -10,16 +14,17 @@ import java.util.Date;
 public class funcion {
 
 
-        private int dia,mes,año,hora,minutos;
+        //private int dia,mes,año,hora,minutos;
         private int ID;
+        private Date fecha;
+        private Date hora;
 
-        public funcion(int dia, int mes, int año, int hora, int minutos, int ID) {
-                this.dia = dia;
-                this.mes = mes;
-                this.año = año;
+        public funcion(Date fecha,Date hora,int ID) {
+
                 this.hora = hora;
-                this.minutos = minutos;
                 this.ID = ID;
+                this.fecha = fecha;
+
         }
 
         public int getID() {
@@ -30,11 +35,20 @@ public class funcion {
                 this.ID = ID;
         }
 
-        public String darFecha(){
+        /*
+        public String toString(){
 
-                return (this.getDia()+"/"+this.getMes()+"/"+this.getAño());
+                return (this.dia +"/"+this.mes+"/"+this.año);
         }
+       */
+        public String toString(){
+                return java.text.DateFormat.getDateInstance(android.icu.text.DateFormat.DEFAULT,Locale.forLanguageTag("es-ES")).format(fecha);
+        }
+        public String darHora(){
 
+                return hora.toString();
+        }
+        /*
         public int getDia() {
                 return dia;
         }
@@ -58,20 +72,12 @@ public class funcion {
         public void setAño(int año) {
                 this.año = año;
         }
-
-        public int getHora() {
+*/
+        public Date getHora() {
                 return hora;
         }
 
-        public void setHora(int hora) {
+        public void setHora(Time hora) {
                 this.hora = hora;
-        }
-
-        public int getMinutos() {
-                return minutos;
-        }
-
-        public void setMinutos(int minutos) {
-                this.minutos = minutos;
         }
 }
