@@ -46,7 +46,7 @@ public class funcion {
         }
         public String darHora(){
 
-                return hora.toString();
+                return java.text.DateFormat.getDateInstance(android.icu.text.DateFormat.DEFAULT,Locale.forLanguageTag("es-ES")).format(hora);
         }
         /*
         public int getDia() {
