@@ -1,5 +1,6 @@
 package com.example.darkknight.cinemateatralv2.Clases;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -8,7 +9,43 @@ import java.util.Date;
 public class Dia
 {
     private Date fecha;
-    private horario horario;
+    private ArrayList<horario>horarios;
 
+    public Dia(Date fecha, ArrayList<horario> horarios) {
+        this.fecha = fecha;
+        this.horarios = horarios;
+    }
 
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public ArrayList<horario> getHorarios() {
+        return horarios;
+    }
+
+    public void setHorarios(ArrayList<horario> horarios) {
+        this.horarios = horarios;
+    }
+    public void agregarNuevaHora(horario nuevaHora){
+
+        if(nuevaHora != null){
+
+            this.horarios.add(nuevaHora);
+        }
+    }
+    public void eliminarHora(horario hora){
+
+        if(hora != null){
+
+            if(this.horarios.contains(hora)){
+
+                this.horarios.remove(hora);
+            }
+        }
+    }
 }

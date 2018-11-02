@@ -16,15 +16,12 @@ public class funcion {
 
         //private int dia,mes,año,hora,minutos;
         private int ID;
-        private Date fecha;
-        private Date hora;
+        private Dia diaFuncion;
 
-        public funcion(Date fecha,Date hora,int ID) {
+        public funcion(int ID,Dia diaF) {
 
-                this.hora = hora;
+                this.diaFuncion = diaF;
                 this.ID = ID;
-                this.fecha = fecha;
-
         }
 
         public int getID() {
@@ -42,42 +39,10 @@ public class funcion {
         }
        */
         public String toString(){
-                return java.text.DateFormat.getDateInstance(android.icu.text.DateFormat.DEFAULT,Locale.forLanguageTag("es-ES")).format(fecha);
-        }
-        public String darHora(){
-
-                return java.text.DateFormat.getDateInstance(android.icu.text.DateFormat.DEFAULT,Locale.forLanguageTag("es-ES")).format(hora);
-        }
-        /*
-        public int getDia() {
-                return dia;
+                return java.text.DateFormat.getDateInstance(android.icu.text.DateFormat.DEFAULT,Locale.forLanguageTag("es-ES")).format(diaFuncion);
         }
 
-        public void setDia(int dia) {
-                this.dia = dia;
-        }
 
-        public int getMes() {
-                return mes;
-        }
 
-        public void setMes(int mes) {
-                this.mes = mes;
-        }
 
-        public int getAño() {
-                return año;
-        }
-
-        public void setAño(int año) {
-                this.año = año;
-        }
-*/
-        public Date getHora() {
-                return hora;
-        }
-
-        public void setHora(Time hora) {
-                this.hora = hora;
-        }
 }

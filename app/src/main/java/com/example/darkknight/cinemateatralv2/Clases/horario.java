@@ -6,30 +6,11 @@ package com.example.darkknight.cinemateatralv2.Clases;
 public class horario {
 
 
-        private int dia,mes,año,hora,minutos;
+        private int hora,minutos;
 
-        public int getDia() {
-                return dia;
-        }
-
-        public void setDia(int dia) {
-                this.dia = dia;
-        }
-
-        public int getMes() {
-                return mes;
-        }
-
-        public void setMes(int mes) {
-                this.mes = mes;
-        }
-
-        public int getAño() {
-                return año;
-        }
-
-        public void setAño(int año) {
-                this.año = año;
+        public horario(int hora, int minutos) {
+                this.hora = hora;
+                this.minutos = minutos;
         }
 
         public int getHora() {

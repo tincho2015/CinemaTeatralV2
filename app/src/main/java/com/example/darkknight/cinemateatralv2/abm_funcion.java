@@ -319,11 +319,11 @@ public class abm_funcion extends Fragment{
                         if(seEstaActualizando){
 
                             actualizarFuncion(p.getID());
+                        }else {
+
+                            agregarFuncion(p.getID());
+
                         }
-
-                        agregarFuncion(p.getID());
-
-
                     }
                 });
 

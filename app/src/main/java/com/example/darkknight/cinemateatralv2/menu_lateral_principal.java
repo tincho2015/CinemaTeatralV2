@@ -123,6 +123,10 @@ public class menu_lateral_principal extends AppCompatActivity
                 fragment = new bienvenida();
                 fragmentTX = true;
                 break;
+            case R.id.opc_menu_3:
+                fragment = new abm_reservas();
+                fragmentTX = true;
+                break;
             case R.id.opc_menu_admin_1:
                 fragment = new abm_cine_fragment();
                 fragmentTX = true;
