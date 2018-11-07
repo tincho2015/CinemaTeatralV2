@@ -3,6 +3,8 @@ package com.example.darkknight.cinemateatralv2.Interfaces;
 import android.widget.ArrayAdapter;
 
 import com.example.darkknight.cinemateatralv2.Clases.cine;
+import com.example.darkknight.cinemateatralv2.Clases.funcion;
+import com.example.darkknight.cinemateatralv2.Clases.horario;
 import com.example.darkknight.cinemateatralv2.Clases.pelicula;
 import com.example.darkknight.cinemateatralv2.Clases.sala_cine;
 import com.example.darkknight.cinemateatralv2.Clases.sala_teatro;
@@ -29,6 +31,8 @@ public interface comunicador {
     public void mandarPelisSalaAdmin(ArrayList<pelicula>pelisSala,sala_cine sc,cine c);
 
    // public void mandarSalasTeatroAdmin(ArrayList<sala_teatro>salasTeatros);
+
+    public void agregarHorariosAdmin(ArrayList<horario>horariosFecha, funcion f);
 
 
 

@@ -10,6 +10,10 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_login_activiy">Menu de registro</string>
 
+    <!-- ABM Horario -->
+
+    <string name="title_seleccion_fecha_horario">Seleccione una fecha</string>
+
 
     <!-- ABM funcion -->
 

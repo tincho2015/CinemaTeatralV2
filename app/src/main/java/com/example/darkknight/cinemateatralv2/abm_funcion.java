@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerFuncion;
 import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerPelicula;
 import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerSala;
+import com.example.darkknight.cinemateatralv2.Clases.Dia;
 import com.example.darkknight.cinemateatralv2.Clases.Fecha;
 import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.funcion;
@@ -76,11 +77,9 @@ public class abm_funcion extends Fragment{
 
 
     private EditText editFecha;
-    private EditText editHora;
     private EditText funcionId;
     private Button btnFuncion;
     private Button btnFecha;
-    private Button btnHora;
     private ProgressBar barraProgreso;
     private Spinner spPeliculas;
     private Spinner spSalas;
@@ -93,7 +92,7 @@ public class abm_funcion extends Fragment{
     private static final int CODE_GET_REQUEST = 1;
     private static final int CODE_POST_REQUEST = 2;
     private boolean seEstaActualizando = false;
-    private int dia,mes,año,hora,minutos;
+    private int dia,mes,año;
     private ArrayAdapter<pelicula>adaptadorPelicula;
     private ArrayAdapter<sala_cine>adaptadorSalasCine;
     private ArrayAdapter<cine>adaptadorCine;
@@ -101,6 +100,7 @@ public class abm_funcion extends Fragment{
     private sala_cine sc;
     private pelicula p;
     private cine c;
+    private Dia fecha;
 
 
 
@@ -220,11 +220,9 @@ public class abm_funcion extends Fragment{
         //Vincular los componentes del layout
 
         editFecha = view.findViewById(R.id.editFecha);
-        editHora = view.findViewById(R.id.editHora);
         funcionId = view.findViewById(R.id.editID);
         btnFuncion = view.findViewById(R.id.btnNuevaFuncion);
         btnFecha = view.findViewById(R.id.btnFecha);
-        btnHora = view.findViewById(R.id.btnHora);
         spPeliculas = view.findViewById(R.id.spPeliculas);
         spSalas = view.findViewById(R.id.spSalas);
         spCines = view.findViewById(R.id.spCines);
@@ -266,24 +264,6 @@ public class abm_funcion extends Fragment{
 
         });
 
-        btnHora.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                final Calendar c = Calendar.getInstance();
-                hora = c.get(Calendar.HOUR_OF_DAY);
-                minutos = c.get(Calendar.MINUTE);
-
-                TimePickerDialog tpd = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-                        editHora.setText(hourOfDay+":"+minute);
-                    }
-                },hora,minutos,false);
-                tpd.show();
-            }
-        });
        //Seleccion de elemento y cargado de spinners
         spCines.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -365,7 +345,6 @@ public class abm_funcion extends Fragment{
     private void agregarFuncion(int idpeli) {
 
         final String fecha = this.editFecha.getText().toString().trim();
-        final String hora = this.editHora.getText().toString().trim();
 
         //validating the inputs
         if (TextUtils.isEmpty(fecha)) {
@@ -374,17 +353,11 @@ public class abm_funcion extends Fragment{
             return;
         }
 
-        if (TextUtils.isEmpty(hora)) {
-            this.editHora.setError("Por favor, ingrese la hora de la función");
-            this.editHora.requestFocus();
-            return;
-        }
 
         //if validation passes
 
         HashMap<String, String> params = new HashMap<>();
         params.put("fecha_funcion", fecha);
-        params.put("horario_funcion", hora);
         params.put("id_tipo_espectaculo", String.valueOf(idpeli));
 
         //Calling the create hero API
@@ -409,7 +382,6 @@ public class abm_funcion extends Fragment{
 
         String id = this.funcionId.getText().toString();
         String fecha = this.editFecha.getText().toString().trim();
-        String hora = this.editHora.getText().toString().trim();
 
 
         if (TextUtils.isEmpty(fecha)) {
@@ -418,16 +390,9 @@ public class abm_funcion extends Fragment{
             return;
         }
 
-        if (TextUtils.isEmpty(hora)) {
-            this.editHora.setError("Por favor, ingrese la hora");
-            this.editHora.requestFocus();
-            return;
-        }
-
         HashMap<String, String> params = new HashMap<>();
         params.put("id_funcion",id);
         params.put("fecha_funcion",fecha);
-        params.put("horario_funcion", hora);
 
         //   getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
@@ -437,7 +402,6 @@ public class abm_funcion extends Fragment{
         btnFuncion.setText("Agregar");
 
         this.editFecha.setText("");
-        this.editHora.setText("");
 
         seEstaActualizando = false;
     }
@@ -482,7 +446,7 @@ public class abm_funcion extends Fragment{
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-    private void refrescarLista(JSONArray funciones) throws JSONException, ParseException {
+    private void refrescarLista(JSONArray funciones, Dia d) throws JSONException, ParseException {
         //clearing previous heroes
         this.funciones.clear();
 
@@ -504,8 +468,7 @@ public class abm_funcion extends Fragment{
 
             //adding the hero to the list
            this.funciones.add(new funcion(
-                    nuevaFecha,
-                    nuevaHora,
+                    ,
                     obj.getInt("id_funcion")
             ));
 
@@ -583,7 +546,6 @@ public class abm_funcion extends Fragment{
                     //we will set the selected hero to the UI elements
                     funcionId.setText(String.valueOf(funcion.getID()));
                     editFecha.setText(funcion.toString());
-                    editHora.setText(funcion.darHora());
 
                     //we will also make the button text to Update
                     btnFuncion.setText("Actualizar");

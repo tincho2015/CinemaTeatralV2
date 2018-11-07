@@ -101,46 +101,30 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.755" />
 
         <Button
             android:id="@+id/btnFecha"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="@string/btn_fecha_funcion"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/editFecha"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spPeliculas" />
-
-        <EditText
-            android:id="@+id/editHora"
-            android:layout_width="0dp"
-            android:clickable="false"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/title_seleccion_horario"
-            android:inputType="time"
-            app:layout_constraintBottom_toTopOf="@+id/pbFuncion"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editFecha"
-            app:layout_constraintVertical_bias="0.461" />
+            app:layout_constraintTop_toBottomOf="@+id/spPeliculas"
+            app:layout_constraintVertical_bias="0.0" />
 
         <EditText
             android:id="@+id/editFecha"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
@@ -148,8 +132,10 @@
             android:ems="10"
             android:hint="@string/title_seleccion_fecha"
             android:inputType="date"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spPeliculas" />
+            app:layout_constraintTop_toBottomOf="@+id/spPeliculas"
+            app:layout_constraintVertical_bias="0.0" />
 
         <EditText
             android:id="@+id/editID"
@@ -162,21 +148,6 @@
             android:visibility="gone"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="72dp" />
-
-        <Button
-            android:id="@+id/btnHora"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/btn_hora_funcion"
-            app:layout_constraintBottom_toTopOf="@+id/pbFuncion"
-            app:layout_constraintEnd_toStartOf="@+id/editHora"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnFecha" />
 
         <ProgressBar
             android:id="@+id/pbFuncion"
@@ -192,7 +163,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.522" />
+            app:layout_constraintVertical_bias="0.371" />
 
         <TextView
             android:id="@+id/textView33"

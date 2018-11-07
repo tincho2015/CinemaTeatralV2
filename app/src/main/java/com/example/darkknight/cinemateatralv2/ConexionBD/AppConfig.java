@@ -85,6 +85,11 @@ public class AppConfig {
 
         public static String URL_LISTAR_FUNCIONES = "http://campobd.esy.es/Campo/Api.php?apicall=darFuncionPelicula&id_pelicula=";
 
+        public static String URL_AGREGAR_FUNCION_DIA = "http://campobd.esy.es/Campo/Api.php?apicall=agregarFuncionDia&id_funcion=";
+
+        public static String URL_ACTUALIZAR_FUNCION_DIA = "http://campobd.esy.es/Campo/Api.php?apicall=actualizarFuncionDia&id_funcion=";
+
+        public static String URL_BORRAR_FUNCION_DIA = "http://campobd.esy.es/Campo/Api.php?apicall=borrarFuncionDia&id=&id_funcion=";
 
 
 
