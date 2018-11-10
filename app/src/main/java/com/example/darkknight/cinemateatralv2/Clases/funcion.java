@@ -41,7 +41,13 @@ public class funcion {
         public String toString(){
                 return java.text.DateFormat.getDateInstance(android.icu.text.DateFormat.DEFAULT,Locale.forLanguageTag("es-ES")).format(diaFuncion);
         }
+        public Dia getDiaFuncion() {
+                return diaFuncion;
+        }
 
+        public void setDiaFuncion(Dia diaFuncion) {
+                this.diaFuncion = diaFuncion;
+        }
 
 
 

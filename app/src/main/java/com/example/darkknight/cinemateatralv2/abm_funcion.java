@@ -2,7 +2,6 @@ package com.example.darkknight.cinemateatralv2;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
@@ -11,8 +10,6 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Patterns;
-import android.view.CollapsibleActionView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,14 +22,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerFuncion;
 import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerPelicula;
 import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerSala;
 import com.example.darkknight.cinemateatralv2.Clases.Dia;
-import com.example.darkknight.cinemateatralv2.Clases.Fecha;
 import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.funcion;
 import com.example.darkknight.cinemateatralv2.Clases.jSonParser;
@@ -45,8 +40,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
-import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,8 +47,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.SimpleTimeZone;
 
 import static android.view.View.GONE;
 
@@ -78,7 +69,7 @@ public class abm_funcion extends Fragment{
 
     private EditText editFecha;
     private EditText funcionId;
-    private Button btnFuncion;
+    private Button btnAgregarFecha;
     private Button btnFecha;
     private ProgressBar barraProgreso;
     private Spinner spPeliculas;
@@ -221,7 +212,7 @@ public class abm_funcion extends Fragment{
 
         editFecha = view.findViewById(R.id.editFecha);
         funcionId = view.findViewById(R.id.editID);
-        btnFuncion = view.findViewById(R.id.btnNuevaFuncion);
+        btnAgregarFecha = view.findViewById(R.id.btnAgregarFecha);
         btnFecha = view.findViewById(R.id.btnFecha);
         spPeliculas = view.findViewById(R.id.spPeliculas);
         spSalas = view.findViewById(R.id.spSalas);
@@ -291,7 +282,7 @@ public class abm_funcion extends Fragment{
 
                     p = adaptadorPelicula.getItem(position);
                     darFunciones(p.getID());
-                    btnFuncion.setOnClickListener(new View.OnClickListener() {
+                    btnAgregarFecha.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -399,7 +390,7 @@ public class abm_funcion extends Fragment{
         request request = new request(AppConfig.URL_ACTUALIZAR_FUNCION + idpeli, params, CODE_POST_REQUEST);
         request.execute();
 
-        btnFuncion.setText("Agregar");
+        btnAgregarFecha.setText("Agregar");
 
         this.editFecha.setText("");
 
@@ -446,7 +437,7 @@ public class abm_funcion extends Fragment{
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-    private void refrescarLista(JSONArray funciones, Dia d) throws JSONException, ParseException {
+    private void refrescarLista(JSONArray funciones) throws JSONException, ParseException {
         //clearing previous heroes
         this.funciones.clear();
 
@@ -455,21 +446,19 @@ public class abm_funcion extends Fragment{
         //the json we got from the response
       for (int i = 0; i < funciones.length(); i++) {
             //getting each hero object
-           JSONObject obj = funciones.getJSONObject(i);
-            String fecha = obj.getString("fecha_funcion");
+            JSONObject obj = funciones.getJSONObject(i);
+            JSONObject objDia= new JSONObject();
+
+            String fecha = objDia.getString("fecha_funcion");
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
             Date nuevaFecha = sdf.parse(fecha);
             //sdf.format(fecha);
 
-            String hora = obj.getString("horario_funcion");
-            SimpleDateFormat sdf2 = new SimpleDateFormat("HH:MM");
-            //sdf.format(hora);
-            Date nuevaHora = sdf2.parse(hora);
 
             //adding the hero to the list
            this.funciones.add(new funcion(
-                    ,
-                    obj.getInt("id_funcion")
+                    obj.getInt("id_funcion"),
+                   new Dia(nuevaFecha)
             ));
 
         }
@@ -548,7 +537,7 @@ public class abm_funcion extends Fragment{
                     editFecha.setText(funcion.toString());
 
                     //we will also make the button text to Update
-                    btnFuncion.setText("Actualizar");
+                    btnAgregarFecha.setText("Actualizar");
                 }
             });
 

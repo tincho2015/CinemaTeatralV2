@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -102,6 +103,9 @@ public class abm_horario_fragment extends Fragment {
         funciones = new ArrayList<>();
 
 
+
+
+
         btnHora.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,5 +178,11 @@ public class abm_horario_fragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void cargarSpinnerFechas(ArrayList<funcion>funcionAdmin, ArrayAdapter<funcion> adaptadorFuncion){
+
+        spFechas.setAdapter(adaptadorFuncion);
+
     }
 }

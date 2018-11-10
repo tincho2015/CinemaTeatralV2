@@ -20,6 +20,8 @@
     <string name="title_seleccion_fecha">Ingrese una fecha válida...</string>
     <string name="title_seleccion_horario">Ingrese un horario válido...</string>
     <string name="title_btn_funcion">Agregar función</string>
+    <string name="title_btn_agregar_nueva_fecha">Agregar fecha</string>
+    <string name="title_btn_agregar_nueva_hora">Agregar horario</string>
     <string name="title_seleccion_pelicula">Seleccione la película a la cual desea agregar una función</string>
     <string name="title_funcion">funcion</string>
     <string name="btn_fecha_funcion">FECHA</string>
@@ -43,10 +45,13 @@
     <string name="menu_lateral_opcion_3">Cine</string>
     <string name="menu_lateral_opcion_4">Teatro</string>
     <string name="menu_admin_titulo">Administración</string>
-    <string name="menu_admin_opc_1">ABM Cine</string>
-    <string name="menu_admin_opc_2">ABM Teatro</string>
-    <string name="menu_admin_opc_3">ABM Pelicula</string>
-    <string name="menu_admin_opc_4">ABM Obra de teatro</string>
+    <string name="menu_admin_opc_1">Cines</string>
+    <string name="menu_admin_opc_2">Teatros</string>
+    <string name="menu_admin_opc_3">Peliculas</string>
+    <string name="menu_admin_opc_4">Obras de teatro</string>
+    <string name="menu_admin_opc_1_1">ABM de cine</string>
+    <string name="menu_admin_opc_1_2">Listar funciones</string>
+    <string name="menu_admin_opc_1_3">Listar cines</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">CinemaTeatral</string>

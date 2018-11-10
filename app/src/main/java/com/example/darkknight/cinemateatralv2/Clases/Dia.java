@@ -11,9 +11,9 @@ public class Dia
     private Date fecha;
     private ArrayList<horario>horarios;
 
-    public Dia(Date fecha, ArrayList<horario> horarios) {
+    public Dia(Date fecha) {
         this.fecha = fecha;
-        this.horarios = horarios;
+        this.horarios = new ArrayList<>();
     }
 
     public Date getFecha() {
