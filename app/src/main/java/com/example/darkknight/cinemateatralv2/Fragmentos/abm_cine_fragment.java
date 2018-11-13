@@ -1,4 +1,4 @@
-package com.example.darkknight.cinemateatralv2;
+package com.example.darkknight.cinemateatralv2.Fragmentos;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,7 +12,6 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +24,7 @@ import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.jSonParser;
 import com.example.darkknight.cinemateatralv2.ConexionBD.AppConfig;
 import com.example.darkknight.cinemateatralv2.Interfaces.comunicador;
+import com.example.darkknight.cinemateatralv2.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -222,7 +222,7 @@ public class abm_cine_fragment extends Fragment {
 
         //constructor to get the list
         public cineAdapter(Context context,List<cine> cineList) {
-            super(context,R.layout.activity_listar_cines, cineList);
+            super(context, R.layout.activity_listar_cines, cineList);
             this.cineList = cineList;
         }
 
@@ -237,7 +237,7 @@ public class abm_cine_fragment extends Fragment {
             TextView textViewName = listViewItem.findViewById(R.id.textViewName);
 
             //the update and delete textview
-            TextView textViewUpdate = listViewItem.findViewById(R.id.textViewUpdate);
+            TextView textViewUpdate = listViewItem.findViewById(R.id.textViewItem);
             TextView textViewDelete = listViewItem.findViewById(R.id.textViewDelete);
 
             final cine cine = cineList.get(position);

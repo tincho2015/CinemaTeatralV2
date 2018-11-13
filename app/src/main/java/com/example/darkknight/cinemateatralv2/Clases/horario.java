@@ -4,13 +4,22 @@ package com.example.darkknight.cinemateatralv2.Clases;
  * Created by Dark Knight on 12/08/2016.
  */
 public class horario {
-
-
+        private int id;
         private int hora,minutos;
 
-        public horario(int hora, int minutos) {
+        public horario(int id,int hora, int minutos) {
+
+                this.id= id;
                 this.hora = hora;
                 this.minutos = minutos;
+        }
+
+        public int getId() {
+                return id;
+        }
+
+        public void setId(int id) {
+                this.id = id;
         }
 
         public int getHora() {

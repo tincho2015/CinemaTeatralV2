@@ -1,4 +1,4 @@
-package com.example.darkknight.cinemateatralv2;
+package com.example.darkknight.cinemateatralv2.Fragmentos;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -6,22 +6,17 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.app.Fragment;
 import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +27,7 @@ import com.example.darkknight.cinemateatralv2.Clases.jSonParser;
 import com.example.darkknight.cinemateatralv2.Clases.sala_cine;
 import com.example.darkknight.cinemateatralv2.ConexionBD.AppConfig;
 import com.example.darkknight.cinemateatralv2.Interfaces.comunicador;
+import com.example.darkknight.cinemateatralv2.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +35,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import static android.view.View.GONE;
 
@@ -388,7 +383,7 @@ public class abmSala extends Fragment{
             TextView textViewName = listViewItem.findViewById(R.id.textViewName);
 
             //the update and delete textview
-            TextView textViewUpdate = listViewItem.findViewById(R.id.textViewUpdate);
+            TextView textViewUpdate = listViewItem.findViewById(R.id.textViewItem);
             TextView textViewDelete = listViewItem.findViewById(R.id.textViewDelete);
 
             final sala_cine sala_c = listaDeSalas.get(position);

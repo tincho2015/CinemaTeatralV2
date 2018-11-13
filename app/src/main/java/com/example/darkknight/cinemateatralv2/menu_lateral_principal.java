@@ -1,7 +1,9 @@
 package com.example.darkknight.cinemateatralv2;
 
 import android.app.Fragment;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,24 +12,54 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 
+import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorListaDesplegable;
 import com.example.darkknight.cinemateatralv2.Clases.Administradora;
 import com.example.darkknight.cinemateatralv2.Clases.bienvenida;
 import com.example.darkknight.cinemateatralv2.Clases.cine;
+import com.example.darkknight.cinemateatralv2.Clases.funcion;
+import com.example.darkknight.cinemateatralv2.Clases.horario;
 import com.example.darkknight.cinemateatralv2.Clases.pelicula;
 import com.example.darkknight.cinemateatralv2.Clases.sala_cine;
+import com.example.darkknight.cinemateatralv2.Fragmentos.abm_cine_fragment;
+import com.example.darkknight.cinemateatralv2.Fragmentos.abm_obra_teatro_fragment;
+import com.example.darkknight.cinemateatralv2.Fragmentos.abm_pelicula_fragment;
+import com.example.darkknight.cinemateatralv2.Fragmentos.abm_reservas;
+import com.example.darkknight.cinemateatralv2.Fragmentos.abm_teatro_fragment;
+import com.example.darkknight.cinemateatralv2.Helpers.FragmentNavigationManager;
+import com.example.darkknight.cinemateatralv2.Interfaces.NavigationManager;
 import com.example.darkknight.cinemateatralv2.Interfaces.comunicador;
 import com.example.darkknight.cinemateatralv2.Usuarios.SharedPrefManager;
 import com.example.darkknight.cinemateatralv2.Usuarios.Usuario;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 public class menu_lateral_principal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         comunicador {
 
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private String mTituloActividad;
+    private String[] items;
+
+    private ExpandableListView expandableListView;
+    private ExpandableListAdapter adaptador;
+    private List<String> listaTitulos;
+    private Map<String,List<String>>listaChild;
+    private NavigationManager navigationManager;
+
+
     public Administradora admin = Administradora.getIntance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +68,28 @@ public class menu_lateral_principal extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mTituloActividad = getTitle().toString();
+        expandableListView = findViewById(R.id.nav_view);
+        navigationManager = FragmentNavigationManager.getmIntance(this);
+
+        inicializarItems();
+
+        View listaHeaderView = getLayoutInflater().inflate(R.layout.nav_header_menu_lateral,null,false);
+        expandableListView.addHeaderView(listaHeaderView);
+
+        generarDatos();
+
+        addDrawersItem();
+        setupDrawer();
+
+        if(savedInstanceState == null){
+            seleccionarPrimeraOpcion();
+        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle("Menu principal");
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -58,6 +112,93 @@ public class menu_lateral_principal extends AppCompatActivity
       displaySelectedScreen(R.id.opc_menu_1);
     }
 
+    private void seleccionarPrimeraOpcion() {
+
+        if(navigationManager != null){
+
+            String primerItem = listaTitulos.get(0);
+            navigationManager.showFragment(primerItem);
+            getSupportActionBar().setTitle(primerItem);
+        }
+    }
+
+    private void setupDrawer() {
+
+        mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
+        {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle("Menu principal");
+                invalidateOptionsMenu();
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                getSupportActionBar().setTitle(mTituloActividad);
+                invalidateOptionsMenu();
+            }
+        };
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
+
+    private void addDrawersItem() {
+
+        adaptador = new adaptadorListaDesplegable(this,listaTitulos,listaChild);
+        expandableListView.setAdapter(adaptador);
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                getSupportActionBar().setTitle(listaTitulos.get(groupPosition).toString()); //Setea titulo para la toolbar cuando se abre el menu
+            }
+        });
+        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+            @Override
+            public void onGroupCollapse(int groupPosition) {
+                getSupportActionBar().setTitle("Menu principal");
+            }
+        });
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                String itemSeleccionado = ((List)(listaChild.get(listaTitulos.get(groupPosition)))).get(childPosition).toString();
+                getSupportActionBar().setTitle(itemSeleccionado);
+
+                if(items[0].equals(listaTitulos.get(groupPosition))){
+                    navigationManager.showFragment(itemSeleccionado);
+                }else{
+                    try {
+                        throw  new IllegalAccessException("Fragment no soportado");
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                return false;
+            }
+        });
+    }
+
+    private void generarDatos() {
+
+        List<String> titulo = Arrays.asList(String.valueOf(R.string.menu_admin_opc_1), String.valueOf(R.string.menu_admin_opc_2), String.valueOf(R.string.menu_admin_opc_3));
+        List<String> childItem = Arrays.asList(String.valueOf(R.string.menu_admin_opc_1_1),String.valueOf(R.string.menu_admin_opc_1_2),String.valueOf(R.string.menu_admin_opc_1_3));
+
+        listaChild = new TreeMap<>();
+        listaChild.put(titulo.get(0),childItem);
+        listaChild.put(titulo.get(1),childItem);
+        listaChild.put(titulo.get(2),childItem);
+
+        listaTitulos = new ArrayList<>(listaChild.keySet());
+    }
+
+    private void inicializarItems() {
+        items = new String[]{String.valueOf(R.string.menu_admin_opc_1), String.valueOf(R.string.menu_admin_opc_2), String.valueOf(R.string.menu_admin_opc_3)}
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -76,6 +217,18 @@ public class menu_lateral_principal extends AppCompatActivity
     }
 
     @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -83,9 +236,13 @@ public class menu_lateral_principal extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        /*
         if (id == R.id.action_settings) {
             return true;
         }
+        */
+        if(mDrawerToggle.onOptionsItemSelected(item))
+            return true;
 
         return super.onOptionsItemSelected(item);
     }
@@ -127,7 +284,7 @@ public class menu_lateral_principal extends AppCompatActivity
                 fragment = new abm_reservas();
                 fragmentTX = true;
                 break;
-            case R.id.opc_menu_admin_1:
+            case R.id.opc_menu_admin_1_1:
                 fragment = new abm_cine_fragment();
                 fragmentTX = true;
                 break;
@@ -213,6 +370,12 @@ public class menu_lateral_principal extends AppCompatActivity
         return admin.darPelis(sc);
     }
 
+    @Override
+    public ArrayList darFunciones(cine c, sala_cine sc, pelicula p) {
+        return admin.darFunciones(c,sc,p);
+    }
+
+    /*
     public void cambiarSala(){
 
         Fragment f = null;
@@ -223,7 +386,7 @@ public class menu_lateral_principal extends AppCompatActivity
 
         this.setearFragment(ftx,f);
     }
-
+*/
     @Override
     public void mandarSalasCineAdmin(ArrayList<sala_cine>salasCine, cine c) {
 
@@ -282,6 +445,11 @@ public class menu_lateral_principal extends AppCompatActivity
 
             }
         }
+
+    }
+
+    @Override
+    public void agregarHorariosAdmin(ArrayList<horario> horariosFecha, funcion f) {
 
     }
     /*

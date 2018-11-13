@@ -12,8 +12,9 @@
 
     <!-- ABM Horario -->
 
-    <string name="title_seleccion_fecha_horario">Seleccione una fecha</string>
-
+    <string name="title_seleccion_fecha_horario">Seleccione la fecha a la cual desea agregar un horario</string>
+    <string name="title_seleccion_pelicula_horario">Seleccione una película</string>
+    <string name="lista_horario">horario</string>
 
     <!-- ABM funcion -->
 

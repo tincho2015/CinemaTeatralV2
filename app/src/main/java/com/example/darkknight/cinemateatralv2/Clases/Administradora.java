@@ -82,6 +82,20 @@ public class Administradora
         return c.getSala_cines();
 
     }
+    public ArrayList darFunciones(cine c,sala_cine sc,pelicula peli){
+
+        if(c != null && sc != null && peli != null){
+
+            if(c.getSala_cines().contains(sc)){
+
+                if(sc.getPeliculasSala().contains(peli)){
+
+                    return peli.getFunciones();
+                }
+            }
+        }
+        return null;
+    }
     public ArrayList darPelis(sala_cine sc){
 
         return sc.getPeliculasSala();

@@ -1,4 +1,4 @@
-package com.example.darkknight.cinemateatralv2;
+package com.example.darkknight.cinemateatralv2.Fragmentos;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,6 +28,7 @@ import com.example.darkknight.cinemateatralv2.Clases.pelicula;
 import com.example.darkknight.cinemateatralv2.Clases.sala_cine;
 import com.example.darkknight.cinemateatralv2.ConexionBD.AppConfig;
 import com.example.darkknight.cinemateatralv2.Interfaces.comunicador;
+import com.example.darkknight.cinemateatralv2.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -276,7 +276,7 @@ public class abm_pelicula_fragment extends Fragment {
             TextView textViewName = listViewItem.findViewById(R.id.textViewName);
 
             //the update and delete textview
-            TextView textViewUpdate = listViewItem.findViewById(R.id.textViewUpdate);
+            TextView textViewUpdate = listViewItem.findViewById(R.id.textViewItem);
             TextView textViewDelete = listViewItem.findViewById(R.id.textViewDelete);
 
             final pelicula peli = peliList.get(position);

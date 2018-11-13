@@ -91,6 +91,8 @@ public class AppConfig {
 
         public static String URL_BORRAR_FUNCION_DIA = "http://campobd.esy.es/Campo/Api.php?apicall=borrarFuncionDia&id=&id_funcion=";
 
+        public static String URL_LISTAR_FUNCION_DIA = "http://campobd.esy.es/Campo/Api.php?apicall=darFuncionesDia&id_funcion=";
+
 
 
 }

@@ -8,12 +8,22 @@ import java.util.Date;
  */
 public class Dia
 {
+    private int id;
     private Date fecha;
     private ArrayList<horario>horarios;
 
-    public Dia(Date fecha) {
+    public Dia(int id,Date fecha) {
+        this.id = id;
         this.fecha = fecha;
         this.horarios = new ArrayList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Date getFecha() {

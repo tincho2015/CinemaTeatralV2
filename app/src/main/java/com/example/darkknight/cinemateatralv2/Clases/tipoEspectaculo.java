@@ -53,8 +53,15 @@ public class tipoEspectaculo {
       this.duracion = duracion;
     }
 
+  public ArrayList<funcion> getFunciones() {
+    return funciones;
+  }
 
-    public boolean isEstado() {
+  public void setFunciones(ArrayList<funcion> funciones) {
+    this.funciones = funciones;
+  }
+
+  public boolean isEstado() {
       return estado;
     }
 

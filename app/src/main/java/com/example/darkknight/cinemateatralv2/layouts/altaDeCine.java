@@ -2,7 +2,6 @@ package com.example.darkknight.cinemateatralv2.layouts;
 
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -235,7 +234,7 @@ public class altaDeCine extends Activity
             TextView textViewName = listViewItem.findViewById(R.id.textViewName);
 
             //the update and delete textview
-            TextView textViewUpdate = listViewItem.findViewById(R.id.textViewUpdate);
+            TextView textViewUpdate = listViewItem.findViewById(R.id.textViewItem);
             TextView textViewDelete = listViewItem.findViewById(R.id.textViewDelete);
 
             final cine cine = cineList.get(position);

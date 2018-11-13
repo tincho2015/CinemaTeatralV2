@@ -248,7 +248,7 @@ class obraAdapter extends ArrayAdapter<obraDeTeatro> {
         TextView textViewName = listViewItem.findViewById(R.id.textViewName);
 
         //the update and delete textview
-        TextView textViewUpdate = listViewItem.findViewById(R.id.textViewUpdate);
+        TextView textViewUpdate = listViewItem.findViewById(R.id.textViewItem);
         TextView textViewDelete = listViewItem.findViewById(R.id.textViewDelete);
 
         final obraDeTeatro obra = obraList.get(position);

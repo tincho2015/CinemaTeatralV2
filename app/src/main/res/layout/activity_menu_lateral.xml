@@ -23,6 +23,11 @@
         app:headerLayout="@layout/nav_header_menu_lateral"
         app:menu="@menu/activity_menu_lateral_drawer">
 
+        <ExpandableListView
+            android:id="@+id/lvExp"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+
     </android.support.design.widget.NavigationView>
 
 
