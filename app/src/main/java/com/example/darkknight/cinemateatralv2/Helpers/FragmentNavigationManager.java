@@ -1,10 +1,11 @@
 package com.example.darkknight.cinemateatralv2.Helpers;
 
-import android.app.Fragment;
+
+import android.support.v4.app.Fragment;
 import android.app.FragmentContainer;
-import android.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 
 import com.example.darkknight.cinemateatralv2.ContenedorFragments.FragmentContent;
@@ -48,6 +49,6 @@ public class FragmentNavigationManager implements NavigationManager {
     private void showFragment(Fragment fragmentContent, boolean b){
 
         FragmentManager fm = mFragmentManager;
-        FragmentTransaction ft = fm.beginTransaction().replace(R.id.content_frame,fragmentContainer);
+        FragmentTransaction ft = fm.beginTransaction().replace(R.id.content_frame,fragmentContent);
     }
 }
