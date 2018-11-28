@@ -16,7 +16,6 @@ public interface comunicador {
 
     public void mandarCineAdmin(ArrayList<cine>cines);
 
-    void showFragment(String titulo);
     public ArrayList darCines();
     public ArrayList darSalas(cine c);
     public ArrayList darPelis(sala_cine sc);

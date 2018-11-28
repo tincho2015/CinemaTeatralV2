@@ -9,26 +9,35 @@
     tools:openDrawer="start"
     tools:context=".menu_lateral_principal">
 
+    <LinearLayout
+        android:id="@+id/activity_controller"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/contenedor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+
+    </LinearLayout>
+
     <include
         layout="@layout/app_bar_menu_lateral"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
+    <ExpandableListView
+        android:id="@+id/lvExp"
+        android:layout_gravity="left|start"
+        android:layout_width="235dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_menu_lateral"
-        app:menu="@menu/activity_menu_lateral_drawer">
+        android:dividerHeight="0.5dp"
+        android:divider="@color/colorPrimaryDark"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        android:background="@color/white"/>
 
-        <ExpandableListView
-            android:id="@+id/lvExp"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"/>
-
-    </android.support.design.widget.NavigationView>
 
 
 </android.support.v4.widget.DrawerLayout>

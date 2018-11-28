@@ -40,7 +40,28 @@
     <string name="nombre_sala">nombre_sala</string>
 
     <!-- Menu lateral -->
+    <string-array name="inicio">
+        <item>Inicio</item>
+    </string-array>
+    <string-array name="inicio_bienvenida">
+        <item>Bievenida</item>
+    </string-array>
+    <string-array name="menu_lateral_opciones_admin">
+        <item>Administración</item>
+    </string-array>
+    <string-array name="menu_lateral_opciones_reservas">
+        <item>Reservas</item>
+    </string-array>
 
+    <string-array name="submenu_opciones_admin">
+        <item>ABM Cines</item>
+        <item>Listar cines</item>
+    </string-array>
+
+    <string-array name="submenu_opciones_reservas">
+        <item>Cine</item>
+        <item>Teatro</item>
+    </string-array>
     <string name="menu_lateral_opcion_1">Bienvenida</string>
     <string name="menu_lateral_opcion_2">Reservas</string>
     <string name="menu_lateral_opcion_3">Cine</string>

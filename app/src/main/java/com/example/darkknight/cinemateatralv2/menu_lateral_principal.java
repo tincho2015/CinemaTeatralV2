@@ -43,8 +43,8 @@ import java.util.TreeMap;
 
 
 public class menu_lateral_principal extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        comunicador {
+        implements/*NavigationView.OnNavigationItemSelectedListener*/
+        comunicador{
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -71,7 +71,7 @@ public class menu_lateral_principal extends AppCompatActivity
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mTituloActividad = getTitle().toString();
-        expandableListView = findViewById(R.id.nav_view);
+        expandableListView = findViewById(R.id.lvExp);
         navigationManager = FragmentNavigationManager.getmIntance(this);
 
         inicializarItems();
@@ -91,6 +91,7 @@ public class menu_lateral_principal extends AppCompatActivity
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setTitle("Menu principal");
 
+        /*
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -99,17 +100,20 @@ public class menu_lateral_principal extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+            */
         Usuario usuario = SharedPrefManager.getInstance(this).getUsuario();
 
+        /*
         if(usuario.esAdmin()) {
 
             navigationView.getMenu().findItem(R.id.opc_admin).setVisible(true);
 
         }
+        */
 
-
+    /*
       displaySelectedScreen(R.id.opc_menu_1);
+      */
     }
 
     private void seleccionarPrimeraOpcion() {
@@ -184,19 +188,23 @@ public class menu_lateral_principal extends AppCompatActivity
 
     private void generarDatos() {
 
-        List<String> titulo = Arrays.asList(String.valueOf(R.string.menu_admin_opc_1), String.valueOf(R.string.menu_admin_opc_2), String.valueOf(R.string.menu_admin_opc_3));
-        List<String> childItem = Arrays.asList(String.valueOf(R.string.menu_admin_opc_1_1),String.valueOf(R.string.menu_admin_opc_1_2),String.valueOf(R.string.menu_admin_opc_1_3));
+        List<String> tituloAdministracion = Arrays.asList(getResources().getStringArray(R.array.menu_lateral_opciones_admin));
+        List<String> tituloReservas = Arrays.asList(getResources().getStringArray(R.array.menu_lateral_opciones_reservas));
+        //List<String> tituloInicio = Arrays.asList(getResources().getStringArray(R.array.inicio));
+        List<String> childItemAdmin = Arrays.asList(getResources().getStringArray(R.array.submenu_opciones_admin));
+        List<String> childItemReservas = Arrays.asList(getResources().getStringArray(R.array.submenu_opciones_reservas));
+        //List<String> childItemInicio = Arrays.asList(getResources().getStringArray(R.array.inicio_bienvenida));
 
         listaChild = new TreeMap<>();
-        listaChild.put(titulo.get(0),childItem);
-        listaChild.put(titulo.get(1),childItem);
-        listaChild.put(titulo.get(2),childItem);
+        listaChild.put(tituloAdministracion.get(0),childItemAdmin);
+        listaChild.put(tituloReservas.get(0),childItemReservas);
+        //listaChild.put(tituloInicio.get(0),childItemInicio);
 
         listaTitulos = new ArrayList<>(listaChild.keySet());
     }
 
     private void inicializarItems() {
-        items = new String[]{String.valueOf(R.string.menu_admin_opc_1), String.valueOf(R.string.menu_admin_opc_2), String.valueOf(R.string.menu_admin_opc_3)}
+        items = new String[]{("Inicio"),("Reservas"),("Administración")};
     }
 
     @Override
@@ -246,7 +254,7 @@ public class menu_lateral_principal extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-
+    /*
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -258,6 +266,7 @@ public class menu_lateral_principal extends AppCompatActivity
 
 
     }
+    */
     public void setearFragment(boolean fragmentTX,Fragment fragment){
 
         if (fragmentTX) {
@@ -268,7 +277,7 @@ public class menu_lateral_principal extends AppCompatActivity
             ft.commit();
         }
     }
-
+/*
     private void displaySelectedScreen(int itemId) {
 
 
@@ -330,7 +339,7 @@ public class menu_lateral_principal extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
-
+*/
 /*
     @Override
     public void pasarCine(List<cine> cines) {

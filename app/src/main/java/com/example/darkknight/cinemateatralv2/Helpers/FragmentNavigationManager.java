@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 
+import com.example.darkknight.cinemateatralv2.BuildConfig;
 import com.example.darkknight.cinemateatralv2.ContenedorFragments.FragmentContent;
 import com.example.darkknight.cinemateatralv2.Interfaces.NavigationManager;
 import com.example.darkknight.cinemateatralv2.Interfaces.comunicador;
@@ -50,5 +51,11 @@ public class FragmentNavigationManager implements NavigationManager {
 
         FragmentManager fm = mFragmentManager;
         FragmentTransaction ft = fm.beginTransaction().replace(R.id.content_frame,fragmentContent);
+        ft.addToBackStack(null);
+        if(b || !BuildConfig.DEBUG){
+            ft.commitAllowingStateLoss();
+        }else{
+            ft.commit();
+        }
     }
 }
