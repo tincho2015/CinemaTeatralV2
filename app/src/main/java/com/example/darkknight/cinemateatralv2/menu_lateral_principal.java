@@ -74,7 +74,7 @@ public class menu_lateral_principal extends AppCompatActivity
         expandableListView = findViewById(R.id.lvExp);
         navigationManager = FragmentNavigationManager.getmIntance(this);
 
-        inicializarItems();
+       inicializarItems();
 
         View listaHeaderView = getLayoutInflater().inflate(R.layout.nav_header_menu_lateral,null,false);
         expandableListView.addHeaderView(listaHeaderView);
@@ -86,6 +86,7 @@ public class menu_lateral_principal extends AppCompatActivity
 
         if(savedInstanceState == null){
             seleccionarPrimeraOpcion();
+
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -103,13 +104,13 @@ public class menu_lateral_principal extends AppCompatActivity
             */
         Usuario usuario = SharedPrefManager.getInstance(this).getUsuario();
 
-        /*
+
         if(usuario.esAdmin()) {
 
-            navigationView.getMenu().findItem(R.id.opc_admin).setVisible(true);
+
 
         }
-        */
+
 
     /*
       displaySelectedScreen(R.id.opc_menu_1);
@@ -120,7 +121,7 @@ public class menu_lateral_principal extends AppCompatActivity
 
         if(navigationManager != null){
 
-            String primerItem = listaTitulos.get(0);
+            String primerItem = listaTitulos.get(1);
             navigationManager.showFragment(primerItem);
             getSupportActionBar().setTitle(primerItem);
         }
@@ -133,14 +134,14 @@ public class menu_lateral_principal extends AppCompatActivity
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle("Menu principal");
+                //getSupportActionBar().setTitle("Menu principal");
                 invalidateOptionsMenu();
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                getSupportActionBar().setTitle(mTituloActividad);
+                //getSupportActionBar().setTitle(mTituloActividad);
                 invalidateOptionsMenu();
             }
         };
@@ -168,7 +169,7 @@ public class menu_lateral_principal extends AppCompatActivity
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-                String itemSeleccionado = ((List)(listaChild.get(listaTitulos.get(groupPosition)))).get(childPosition).toString();
+                String itemSeleccionado = ((ArrayList)(listaChild.get(listaTitulos.get(groupPosition)))).get(childPosition).toString();
                 getSupportActionBar().setTitle(itemSeleccionado);
 
                 if(items[0].equals(listaTitulos.get(groupPosition))){
@@ -190,21 +191,27 @@ public class menu_lateral_principal extends AppCompatActivity
 
         List<String> tituloAdministracion = Arrays.asList(getResources().getStringArray(R.array.menu_lateral_opciones_admin));
         List<String> tituloReservas = Arrays.asList(getResources().getStringArray(R.array.menu_lateral_opciones_reservas));
-        //List<String> tituloInicio = Arrays.asList(getResources().getStringArray(R.array.inicio));
+        List<String> tituloInicio = Arrays.asList(getResources().getStringArray(R.array.inicio));
+        List<String> childItemInicio = Arrays.asList(getResources().getStringArray(R.array.inicio_bienvenida));
         List<String> childItemAdmin = Arrays.asList(getResources().getStringArray(R.array.submenu_opciones_admin));
         List<String> childItemReservas = Arrays.asList(getResources().getStringArray(R.array.submenu_opciones_reservas));
-        //List<String> childItemInicio = Arrays.asList(getResources().getStringArray(R.array.inicio_bienvenida));
 
         listaChild = new TreeMap<>();
+        listaChild.put(tituloInicio.get(0),childItemInicio);
         listaChild.put(tituloAdministracion.get(0),childItemAdmin);
         listaChild.put(tituloReservas.get(0),childItemReservas);
-        //listaChild.put(tituloInicio.get(0),childItemInicio);
 
         listaTitulos = new ArrayList<>(listaChild.keySet());
+
+
+
     }
 
     private void inicializarItems() {
-        items = new String[]{("Inicio"),("Reservas"),("Administración")};
+        items = new String[]{
+                ("Inicio"),
+                ("Reservas"),
+                ("Administración")};
     }
 
     @Override

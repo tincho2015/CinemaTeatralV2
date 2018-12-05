@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.darkknight.cinemateatralv2.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class adaptadorListaDesplegable extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return listaItems.size();
+        return listaItems.get(listaTitulos.get(groupPosition)).size();
     }
 
     @Override
@@ -89,4 +90,6 @@ public class adaptadorListaDesplegable extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
     }
+
+
 }
