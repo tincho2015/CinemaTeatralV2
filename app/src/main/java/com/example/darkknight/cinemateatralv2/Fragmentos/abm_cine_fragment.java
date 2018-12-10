@@ -1,6 +1,7 @@
 package com.example.darkknight.cinemateatralv2.Fragmentos;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -84,11 +85,8 @@ public class abm_cine_fragment extends Fragment {
      * @return A new instance of fragment abm_cine_fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static abm_cine_fragment newInstance(ArrayList<cine>listaCines) {
+    public static abm_cine_fragment newInstance() {
         abm_cine_fragment fragment = new abm_cine_fragment();
-        Bundle args = new Bundle();
-        args.putParcelable(ARG_PARAM1, (Parcelable) listaCines);
-        fragment.setArguments(args);
         return fragment;
     }
     private void darCines() {
@@ -457,21 +455,28 @@ public class abm_cine_fragment extends Fragment {
         if (sala != null) {
 
             android.app.FragmentManager fm = getFragmentManager();
-            android.app.Fragment currentFragment;
-            currentFragment = fm.findFragmentById(R.id.content_frame);
+            android.app.FragmentTransaction ft = fm.beginTransaction();
+                //if (currentFragment.isVisible() && fragmentContent.isHidden())
+            if(isBackStackExists(sala.getTag()))
+                {
 
-            if (currentFragment == null) {
-                //carga del primer fragment justo en la carga inicial de la app
+                    if(sala.isAdded())
+                        ft.show(sala);
+                }
+             else {
                 cambiarFragment(ftx, sala);
-            } else
-            if (!currentFragment.getClass().getName().equalsIgnoreCase(sala.getClass().getName())) {
-                //currentFragment no concide con newFragment
-                cambiarFragment(ftx,sala);
-
-            } else {
-                //currentFragment es igual a newFragment
             }
         }
+    }
+    public boolean isBackStackExists(String tag) {
+        FragmentManager manager = getFragmentManager();
+        for (int i = 0; i < manager.getBackStackEntryCount(); i++) {
+            String backStackTag = manager.getBackStackEntryAt(i).getName();
+            if (backStackTag.equals(tag)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void cambiarFragment(boolean fragmentTX,Fragment fragment){
@@ -480,7 +485,7 @@ public class abm_cine_fragment extends Fragment {
                 android.app.FragmentManager fm = getFragmentManager();
                 android.app.FragmentTransaction ft = fm.beginTransaction();
                 ft.replace(R.id.content_frame, fragment,fragment.getClass().getName());
-                ft.addToBackStack("sala_fragment");
+                ft.addToBackStack(fragment.getTag());
                 ft.commit();
             }
 

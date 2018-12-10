@@ -1,10 +1,11 @@
 package com.example.darkknight.cinemateatralv2;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,17 +19,11 @@ import android.widget.ExpandableListView;
 
 import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorListaDesplegable;
 import com.example.darkknight.cinemateatralv2.Clases.Administradora;
-import com.example.darkknight.cinemateatralv2.Clases.bienvenida;
 import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.funcion;
 import com.example.darkknight.cinemateatralv2.Clases.horario;
 import com.example.darkknight.cinemateatralv2.Clases.pelicula;
 import com.example.darkknight.cinemateatralv2.Clases.sala_cine;
-import com.example.darkknight.cinemateatralv2.Fragmentos.abm_cine_fragment;
-import com.example.darkknight.cinemateatralv2.Fragmentos.abm_obra_teatro_fragment;
-import com.example.darkknight.cinemateatralv2.Fragmentos.abm_pelicula_fragment;
-import com.example.darkknight.cinemateatralv2.Fragmentos.abm_reservas;
-import com.example.darkknight.cinemateatralv2.Fragmentos.abm_teatro_fragment;
 import com.example.darkknight.cinemateatralv2.Helpers.FragmentNavigationManager;
 import com.example.darkknight.cinemateatralv2.Interfaces.NavigationManager;
 import com.example.darkknight.cinemateatralv2.Interfaces.comunicador;
@@ -66,7 +61,7 @@ public class menu_lateral_principal extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_lateral);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
 
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -121,8 +116,8 @@ public class menu_lateral_principal extends AppCompatActivity
 
         if(navigationManager != null){
 
-            String primerItem = listaTitulos.get(1);
-            navigationManager.showFragment(primerItem);
+            String primerItem = listaTitulos.get(0);
+            navigationManager.showFragmentBienvenida();
             getSupportActionBar().setTitle(primerItem);
         }
     }
@@ -165,16 +160,35 @@ public class menu_lateral_principal extends AppCompatActivity
                 getSupportActionBar().setTitle("Menu principal");
             }
         });
+
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-                String itemSeleccionado = ((ArrayList)(listaChild.get(listaTitulos.get(groupPosition)))).get(childPosition).toString();
+                String itemSeleccionado = ((listaChild.get(listaTitulos.get(groupPosition)))).get(childPosition).toString();
                 getSupportActionBar().setTitle(itemSeleccionado);
 
-                if(items[0].equals(listaTitulos.get(groupPosition))){
-                    navigationManager.showFragment(itemSeleccionado);
-                }else{
+               // if(items[0].equals(listaTitulos.get(groupPosition))){
+
+                    switch(itemSeleccionado) {
+                        case "Bienvenida":
+                        navigationManager.showFragmentBienvenida();
+                        break;
+                        case "ABM de Cine":
+                        navigationManager.showFragmentABMCines();
+                        break;
+                        case "ABM de Teatro":
+                        navigationManager.showFragmentABMTeatros();
+                        break;
+                        case "ABM de Película":
+                        navigationManager.showFragmentABMPelicula();
+                        break;
+                        case "ABM de Obra de Teatro":
+                        navigationManager.showFragmentABMObraTeatro();
+                        break;
+                    }
+               // }else
+                {
                     try {
                         throw  new IllegalAccessException("Fragment no soportado");
                     } catch (IllegalAccessException e) {
@@ -209,9 +223,7 @@ public class menu_lateral_principal extends AppCompatActivity
 
     private void inicializarItems() {
         items = new String[]{
-                ("Inicio"),
-                ("Reservas"),
-                ("Administración")};
+                ("Inicio")};
     }
 
     @Override
@@ -468,6 +480,7 @@ public class menu_lateral_principal extends AppCompatActivity
     public void agregarHorariosAdmin(ArrayList<horario> horariosFecha, funcion f) {
 
     }
+
     /*
     @Override
     public void mandarPelisSalaAdmin(ArrayList<pelicula> pelisSala, sala_cine sc) {

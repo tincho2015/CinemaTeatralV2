@@ -5,7 +5,7 @@
     android:id="@+id/relativeLayout6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.darkknight.cinemateatralv2.Clases.bienvenida">
+    tools:context="com.example.darkknight.cinemateatralv2.Fragmentos.bienvenida">
 
     <include layout="@layout/content_bienvenida"></include>
 

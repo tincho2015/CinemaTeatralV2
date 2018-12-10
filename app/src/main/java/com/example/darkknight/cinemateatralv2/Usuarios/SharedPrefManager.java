@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 import com.example.darkknight.cinemateatralv2.Clases.Login;
-import com.example.darkknight.cinemateatralv2.Clases.bienvenida;
 
 public class SharedPrefManager {
 

@@ -54,6 +54,11 @@ public class abm_teatro_fragment extends Fragment{
     //for this we have this boolean
     boolean seEstaActualizando = false;
 
+    public static abm_teatro_fragment newInstance() {
+        abm_teatro_fragment fragment = new abm_teatro_fragment();
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

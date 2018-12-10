@@ -1,5 +1,6 @@
-package com.example.darkknight.cinemateatralv2.Clases;
+package com.example.darkknight.cinemateatralv2.Fragmentos;
 
+import com.example.darkknight.cinemateatralv2.Clases.Administradora;
 import com.example.darkknight.cinemateatralv2.R;
 import com.example.darkknight.cinemateatralv2.Usuarios.SharedPrefManager;
 import com.example.darkknight.cinemateatralv2.Usuarios.Usuario;
@@ -19,8 +20,13 @@ public class bienvenida extends Fragment {
     private TextView txtName;
     private Button btnLogout;
     private Button btnMenu;
-    Administradora admin;
 
+
+
+    public static bienvenida newInstance() {
+        bienvenida fragment = new bienvenida();
+        return fragment;
+    }
 
 
     @Nullable
@@ -29,7 +35,17 @@ public class bienvenida extends Fragment {
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
-        return inflater.inflate(R.layout.activity_bienvenida, container, false);
+
+        View view = inflater.inflate(R.layout.activity_bienvenida, container, false);
+
+        //getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+
+
+        txtName = view.findViewById(R.id.name);
+        btnLogout =  view.findViewById(R.id.btnLogout);
+        btnMenu = view.findViewById(R.id.btnMenu);
+
+        return view;
 
 
     }
@@ -40,12 +56,7 @@ public class bienvenida extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Bienvenida");
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
-
-
-        txtName = view.findViewById(R.id.name);
-        btnLogout =  view.findViewById(R.id.btnLogout);
-        btnMenu = view.findViewById(R.id.btnMenu);
+        //getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
         Usuario usuario = SharedPrefManager.getInstance(getActivity()).getUsuario();
 
@@ -63,7 +74,6 @@ public class bienvenida extends Fragment {
         });
 
     }
-    public void hola(){}
 
 
 /*

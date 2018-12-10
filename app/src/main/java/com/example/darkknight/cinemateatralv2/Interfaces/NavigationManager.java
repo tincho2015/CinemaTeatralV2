@@ -2,5 +2,9 @@ package com.example.darkknight.cinemateatralv2.Interfaces;
 
 public interface NavigationManager {
 
-   void showFragment(String titulo);
+   void showFragmentBienvenida();
+   void showFragmentABMCines();
+   void showFragmentABMTeatros();
+   void showFragmentABMObraTeatro();
+   void showFragmentABMPelicula();
 }

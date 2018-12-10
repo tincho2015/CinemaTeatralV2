@@ -20,7 +20,7 @@
             android:id="@+id/tituloFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="bottom"
             android:padding="10dp"
             android:text="TextView" />
     </FrameLayout>

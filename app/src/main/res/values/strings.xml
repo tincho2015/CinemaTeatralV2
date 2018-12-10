@@ -44,7 +44,7 @@
         <item>Inicio</item>
     </string-array>
     <string-array name="inicio_bienvenida">
-        <item>Bievenida</item>
+        <item>Bienvenida</item>
     </string-array>
     <string-array name="menu_lateral_opciones_admin">
         <item>Administración</item>
@@ -54,8 +54,10 @@
     </string-array>
 
     <string-array name="submenu_opciones_admin">
-        <item>ABM Cines</item>
-        <item>Listar cines</item>
+        <item>ABM de Cine</item>
+        <item>ABM de Teatro</item>
+        <item>ABM de Pelicula</item>
+        <item>ABM de Obra de Teatro</item>
     </string-array>
 
     <string-array name="submenu_opciones_reservas">
