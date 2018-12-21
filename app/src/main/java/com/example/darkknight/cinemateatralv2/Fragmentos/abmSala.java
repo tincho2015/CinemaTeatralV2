@@ -70,6 +70,10 @@ public class abmSala extends Fragment{
     public abmSala() {
         // Required empty public constructor
     }
+    public static abmSala newInstance() {
+        abmSala fragment = new abmSala();
+        return fragment;
+    }
 
     public void cargarSpinner(ArrayList<cine>cinesAdmin, ArrayAdapter<cine> adaptadorCines){
 

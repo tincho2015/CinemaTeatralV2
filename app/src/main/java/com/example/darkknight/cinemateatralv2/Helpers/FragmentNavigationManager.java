@@ -67,6 +67,7 @@ public class FragmentNavigationManager implements NavigationManager {
 
         showFragment(abm_pelicula_fragment.newInstance(),false);
     }
+
     private void showFragment(Fragment fragmentContent, boolean b){
 
        FragmentManager fm = mFragmentManager;
@@ -94,7 +95,7 @@ public class FragmentNavigationManager implements NavigationManager {
 
         FragmentManager fm = mFragmentManager;
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.content_frame,fragmentContent,fragmentContent.getClass().getName());
+        ft.replace(R.id.content_frame,fragmentContent,fragmentContent.getTag());
         ft.addToBackStack(fragmentContent.getTag());
         if(b || !BuildConfig.DEBUG){
             ft.commitAllowingStateLoss();
