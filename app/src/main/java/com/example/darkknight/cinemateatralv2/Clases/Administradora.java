@@ -37,24 +37,23 @@ public class Administradora
 
     public void agregarCine(cine nuevocine)
     {
+        List<cine> cinesNoRepetidos = new ArrayList<>();
+
         if(nuevocine != null && !cines.contains(nuevocine)){
             cines.add(nuevocine);
-            pedidos.add(PrePedido);
-
             boolean repetido = false;
-            for(int j=0; j<pedidosNoRepetidos.size();j++){
-                if(pedidosNoRepetidos.get(j).getIdproducto() == PrePedido.getIdproducto()){
+            for(int j=0; j<cinesNoRepetidos.size();j++){
+                if(cinesNoRepetidos.get(j).getID()== nuevocine.getID()){
                     //Se encuentra actualmente en ArrayList el elemento.
                     repetido = true;
                     break; //Si encuentra un elemento repetido deja de buscar en el ArrayList.
                 }
             }
             if(!repetido){ //Agrega si el elemento no se encuentra repetido en el ArrayList
-                pedidosNoRepetidos.add(PrePedido); //Agrega en Arraylist de elementos no repetidos
+                cinesNoRepetidos.add(nuevocine); //Agrega en Arraylist de elementos no repetidos
             }
-
-
         }
+        cinesNoRepetidos = this.cines;
     }
     public void eliminarCine(cine cine){
         if(cine != null && cines.contains(cine)){
