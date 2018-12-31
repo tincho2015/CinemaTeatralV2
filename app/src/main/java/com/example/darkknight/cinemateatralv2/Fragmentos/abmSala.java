@@ -101,6 +101,9 @@ public class abmSala extends Fragment{
         listaDeCines = view.findViewById(R.id.listCines);
         listaDeSalas = view.findViewById(R.id.listaSalas);
 
+
+        cinesAdmin = new ArrayList<>();
+
         cinesAdmin = comunicador.darCines();
 
         adaptadorCines = new adaptadorSpinnerSala(getActivity(),cinesAdmin);

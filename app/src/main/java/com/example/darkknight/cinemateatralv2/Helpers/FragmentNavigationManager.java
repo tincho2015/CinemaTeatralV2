@@ -79,13 +79,16 @@ public class FragmentNavigationManager implements NavigationManager {
                setearFragment(b,fragmentContent);
         }
         else {
-            //if (currentFragment.isVisible() && fragmentContent.isHidden())
-            if(fragmentContent.isAdded())
-            {
+                if(isBackStackExists(fragmentContent.getClass().getName())) {
+                    int index = fm.getBackStackEntryCount() - 1;
+                    FragmentManager.BackStackEntry backEntry = fm.getBackStackEntryAt(index);
+                    String tag = backEntry.getName();
+                    Fragment nuevoFragment = fm.findFragmentByTag(tag);
+                    //ft.replace(R.id.content_frame, nuevoFragment, nuevoFragment.getClass().getName());
+                    ft.show(fragmentContent);
+                    //ft.commit();
+                }
 
-                if(isBackStackExists(fragmentContent.getTag()))
-                ft.show(fragmentContent);
-            }
         }
 
         setearFragment(b,fragmentContent);
@@ -95,8 +98,9 @@ public class FragmentNavigationManager implements NavigationManager {
 
         FragmentManager fm = mFragmentManager;
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.content_frame,fragmentContent,fragmentContent.getTag());
-        ft.addToBackStack(fragmentContent.getTag());
+        String tagFragment = fragmentContent.getClass().getName();
+        ft.replace(R.id.content_frame,fragmentContent,fragmentContent.getClass().getName());
+        ft.addToBackStack(tagFragment);
         if(b || !BuildConfig.DEBUG){
             ft.commitAllowingStateLoss();
         }else{

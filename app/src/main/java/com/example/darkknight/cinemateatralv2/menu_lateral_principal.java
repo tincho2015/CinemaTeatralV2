@@ -375,6 +375,7 @@ public class menu_lateral_principal extends AppCompatActivity
     public void mandarCineAdmin(ArrayList<cine> cines) {
 
         for(cine c:cines) {
+            //if(!cines.contains(c))
             admin.agregarCine(c);
         }
     }
@@ -421,6 +422,7 @@ public class menu_lateral_principal extends AppCompatActivity
        if(c != null){
 
            for(sala_cine sc:salasCine){
+               if(!salasCine.contains(sc))
                admin.agregarSalaCine(c,sc);
            }
        }
@@ -469,6 +471,7 @@ public class menu_lateral_principal extends AppCompatActivity
         if(sc != null){
 
             for(pelicula p: pelisSala) {
+                if(!pelisSala.contains(p))
                 admin.agregarPeliculasSala(c,sc,p);
 
             }

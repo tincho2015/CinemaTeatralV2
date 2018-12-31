@@ -1,7 +1,7 @@
 package com.example.darkknight.cinemateatralv2.Fragmentos;
 
 import android.app.AlertDialog;
-import android.support.v4.app.FragmentManager;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,6 +27,7 @@ import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.jSonParser;
 import com.example.darkknight.cinemateatralv2.ConexionBD.AppConfig;
 import com.example.darkknight.cinemateatralv2.Helpers.FragmentNavigationManager;
+import com.example.darkknight.cinemateatralv2.Helpers.FragmentUtils;
 import com.example.darkknight.cinemateatralv2.Interfaces.NavigationManager;
 import com.example.darkknight.cinemateatralv2.Interfaces.comunicador;
 import com.example.darkknight.cinemateatralv2.R;
@@ -69,8 +70,9 @@ public class abm_cine_fragment extends Fragment {
     private Fragment fSala = null;
     private Fragment currentFragment = null;
     private List<Fragment>fSalas;
-    FragmentManager fm = null;
     android.app.FragmentTransaction ft = null;
+    private boolean existe = false;
+    private String tagSala = "";
 
     private static final int CODE_GET_REQUEST = 1;
     private static final int CODE_POST_REQUEST = 2;
@@ -443,19 +445,14 @@ public class abm_cine_fragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                FragmentManager fragmentm = getActivity().getFragmentManager();
+                ft = fragmentm.beginTransaction();
 
-                fm = getSupportFragmentManager();
-                ft = fm.beginTransaction();
-                fSala = new abmSala();
-                ft.add(fSala,fSala.getClass().getName());
-                ft.addToBackStack(fSala.getClass().getName());
+                fSala = abmSala.newInstance();
+                tagSala = fSala.getClass().getName();
+                ft.replace(R.id.content_frame, fSala, fSala.getClass().getName());
+                ft.addToBackStack(tagSala);
                 ft.commit();
-                if(isBackStackExists(fSala.getTag())){
-
-                    Toast.makeText(getContext(),"esta!",Toast.LENGTH_LONG).show();
-                }
-
-                //comunicador.cambiarSala();
             }
         });
 
@@ -463,98 +460,17 @@ public class abm_cine_fragment extends Fragment {
         darCines();
         return view;
     }
-    protected Fragment getCurrentFragment() {
-        return getFragmentAt(getFragmentCount() - 1);
-    }
-    private Fragment getFragmentAt(int index) {
-        return getFragmentCount() > 0 ? getFragmentManager().findFragmentByTag(Integer.toString(index)) : null;
-    }
-    protected int getFragmentCount() {
-        return getFragmentManager().getBackStackEntryCount();
-    }
 
-    /*public void cargarFragmentSala(Fragment sala, String tag){
-
-
-        if (currentFragment != sala) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-
-            if (sala.isAdded()) {
-                ft.hide(currentFragment).show(sala);
-            } else {
-                ft.hide(currentFragment).add(R.id.content_frame,sala,tag);
-            }
-            currentFragment = sala;
-
-            //ft.addToBackStack(tag);
-            ft.commit();
-            //addBackStack()
-        }
-
-    }
-    */
-    private void replaceFragment (Fragment fragment){
-
-        String backStateName = fragment.getClass().getName();
-
-        FragmentManager manager = getFragmentManager();
-        boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
-
-        if (!fragmentPopped){ //fragment not in back stack, create it.
-            fSala = abmSala.newInstance();
-            FragmentTransaction ft = manager.beginTransaction();
-            ft.replace(R.id.content_frame, fragment);
-            ft.addToBackStack(backStateName);
-            ft.commit();
-        }
-    }
-    public void crearFragmentSala(Fragment sala, boolean ftx){
-
-        android.app.FragmentManager fm = getFragmentManager();
-        android.app.FragmentTransaction ft = fm.beginTransaction();
-        if (sala == null) {
-
-            cambiarFragment(ftx, sala);
-        }else {
-            //if (currentFragment.isVisible() && fragmentContent.isHidden())
-            if (sala.isAdded()) {
-                    if (isBackStackExists(sala.getClass().getName())) {
-
-                        ft.show(sala);
-                    }
-                } else {
-                    cambiarFragment(ftx, sala);
-                }
-
-        }
-
-    }
-    public boolean isBackStackExists(String tag) {
+    public boolean isBackStackExists(FragmentManager fm,String tag) {
 
         for (int i = 0; i < fm.getBackStackEntryCount(); i++) {
             String backStackTag = fm.getBackStackEntryAt(i).getName();
-            if (backStackTag.equals(tag)) {
+            if (!backStackTag.equals(tag)) {
                 return true;
             }
         }
         return false;
     }
-
-    public void cambiarFragment(boolean fragmentTX,Fragment fragment){
-
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.content_frame,fragment,Integer.toString(getFragmentCount()));
-        ft.addToBackStack(fragment.getTag());
-        fSalas.add(fragment);
-        if(fragmentTX || !BuildConfig.DEBUG){
-            ft.commitAllowingStateLoss();
-        }else{
-            ft.commit();
-        }
-
-    }
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(ArrayList<cine>listaCines) {
