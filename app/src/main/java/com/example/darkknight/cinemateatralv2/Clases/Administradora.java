@@ -13,6 +13,7 @@ public class Administradora
     private ArrayList<promocion>promociones;
     private ArrayList<teatro>teatros;
     private ArrayList<Usuario>usuarios;
+    private ArrayList<cine> cinesNoRepetidos;
 
 
     private static Administradora ourInstance = new Administradora();
@@ -31,13 +32,13 @@ public class Administradora
         promociones = new ArrayList<promocion>();
         teatros = new ArrayList<teatro>();
         usuarios = new ArrayList<Usuario>();
+        cinesNoRepetidos = new ArrayList<>();
 
     }
 
 
     public void agregarCine(cine nuevocine)
     {
-        List<cine> cinesNoRepetidos = new ArrayList<>();
 
         if(nuevocine != null && !cines.contains(nuevocine)){
             cines.add(nuevocine);
@@ -50,10 +51,12 @@ public class Administradora
                 }
             }
             if(!repetido){ //Agrega si el elemento no se encuentra repetido en el ArrayList
-                cinesNoRepetidos.add(nuevocine); //Agrega en Arraylist de elementos no repetidos
+                cinesNoRepetidos.add(nuevocine); //Agrega en Arraylist de elementos no repetido
+            }else{
+                cines.remove(nuevocine);
             }
+
         }
-        cinesNoRepetidos = this.cines;
     }
     public void eliminarCine(cine cine){
         if(cine != null && cines.contains(cine)){
