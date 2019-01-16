@@ -142,7 +142,7 @@ public class abm_funcion extends Fragment{
                 if (!object.getBoolean("error")) {
                     Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
                     refrescarLista(object.getJSONArray("funciones"));
-                   //com.
+                    com.mandarFuncionAdmin(c,sc,p,funciones);
 
 
                     //refreshing the herolist after every operation

@@ -401,7 +401,7 @@ public class abm_horario_fragment extends Fragment {
                 if (!object.getBoolean("error")) {
                     Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
                     refrescarLista(object.getJSONArray("funciones"));
-                    //com.
+                    com.mandarFuncionHorarioAdmin(c,sc,peli,f,horarios);
 
 
                     //refreshing the herolist after every operation
@@ -514,9 +514,9 @@ public class abm_horario_fragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onButtonPressed(cine c,sala_cine sc,pelicula peli,funcion f,ArrayList<horario>horarios) {
         if (com != null) {
-            com.agregarHorariosAdmin(this.horarios,f);
+            com.mandarFuncionHorarioAdmin(c,sc,peli,f,horarios);
         }
     }
 

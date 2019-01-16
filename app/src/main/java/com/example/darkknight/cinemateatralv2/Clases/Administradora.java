@@ -14,6 +14,9 @@ public class Administradora
     private ArrayList<teatro>teatros;
     private ArrayList<Usuario>usuarios;
     private ArrayList<cine> cinesNoRepetidos;
+    private ArrayList<teatro>teatrosNoRepetidos;
+    private ArrayList<pelicula>peliculasNoRepetidas;
+    private ArrayList<obraDeTeatro>obrasNoRepetidas;
 
 
     private static Administradora ourInstance = new Administradora();
@@ -33,6 +36,9 @@ public class Administradora
         teatros = new ArrayList<teatro>();
         usuarios = new ArrayList<Usuario>();
         cinesNoRepetidos = new ArrayList<>();
+        teatrosNoRepetidos = new ArrayList<>();
+        peliculasNoRepetidas = new ArrayList<>();
+        obrasNoRepetidas = new ArrayList<>();
 
     }
 
@@ -71,6 +77,19 @@ public class Administradora
     {
         if(nuevoteatro!=null && !teatros.contains(nuevoteatro))
         teatros.add(nuevoteatro);
+        boolean repetido = false;
+        for(int j=0; j<teatrosNoRepetidos.size();j++){
+            if(teatrosNoRepetidos.get(j).getID()== nuevoteatro.getID()){
+                //Se encuentra actualmente en ArrayList el elemento.
+                repetido = true;
+                break; //Si encuentra un elemento repetido deja de buscar en el ArrayList.
+            }
+        }
+        if(!repetido){ //Agrega si el elemento no se encuentra repetido en el ArrayList
+            teatrosNoRepetidos.add(nuevoteatro); //Agrega en Arraylist de elementos no repetido
+        }else{
+            teatros.remove(nuevoteatro);
+        }
     }
     public void agregarUsuario(Usuario usuario){
 
@@ -100,6 +119,88 @@ public class Administradora
         return c.getSala_cines();
 
     }
+    public cine darCineReserva(int cId){
+
+
+            for(cine cine:cines){
+                if(cine.getID() == cId){
+
+                    return cine;
+                }
+
+            }
+        return null;
+    }
+    public pelicula darPeliculaReserva(int peliId){
+
+        for(cine cine:cines){
+                for(sala_cine sc:cine.getSala_cines()){
+
+                    for(pelicula peli:sc.getPeliculasSala()){
+
+                        if(peli.getID() == peliId){
+
+                            return peli;
+                        }
+                    }
+                }
+
+
+        }
+        return null;
+    }
+    public funcion darFuncionReserva(int funcionId){
+
+
+        for(cine cine:cines){
+
+                for(sala_cine sc:cine.getSala_cines()){
+
+                    for(pelicula peli:sc.getPeliculasSala()){
+
+                        for(funcion func:peli.getFunciones()){
+
+                            if(func.getID() == funcionId){
+
+                                return func;
+                            }
+
+                        }
+                    }
+                }
+
+
+        }
+        return null;
+
+    }
+    public horario darHorarioReserva(int horarioId){
+
+        for(cine cine:cines){
+
+                for(sala_cine sc:cine.getSala_cines()){
+
+                    for(pelicula peli:sc.getPeliculasSala()){
+
+                        for(funcion func:peli.getFunciones()){
+
+                            for(horario hora:func.getDiaFuncion().getHorarios()){
+
+                                if(hora.getId()==horarioId)
+                                {
+                                    return hora;
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+
+        }
+        return null;
+    }
+
     public ArrayList darFunciones(cine c,sala_cine sc,pelicula peli){
 
         if(c != null && sc != null && peli != null){
@@ -114,9 +215,25 @@ public class Administradora
         }
         return null;
     }
+    public ArrayList darFuncionesPelicula(pelicula p){
+
+        if(p!= null && !p.getFunciones().isEmpty())
+        {
+            return p.getFunciones();
+        }
+        return null;
+    }
     public ArrayList darPelis(sala_cine sc){
 
         return sc.getPeliculasSala();
+    }
+    public ArrayList darPelisTotal(cine c){
+
+        for(sala_cine sc:c.getSala_cines()) {
+            return sc.getPeliculasSala();
+        }
+        return null;
+
     }
     public void agregarPeliculasSala(cine c,sala_cine sc, pelicula nuevapeli){
 
@@ -128,7 +245,67 @@ public class Administradora
             }
         }
     }
+    public void agregarFuncion(cine c, sala_cine sc,pelicula p, funcion nuevaFuncion ){
 
+        if(c.getSala_cines().contains(sc)){
+
+            if(sc.getPeliculasSala().contains(p)){
+
+                p.agregarFuncion(nuevaFuncion);
+            }
+        }
+
+    }
+    public void agregarAsientoSala(cine c, sala_cine sc, asiento nuevoAsiento){
+
+        if(c.getSala_cines().contains(sc)){
+
+            if(!sc.getAsientos().contains(nuevoAsiento)){
+
+                sc.agregarAsiento(nuevoAsiento);
+            }
+        }
+    }
+    public void eliminarFuncion(cine c, sala_cine sc,pelicula p, funcion nuevaFuncion){
+
+        if(c.getSala_cines().contains(sc)){
+
+            if(sc.getPeliculasSala().contains(p)){
+
+                p.eliminarFuncion(nuevaFuncion);
+            }
+        }
+
+
+    }
+
+    public void agregarHorarioFuncion(cine c, sala_cine sc,pelicula p, funcion f, horario nuevoHorario){
+
+        if(c.getSala_cines().contains(sc)){
+
+            if(sc.getPeliculasSala().contains(p)){
+
+                if(p.getFunciones().contains(f)){
+
+                    f.getDiaFuncion().agregarNuevaHora(nuevoHorario);
+                }
+            }
+        }
+    }
+    public void eliminarHorarioFuncion(cine c, sala_cine sc,pelicula p, funcion f, horario nuevoHorario){
+
+        if(c.getSala_cines().contains(sc)){
+
+            if(sc.getPeliculasSala().contains(p)){
+
+                if(p.getFunciones().contains(f)){
+
+                    f.getDiaFuncion().eliminarHora(nuevoHorario);
+                }
+            }
+        }
+
+    }
     public void eliminarPeliculaSala(sala_cine sc, pelicula peli){
 
         if(sc != null && peli != null){

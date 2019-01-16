@@ -37,4 +37,5 @@ public class horario {
         public void setMinutos(int minutos) {
                 this.minutos = minutos;
         }
+
 }

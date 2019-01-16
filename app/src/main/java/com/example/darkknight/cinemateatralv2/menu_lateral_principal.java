@@ -19,6 +19,8 @@ import android.widget.ExpandableListView;
 
 import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorListaDesplegable;
 import com.example.darkknight.cinemateatralv2.Clases.Administradora;
+import com.example.darkknight.cinemateatralv2.Clases.Dia;
+import com.example.darkknight.cinemateatralv2.Clases.asiento;
 import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.funcion;
 import com.example.darkknight.cinemateatralv2.Clases.horario;
@@ -400,8 +402,43 @@ public class menu_lateral_principal extends AppCompatActivity
     }
 
     @Override
+    public ArrayList darPelisTotal(cine c) {
+        return admin.darPelisTotal(c);
+    }
+
+    @Override
     public ArrayList darFunciones(cine c, sala_cine sc, pelicula p) {
         return admin.darFunciones(c,sc,p);
+    }
+
+    @Override
+    public ArrayList darFuncionesPelicula(pelicula p) {
+        return null;
+    }
+
+    @Override
+    public ArrayList darHorariosPorFuncion(funcion f, Dia d) {
+        return null;
+    }
+
+    @Override
+    public cine darCineReserva(int cineId) {
+        return null;
+    }
+
+    @Override
+    public pelicula darPeliReserva(int peliId) {
+        return null;
+    }
+
+    @Override
+    public funcion darFuncionReserva(int funcionId) {
+        return null;
+    }
+
+    @Override
+    public horario darHorarioReserva(int horarioId) {
+        return null;
     }
 
     /*
@@ -478,12 +515,40 @@ public class menu_lateral_principal extends AppCompatActivity
         }
 
     }
-
     @Override
-    public void agregarHorariosAdmin(ArrayList<horario> horariosFecha, funcion f) {
+    public void mandarFuncionAdmin(cine c, sala_cine sc, pelicula p,ArrayList<funcion>funciones) {
+
+
+        for(funcion f:funciones){
+
+            if(!funciones.contains(f))
+            {
+                admin.agregarFuncion(c,sc,p,f);
+            }
+        }
 
     }
+    public void mandarFuncionHorarioAdmin(cine c, sala_cine sc,pelicula p, funcion f, ArrayList<horario>horarios){
 
+
+        for(horario hor: horarios){
+            if(!horarios.contains(hor)){
+
+                admin.agregarHorarioFuncion(c,sc,p,f,hor);
+            }
+        }
+
+    }
+    public void mandarAsientosSalaAdmin(cine c,ArrayList<asiento>asientos, sala_cine sc){
+
+        for(asiento a:asientos){
+
+            if(!asientos.contains(a)){
+
+                admin.agregarAsientoSala(c,sc,a);
+            }
+        }
+    }
     /*
     @Override
     public void mandarPelisSalaAdmin(ArrayList<pelicula> pelisSala, sala_cine sc) {

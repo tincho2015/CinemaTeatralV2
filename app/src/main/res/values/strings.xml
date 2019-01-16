@@ -10,6 +10,28 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_login_activiy">Menu de registro</string>
 
+    <!-- seleccion lugares -->
+    <string name="title_fila_A">A</string>
+    <string name="title_fila_B">B</string>
+    <string name="title_fila_C">C</string>
+    <string name="title_fila_D">D</string>
+    <string name="title_fila_E">E</string>
+
+    <string name="title_columna_1">1</string>
+    <string name="title_columna_2">2</string>
+    <string name="title_columna_3">3</string>
+    <string name="title_columna_4">4</string>
+    <string name="title_columna_5">5</string>
+    <string name="title_columna_6">6</string>
+    <string name="title_columna_7">7</string>
+
+    <!-- ABM Asientos -->
+
+    <string name="input_columna_asiento">Ingrese número de columna...</string>
+    <string name="input_fila_asiento">Ingrese letra de fila...</string>
+    <string name="title_btn_agregar_asiento">Agregar asiento</string>
+    <string name="title_lista_asiento">asiento</string>
+    <string name="title_btnConfirmarLugar">Confirmar asientos</string>
     <!-- ABM Horario -->
 
     <string name="title_seleccion_fecha_horario">Seleccione la fecha a la cual desea agregar un horario</string>
@@ -38,6 +60,7 @@
     <string name="btn_agregar_sala">Agregar sala</string>
     <string name="titulo_cines">Seleccione el cine al cual desea agregar una sala</string>
     <string name="nombre_sala">nombre_sala</string>
+    <string name="btn_agregar_asiento">Agregar asientos</string>
 
     <!-- Menu lateral -->
     <string-array name="inicio">
@@ -180,10 +203,10 @@
     <!-- Strings alta de reserva de cine-->
 
     <string name="txtViewCine">Seleccione el cine:</string>
-    <string name="txtViewPelicula">Seleccione una pelicula:</string>
+    <string name="txtViewPelicula">Seleccione la pelicula:</string>
     <string name="txtSala">Seleccione la sala:</string>
-    <string name="txtViewFuncion">Seleccione una función:</string>
-    <string name="txtViewDía">Seleccione un día:</string>
+    <string name="txtViewFuncion">Seleccione la función:</string>
+    <string name="txtViewDia">Seleccione el horario:</string>
     <string name="btnSeleccionAsiento">Seleccionar lugares</string>
 
     <!-- Strings alta de reserva de teatro-->

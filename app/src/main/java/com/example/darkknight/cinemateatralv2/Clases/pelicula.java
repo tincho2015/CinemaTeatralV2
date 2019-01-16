@@ -50,4 +50,15 @@ public class pelicula extends tipoEspectaculo{
             return super.getID();
         }
 
+        public void agregarFuncion(funcion f){
+
+            if(f != null && !super.getFunciones().contains(f))
+            super.getFunciones().add(f);
+        }
+        public void eliminarFuncion(funcion f){
+
+            if(f != null && super.getFunciones().contains(f))
+                super.getFunciones().remove(f);
+        }
+
 }

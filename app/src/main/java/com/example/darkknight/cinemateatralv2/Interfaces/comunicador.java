@@ -2,6 +2,8 @@ package com.example.darkknight.cinemateatralv2.Interfaces;
 
 import android.widget.ArrayAdapter;
 
+import com.example.darkknight.cinemateatralv2.Clases.Dia;
+import com.example.darkknight.cinemateatralv2.Clases.asiento;
 import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.funcion;
 import com.example.darkknight.cinemateatralv2.Clases.horario;
@@ -19,7 +21,16 @@ public interface comunicador {
     public ArrayList darCines();
     public ArrayList darSalas(cine c);
     public ArrayList darPelis(sala_cine sc);
+    public ArrayList darPelisTotal(cine c);
     public ArrayList darFunciones(cine c,sala_cine sc, pelicula p);
+    public ArrayList darFuncionesPelicula(pelicula p);
+    public ArrayList darHorariosPorFuncion(funcion f,Dia d);
+    public cine darCineReserva(int cineId);
+    public pelicula darPeliReserva(int peliId);
+    public funcion darFuncionReserva(int funcionId);
+    public horario darHorarioReserva(int horarioId);
+    cine darCine(int cineId);
+    sala_cine darSalaCine(int cineId,int salaId);
 
     public void mandarSalasCineAdmin(ArrayList<sala_cine>salasCine,cine c);
 
@@ -33,7 +44,11 @@ public interface comunicador {
 
    // public void mandarSalasTeatroAdmin(ArrayList<sala_teatro>salasTeatros);
 
-    public void agregarHorariosAdmin(ArrayList<horario>horariosFecha, funcion f);
+    public void mandarFuncionAdmin(cine c, sala_cine sc, pelicula p,ArrayList<funcion>funciones);
+
+    public void mandarFuncionHorarioAdmin(cine c, sala_cine sc, pelicula p,funcion f,ArrayList<horario>horarios);
+
+    void mandarAsientosSalaAdmin(ArrayList<asiento>asientos,sala_cine sc,cine c);
 
 
 

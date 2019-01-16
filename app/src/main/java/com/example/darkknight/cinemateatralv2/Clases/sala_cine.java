@@ -31,6 +31,12 @@ public class sala_cine extends tipoSalas
     public void setPeliculasSala(ArrayList<pelicula> peliculasSala) {
         this.peliculasSala = peliculasSala;
     }
+    public void agregarAsiento(asiento a){
+
+        if(a != null && !getAsientos().contains(a)){
+            getAsientos().add(a);
+        }
+    }
 
     public String toString() {
         return super.getDescripcion();

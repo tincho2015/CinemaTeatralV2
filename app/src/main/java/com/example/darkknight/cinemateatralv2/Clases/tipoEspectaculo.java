@@ -93,6 +93,8 @@ public class tipoEspectaculo {
       this.sinopsis = sinopsis;
     }
 
+
+
   //  public int getPuntaje() {
     //  return puntaje;
     //}

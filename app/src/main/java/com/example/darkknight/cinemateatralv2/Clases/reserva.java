@@ -3,6 +3,8 @@ package com.example.darkknight.cinemateatralv2.Clases;
 import com.example.darkknight.cinemateatralv2.ItemReserva;
 import com.example.darkknight.cinemateatralv2.Usuarios.Usuario;
 
+import java.util.ArrayList;
+
 /**
  * Created by Dark Knight on 12/08/2016.
  */
@@ -14,7 +16,9 @@ public class reserva {
         private boolean estado;
         private Fecha fechaDesde;
         private Fecha fechaHasta;
-        private ItemReserva item;
+        private int nroReserva;
+        private funcion funcion;
+        private asiento asiento;
 
         public reserva(int ID, Usuario usuario, boolean estado, Fecha fechaDesde, Fecha fechaHasta, ItemReserva item) {
             this.ID = ID;
@@ -22,7 +26,6 @@ public class reserva {
             this.estado = estado;
             this.fechaDesde = Fecha.hoy();
             this.fechaHasta = fechaHasta;
-            this.item = item;
         }
 
         public int getID() {
