@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -83,6 +84,7 @@ public class abm_reservas extends Fragment  {
     private ArrayAdapter<horario>adaptadorHorario;
     private FragmentTransaction ft = null;
     private Fragment fSeleccionLugares = null;
+    private ProgressBar pbReserva;
 
     private static final int CODE_GET_REQUEST = 1;
     private static final int CODE_POST_REQUEST = 2;
@@ -137,6 +139,8 @@ public class abm_reservas extends Fragment  {
         spFunciones = v.findViewById(R.id.spFuncionReserva);
         spPeliculas = v.findViewById(R.id.spPeliReserva);
         spHorarios = v.findViewById(R.id.spHorarioReserva);
+
+        pbReserva = v.findViewById(R.id.pbReserva);
 
         reservasHechasCines = new ArrayList<>();
         reservasrHechasTeatros = new ArrayList<>();
@@ -288,73 +292,74 @@ public class abm_reservas extends Fragment  {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-    private class request extends AsyncTask<Void, Void, String> {
 
-        //the url where we need to send the request
-        String url;
-
-        //the parameters
-        HashMap<String, String> params;
-
-        //the request code to define whether it is a GET or POST
-        int requestCode;
-
-        //constructor to initialize values
-        request(String url, HashMap<String, String> params, int requestCode) {
-            this.url = url;
-            this.params = params;
-            this.requestCode = requestCode;
-        }
-
-        //when the task started displaying a progressbar
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            barraProgreso.setVisibility(View.VISIBLE);
-        }
-
-
-        //this method will give the response from the request
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            barraProgreso.setVisibility(GONE);
-            try {
-                JSONObject object = new JSONObject(s);
-                if (!object.getBoolean("error")) {
-                    Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
-                    refrescarLista(object.getJSONArray("funciones"));
-                    //com.
-
-
-                    //refreshing the herolist after every operation
-                    //so we get an updated list
-                    //we will create this method right now it is commented
-                    //because we haven't created it yet
-                    //refreshHeroList(object.getJSONArray("heroes"));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-
-        //the network operation will be performed in background
-        @Override
-        protected String doInBackground(Void... voids) {
-            jSonParser requestHandler = new jSonParser();
-
-            if (requestCode == CODE_POST_REQUEST)
-                return requestHandler.sendPostRequest(url, params);
-
-
-            if (requestCode == CODE_GET_REQUEST)
-                return requestHandler.sendGetRequest(url);
-
-            return null;
-        }
-    }
+//    private class request extends AsyncTask<Void, Void, String> {
+//        //the url where we need to send the request
+//        String url;
+//
+//        //the parameters
+//        HashMap<String, String> params;
+//
+//        //the request code to define whether it is a GET or POST
+//        int requestCode;
+//
+//        //constructor to initialize values
+//        request(String url, HashMap<String, String> params, int requestCode) {
+//            this.url = url;
+//            this.params = params;
+//            this.requestCode = requestCode;
+//        }
+//
+//        //when the task started displaying a progressbar
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            pbReserva.setVisibility(View.VISIBLE);
+//        }
+//
+//
+//        //this method will give the response from the request
+//        @Override
+//        protected void onPostExecute(String s) {
+//            super.onPostExecute(s);
+//           pbReserva.setVisibility(GONE);
+//            try {
+//                JSONObject object = new JSONObject(s);
+//                if (!object.getBoolean("error")) {
+//                    Toast.makeText(getActivity(), object.getString("message"), Toast.LENGTH_SHORT).show();
+//                    //refrescarLista(object.getJSONArray("funciones"));
+//                    //com.
+//
+//
+//                    //refreshing the herolist after every operation
+//                    //so we get an updated list
+//                    //we will create this method right now it is commented
+//                    //because we haven't created it yet
+//                    //refreshHeroList(object.getJSONArray("heroes"));
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        //the network operation will be performed in background
+//        @Override
+//        protected String doInBackground(Void... voids) {
+//            jSonParser requestHandler = new jSonParser();
+//
+//            if (requestCode == CODE_POST_REQUEST)
+//                return requestHandler.sendPostRequest(url, params);
+//
+//
+//            if (requestCode == CODE_GET_REQUEST)
+//                return requestHandler.sendGetRequest(url);
+//
+//            return null;
+//        }
+//    }
 
     public void cargarSpinnePeliculasReserva(ArrayList<pelicula>peliculasAdmin, ArrayAdapter<pelicula> adaptadorPelisReserva){
 

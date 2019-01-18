@@ -68,6 +68,7 @@ public class abmSala extends Fragment{
     private cine cine_sala = null;
     private Fragment fAsiento = null;
     private int idSala = 0;
+    private int idCine = 0;
     private static final int CODE_GET_REQUEST = 1;
     private static final int CODE_POST_REQUEST = 2;
 
@@ -101,7 +102,7 @@ public class abmSala extends Fragment{
         btnAgregarSala = view.findViewById(R.id.btnSala);
         barraEspera = view.findViewById(R.id.barraProgreso);
         salaId = view.findViewById(R.id.salaId);
-        btnAgregarAsiento = view.findViewById(R.id.btnAgregarLugar);
+        btnAgregarAsiento = view.findViewById(R.id.btnAgregarAsiento);
 
         listaDeCines = view.findViewById(R.id.listCines);
         listaDeSalas = view.findViewById(R.id.listaSalas);
@@ -156,11 +157,10 @@ public class abmSala extends Fragment{
             @Override
             public void onClick(View v) {
 
-                idSala = Integer.parseInt(salaId.getText().toString());
                 FragmentManager fragmentm = getActivity().getFragmentManager();
                 FragmentTransaction ft = fragmentm.beginTransaction();
                 String tagAsiento;
-                fAsiento = abm_asientos.newInstance(idSala);
+                fAsiento = abm_asientos.newInstance();
                 tagAsiento = fAsiento.getClass().getName();
                 ft.replace(R.id.content_frame, fAsiento, tagAsiento);
                 ft.addToBackStack(tagAsiento);

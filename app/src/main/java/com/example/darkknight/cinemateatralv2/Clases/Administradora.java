@@ -42,6 +42,34 @@ public class Administradora
 
     }
 
+    public cine darCine(int cineId){
+
+        for(cine c:cines){
+
+            if(c.getID() == cineId){
+
+                return c;
+            }
+        }
+        return null;
+    }
+    public sala_cine darSalaCine(int cineId, int salaId){
+
+        for(cine c:cines){
+
+            if(c.getID() == cineId){
+
+                for(sala_cine sc:c.getSala_cines()){
+
+                    if(sc.getID() == salaId){
+
+                        return sc;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
     public void agregarCine(cine nuevocine)
     {

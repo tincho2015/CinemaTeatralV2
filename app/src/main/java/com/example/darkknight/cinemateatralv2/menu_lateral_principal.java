@@ -423,22 +423,32 @@ public class menu_lateral_principal extends AppCompatActivity
 
     @Override
     public cine darCineReserva(int cineId) {
-        return null;
+        return admin.darCineReserva(cineId);
     }
 
     @Override
     public pelicula darPeliReserva(int peliId) {
-        return null;
+        return admin.darPeliculaReserva(peliId);
     }
 
     @Override
     public funcion darFuncionReserva(int funcionId) {
-        return null;
+        return admin.darFuncionReserva(funcionId);
     }
 
     @Override
     public horario darHorarioReserva(int horarioId) {
-        return null;
+        return admin.darHorarioReserva(horarioId);
+    }
+
+    @Override
+    public cine darCine(int cineId) {
+        return admin.darCine(cineId);
+    }
+
+    @Override
+    public sala_cine darSalaCine(int cineId, int salaId) {
+        return admin.darSalaCine(cineId,salaId);
     }
 
     /*
@@ -539,6 +549,12 @@ public class menu_lateral_principal extends AppCompatActivity
         }
 
     }
+
+    @Override
+    public void mandarAsientosSalaAdmin(ArrayList<asiento> asientos, sala_cine sc, cine c) {
+
+    }
+
     public void mandarAsientosSalaAdmin(cine c,ArrayList<asiento>asientos, sala_cine sc){
 
         for(asiento a:asientos){

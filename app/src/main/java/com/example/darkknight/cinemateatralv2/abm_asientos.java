@@ -11,14 +11,18 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerPelicula;
+import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerSala;
 import com.example.darkknight.cinemateatralv2.Clases.asiento;
 import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.horario;
@@ -51,26 +55,29 @@ import static android.view.View.GONE;
 public class abm_asientos extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_IDSALA = "param1";
-    private static final String ARG_IDCINE = "param2";
 
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    private Spinner spCinesAsientos;
+    private Spinner spSalasAsientos;
     private EditText editTextColumna;
     private EditText editTextFila;
     private EditText editTextAsientoId;
     private Button btnAgregarAsiento;
     private ListView listAsientos;
-    private int salaId = 0;
-    private int cineId = 0;
+    private ArrayList<cine>cinesAdmin;
+    private ArrayList<sala_cine>sala_cinesAdmin;
     private ArrayList<asiento>asientos;
+    private ArrayAdapter<cine>adaptadorCine;
+    private ArrayAdapter<sala_cine>adaptadorSalaCine;
     private ProgressBar pbAsiento;
     private comunicador com;
     private cine c = null;
     private sala_cine sc = null;
+    private int salaId = 0;
 
     private int idAsiento;
 
@@ -90,28 +97,16 @@ public class abm_asientos extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
+     *
      * @return A new instance of fragment abm_asientos.
      */
     // TODO: Rename and change types and number of parameters
-    public static abm_asientos newInstance(int param1,int param2) {
+    public static abm_asientos newInstance() {
         abm_asientos fragment = new abm_asientos();
-        Bundle args = new Bundle();
-        args.putInt(ARG_IDSALA, param1);
-        args.putInt(ARG_IDCINE,param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_IDSALA);
-            mParam2 = getArguments().getString(ARG_IDCINE);
-        }
-    }
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -126,21 +121,65 @@ public class abm_asientos extends Fragment {
         listAsientos = v.findViewById(R.id.listLugares);
         editTextAsientoId = v.findViewById(R.id.editTxtAsientoId);
         pbAsiento = v.findViewById(R.id.pbAsiento);
+        spCinesAsientos = v.findViewById(R.id.spCinesAsientos);
+        spSalasAsientos = v.findViewById(R.id.spSalasAsientos);
 
-        c = com.darCine(cineId);
-        sc = com.darSalaCine(cineId,salaId);
 
-        Bundle b = this.getArguments();
+        cinesAdmin = new ArrayList<>();
+        sala_cinesAdmin = new ArrayList<>();
 
-        if(b !=null){
-
-            salaId = b.getInt(ARG_IDSALA);
-            cineId = b.getInt(ARG_IDCINE);
-
-        }
+        cinesAdmin = com.darCines();
+        adaptadorCine = new adaptadorSpinnerSala(getActivity(),cinesAdmin);
+        cargarSpinner(cinesAdmin,adaptadorCine);
 
 
 
+        spCinesAsientos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                c = adaptadorCine.getItem(position);
+                sala_cinesAdmin = com.darSalas(c);
+                adaptadorSalaCine = new adaptadorSpinnerPelicula(getActivity(),sala_cinesAdmin);
+                cargarSpinnerSala(sala_cinesAdmin,adaptadorSalaCine);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+        spSalasAsientos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                sc = adaptadorSalaCine.getItem(position);
+                darAsientos(sc.getID());
+                btnAgregarAsiento.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if(seEstaActualizando){
+
+                            actualizarAsiento(sc.getID());
+                        }else{
+                            agregarAsiento(sc.getID());
+                        }
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         return v;
     }
@@ -162,8 +201,6 @@ public class abm_asientos extends Fragment {
             this.editTextFila.requestFocus();
             return;
         }
-
-
 
         //if validation passes
 
@@ -328,8 +365,8 @@ public class abm_asientos extends Fragment {
 
 
         //constructor to get the list
-        public asientoAdapter(Context context,List<asiento> horarioList) {
-            super(context,R.layout.listar_asiento,horarioList);
+        public asientoAdapter(Context context,List<asiento> asientoList) {
+            super(context,R.layout.listar_asiento,asientoList);
             this.asientoList = asientoList;
         }
 
@@ -338,7 +375,7 @@ public class abm_asientos extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = getActivity().getLayoutInflater();
-            View listViewItem = inflater.inflate(R.layout.listar_horarios, null, true);
+            View listViewItem = inflater.inflate(R.layout.listar_asiento, null, true);
 
             //getting the textview for displaying name
             TextView textViewName = listViewItem.findViewById(R.id.textViewName);
@@ -349,7 +386,7 @@ public class abm_asientos extends Fragment {
 
             final asiento asiento =asientoList.get(position);
 
-            textViewName.setText(horario.toString());
+            textViewName.setText(asiento.toString());
 
             //attaching click listener to update
             textViewUpdate.setOnClickListener(new View.OnClickListener() {
@@ -360,11 +397,12 @@ public class abm_asientos extends Fragment {
                     seEstaActualizando = true;
 
                     //we will set the selected hero to the UI elements
-                    horarioId.setText(String.valueOf(horario.getId()));
-                    in_hora.setText(horario.toString());
+                    editTextAsientoId.setText(String.valueOf(asiento.getID()));
+                    editTextColumna.setText(asiento.getColumna());
+                    editTextFila.setText(asiento.getFila());
 
                     //we will also make the button text to Update
-                    btnAgregar.setText("Actualizar");
+                    btnAgregarAsiento.setText("Actualizar");
                 }
             });
 
@@ -375,11 +413,11 @@ public class abm_asientos extends Fragment {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                    builder.setTitle("Eliminar " + horario.toString())
+                    builder.setTitle("Eliminar " + asiento.toString())
                             .setMessage("¿Esta seguro que quiere eliminarlo?")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    eliminarHorario(horario.getId());
+                                    eliminarAsiento(asiento.getID());
                                     //if the choice is yes we will delete the hero
                                     //method is commented because it is not yet created
                                     //deleteHero(hero.getId());
@@ -401,20 +439,20 @@ public class abm_asientos extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    public void onButtonPressed(ArrayList<asiento>asientos,sala_cine sc,cine c) {
+        if (com != null) {
+            com.mandarAsientosSalaAdmin(asientos,sc,c);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof comunicador) {
+           com = (comunicador) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement comunicador");
         }
     }
 
@@ -437,5 +475,15 @@ public class abm_asientos extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    public void cargarSpinner(ArrayList<cine>cinesAdmin, ArrayAdapter<cine> adaptadorCines){
+
+        spCinesAsientos.setAdapter(adaptadorCines);
+
+    }
+    public void cargarSpinnerSala(ArrayList<sala_cine>sala_cinesAdmin, ArrayAdapter<sala_cine> adaptadorSalaCine){
+
+        spSalasAsientos.setAdapter(adaptadorSalaCine);
+
     }
 }
