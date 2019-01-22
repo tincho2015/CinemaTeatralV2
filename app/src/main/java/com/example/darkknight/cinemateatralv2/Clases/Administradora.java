@@ -42,6 +42,16 @@ public class Administradora
 
     }
 
+    public ArrayList darAsientosDisponibles(sala_cine sc){
+
+        if(sc != null)
+        {
+            sc.darAsientosDisponibles();
+        }
+
+        return null;
+    }
+
     public cine darCine(int cineId){
 
         for(cine c:cines){

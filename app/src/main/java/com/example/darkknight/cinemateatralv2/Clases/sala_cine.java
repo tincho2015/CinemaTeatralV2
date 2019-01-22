@@ -65,4 +65,18 @@ public class sala_cine extends tipoSalas
             peliculasSala.remove(p);
         }
     }
+    public ArrayList darAsientosDisponibles(){
+
+        ArrayList asientosDisponibles = new ArrayList();
+
+        for(asiento a: this.getAsientos()){
+
+            if(a.isOcupado() == 0){
+
+                asientosDisponibles.add(a);
+            }
+        }
+
+        return asientosDisponibles;
+    }
 }

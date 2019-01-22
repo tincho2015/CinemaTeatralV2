@@ -11,19 +11,10 @@
     <string name="title_activity_login_activiy">Menu de registro</string>
 
     <!-- seleccion lugares -->
-    <string name="title_fila_A">A</string>
-    <string name="title_fila_B">B</string>
-    <string name="title_fila_C">C</string>
-    <string name="title_fila_D">D</string>
-    <string name="title_fila_E">E</string>
+    <string name="title_seleccion_asiento">Seleccione un asiento a reservar:</string>
+    <string name="title_lista_asientos_reservados">Asientos reservados:</string>
+    <string name="title_seleccion_sala_asientos">Seleccione el tipo de sala:</string>
 
-    <string name="title_columna_1">1</string>
-    <string name="title_columna_2">2</string>
-    <string name="title_columna_3">3</string>
-    <string name="title_columna_4">4</string>
-    <string name="title_columna_5">5</string>
-    <string name="title_columna_6">6</string>
-    <string name="title_columna_7">7</string>
 
     <!-- ABM Asientos -->
 

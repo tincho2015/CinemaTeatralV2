@@ -49,6 +49,8 @@ public interface comunicador {
 
    void mandarAsientosSalaAdmin(ArrayList<asiento>asientos,sala_cine sc,cine c);
 
+   ArrayList darAsientosDisponibles(sala_cine sc);
+
 
 
 }

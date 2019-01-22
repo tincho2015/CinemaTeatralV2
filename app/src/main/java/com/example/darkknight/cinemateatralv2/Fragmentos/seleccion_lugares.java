@@ -7,13 +7,20 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Spinner;
 
+import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerAsiento;
+import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerPelicula;
 import com.example.darkknight.cinemateatralv2.Clases.asiento;
 import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.funcion;
 import com.example.darkknight.cinemateatralv2.Clases.horario;
 import com.example.darkknight.cinemateatralv2.Clases.pelicula;
+import com.example.darkknight.cinemateatralv2.Clases.sala_cine;
 import com.example.darkknight.cinemateatralv2.Interfaces.comunicador;
 import com.example.darkknight.cinemateatralv2.R;
 import com.google.android.gms.wallet.fragment.WalletFragmentStyle;
@@ -37,45 +44,7 @@ public class seleccion_lugares extends Fragment {
     private static final String ARG_FUNCIONID = "funcionID";
     private static final String ARG_HORARIOID = "horarioID";
 
-    private Button lugarA1;
-    private Button lugarA2;
-    private Button lugarA3;
-    private Button lugarA4;
-    private Button lugarA5;
-    private Button lugarA6;
-    private Button lugarA7;
 
-    private Button lugarB1;
-    private Button lugarB2;
-    private Button lugarB3;
-    private Button lugarB4;
-    private Button lugarB5;
-    private Button lugarB6;
-    private Button lugarB7;
-
-    private Button lugarC1;
-    private Button lugarC2;
-    private Button lugarC3;
-    private Button lugarC4;
-    private Button lugarC5;
-    private Button lugarC6;
-    private Button lugarC7;
-
-    private Button lugarD1;
-    private Button lugarD2;
-    private Button lugarD3;
-    private Button lugarD4;
-    private Button lugarD5;
-    private Button lugarD6;
-    private Button lugarD7;
-
-    private Button lugarE1;
-    private Button lugarE2;
-    private Button lugarE3;
-    private Button lugarE4;
-    private Button lugarE5;
-    private Button lugarE6;
-    private Button lugarE7;
 
     private ArrayList<asiento>asientosSeleccionados;
 
@@ -83,6 +52,19 @@ public class seleccion_lugares extends Fragment {
     private pelicula peliReservaFinal = null;
     private funcion funcionReservaFinal = null;
     private horario horarioReservaFinal = null;
+
+    private sala_cine tipoSala = null;
+    private asiento asientoSeleccionado = null;
+
+
+    private Spinner spAsientosDisponibles;
+    private Spinner spTipoSala;
+    private ArrayList<asiento>asientosDisponibles;
+    private ArrayList<sala_cine>tiposSalas;
+    private ArrayAdapter<sala_cine>adaptadorSala;
+    private ArrayAdapter<asiento>adaptadorAsiento;
+    private ListView listaAsientosReservados;
+    private ArrayList<asiento>asientosReservados;
 
     private comunicador com;
 
@@ -143,46 +125,10 @@ public class seleccion_lugares extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_seleccion_lugares, container, false);
 
-        lugarA1 = v.findViewById(R.id.btnA1);
-        lugarA2 = v.findViewById(R.id.btnA2);
-        lugarA3 = v.findViewById(R.id.btnA3);
-        lugarA4 = v.findViewById(R.id.btnA4);
-        lugarA5 = v.findViewById(R.id.btnA5);
-        lugarA6 = v.findViewById(R.id.btnA6);
-        lugarA7 = v.findViewById(R.id.btnA7);
 
-        lugarB1 = v.findViewById(R.id.btnB1);
-        lugarB2 = v.findViewById(R.id.btnB2);
-        lugarB3 = v.findViewById(R.id.btnB3);
-        lugarB4 = v.findViewById(R.id.btnB4);
-        lugarB5 = v.findViewById(R.id.btnB5);
-        lugarB6 = v.findViewById(R.id.btnB6);
-        lugarB7 = v.findViewById(R.id.btnB7);
-
-        lugarC1 = v.findViewById(R.id.btnC1);
-        lugarC2 = v.findViewById(R.id.btnC2);
-        lugarC3 = v.findViewById(R.id.btnC3);
-        lugarC4 = v.findViewById(R.id.btnC4);
-        lugarC5 = v.findViewById(R.id.btnC5);
-        lugarC6 = v.findViewById(R.id.btnC6);
-        lugarC7 = v.findViewById(R.id.btnC7);
-
-        lugarD1 = v.findViewById(R.id.btnD1);
-        lugarD2 = v.findViewById(R.id.btnD2);
-        lugarD3 = v.findViewById(R.id.btnD3);
-        lugarD4 = v.findViewById(R.id.btnD4);
-        lugarD5 = v.findViewById(R.id.btnD5);
-        lugarD6 = v.findViewById(R.id.btnD6);
-        lugarD7 = v.findViewById(R.id.btnD7);
-
-        lugarE1 = v.findViewById(R.id.btnE1);
-        lugarE2 = v.findViewById(R.id.btnE2);
-        lugarE3 = v.findViewById(R.id.btnE3);
-        lugarE4 = v.findViewById(R.id.btnE4);
-        lugarE5 = v.findViewById(R.id.btnE5);
-        lugarE6 = v.findViewById(R.id.btnE6);
-        lugarE7 = v.findViewById(R.id.btnE7);
-
+        spAsientosDisponibles = v.findViewById(R.id.spAsientosDisponibles);
+        spTipoSala = v.findViewById(R.id.spTipoSala);
+        listaAsientosReservados = v.findViewById(R.id.listaAsientosReservados);
 
 
         Bundle bundle = this.getArguments();
@@ -200,6 +146,55 @@ public class seleccion_lugares extends Fragment {
         horarioReservaFinal = com.darHorarioReserva(horarioId);
 
 
+
+        com = (comunicador)getActivity();
+
+        tiposSalas = new ArrayList<>();
+        asientosDisponibles = new ArrayList<>();
+
+        tiposSalas = com.darSalas(cineReservaFinal);
+
+        adaptadorSala = new adaptadorSpinnerPelicula(getActivity(),tiposSalas);
+        cargarSpinnerTiposSalas(tiposSalas,adaptadorSala);
+
+
+        spTipoSala.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+                tipoSala = adaptadorSala.getItem(position);
+                asientosDisponibles = com.darAsientosDisponibles(tipoSala);
+                adaptadorAsiento = new adaptadorSpinnerAsiento(getActivity(),asientosDisponibles);
+                cargarSpinnerAsientosDisponibles(asientosDisponibles,adaptadorAsiento);
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spAsientosDisponibles.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                asientoSeleccionado = adaptadorAsiento.getItem(position);
+                asientosReservados = new ArrayList<>();
+
+                asientosReservados.add(asientoSeleccionado);
+
+                //Adaptar esta lista al listview
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
 
@@ -276,5 +271,14 @@ public class seleccion_lugares extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void cargarSpinnerAsientosDisponibles(ArrayList<asiento>asientosDis, ArrayAdapter<asiento> adaptadorAsientoDis){
+
+       spAsientosDisponibles.setAdapter(adaptadorAsientoDis);
+    }
+    public void cargarSpinnerTiposSalas(ArrayList<sala_cine>tiposSalas, ArrayAdapter<sala_cine> adaptadorTipoSala){
+
+        spTipoSala.setAdapter(adaptadorTipoSala);
     }
 }
