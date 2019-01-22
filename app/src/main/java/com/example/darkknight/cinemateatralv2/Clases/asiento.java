@@ -7,27 +7,31 @@ public class asiento {
 
 
         private int ID;
-        private boolean ocupado;
-        private int columna;
-        private String fila;
+        private int ocupado;
+        private String columna;
+        private int fila;
 
-        public int getColumna() {
+        public String getColumna() {
                 return columna;
         }
 
-        public void setColumna(int columna) {
+        public void setColumna(String columna) {
                 this.columna = columna;
         }
+        public String toString(){
 
-        public String getFila() {
+                return getColumna()+getFila();
+        }
+
+        public int getFila() {
                 return fila;
         }
 
-        public void setFila(String fila) {
+        public void setFila(int fila) {
                 this.fila = fila;
         }
 
-        public asiento(int ID, boolean ocupado,int columna,String fila) {
+        public asiento(int ID,int fila,String columna,int ocupado) {
                 this.ID = ID;
                 this.ocupado = ocupado;
                 this.fila = fila;
@@ -42,11 +46,11 @@ public class asiento {
                 this.ID = ID;
         }
 
-        public boolean isOcupado() {
+        public int isOcupado() {
                 return ocupado;
         }
 
-        public void setOcupado(boolean ocupado) {
+        public void setOcupado(int ocupado) {
                 this.ocupado = ocupado;
         }
 }

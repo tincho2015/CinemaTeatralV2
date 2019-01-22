@@ -469,7 +469,6 @@ public class menu_lateral_principal extends AppCompatActivity
        if(c != null){
 
            for(sala_cine sc:salasCine){
-               if(!salasCine.contains(sc))
                admin.agregarSalaCine(c,sc);
            }
        }

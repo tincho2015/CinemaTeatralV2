@@ -79,7 +79,7 @@ public class AppConfig {
         //Asientos
 
         public static String URL_AGREGAR_ASIENTO = "http://campobd.esy.es/Campo/Api.php?apicall=agregarAsientoSala&id_sala=";
-        public static String URL_ELIMINAR_ASIENTO = "http://campobd.esy.es/Campo/Api.php?apicall=eliminarAsientoSala&id_sala=";
+        public static String URL_ELIMINAR_ASIENTO = "http://campobd.esy.es/Campo/Api.php?apicall=eliminarAsientoSala&id_asiento=&id_sala=";
         public static String URL_ACTUALIZAR_ASIENTO = "http://campobd.esy.es/Campo/Api.php?apicall=actualizarAsientoSala&id_sala=";
         public static String URL_LISTAR_ASIENTOS_SALA = "http://campobd.esy.es/Campo/Api.php?apicall=darAsientoPorSala&id_sala=";
 

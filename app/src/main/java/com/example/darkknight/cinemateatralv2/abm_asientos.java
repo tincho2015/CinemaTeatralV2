@@ -106,7 +106,7 @@ public class abm_asientos extends Fragment {
         return fragment;
     }
 
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -127,6 +127,7 @@ public class abm_asientos extends Fragment {
 
         cinesAdmin = new ArrayList<>();
         sala_cinesAdmin = new ArrayList<>();
+        asientos = new ArrayList<>();
 
         cinesAdmin = com.darCines();
         adaptadorCine = new adaptadorSpinnerSala(getActivity(),cinesAdmin);
@@ -216,10 +217,10 @@ public class abm_asientos extends Fragment {
 
         // getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
-    private void eliminarAsiento(int id) {
+    private void eliminarAsiento(int idAsiento,int idSala) {
 
         //   getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        request request = new request(AppConfig.URL_ELIMINAR_ASIENTO + id, null, CODE_GET_REQUEST);
+        request request = new request(AppConfig.URL_ELIMINAR_ASIENTO + idAsiento + idSala, null, CODE_GET_REQUEST);
         request.execute();
     }
     private void actualizarAsiento(int idsala) {
@@ -265,23 +266,23 @@ public class abm_asientos extends Fragment {
         request request = new request(AppConfig.URL_LISTAR_ASIENTOS_SALA + idsala, null, CODE_GET_REQUEST);
         request.execute();
     }
-    private void refrescarLista(JSONArray horarios) throws JSONException, ParseException {
+    private void refrescarLista(JSONArray asientos) throws JSONException, ParseException {
         //clearing previous heroes
         this.asientos.clear();
 
 
         //traversing through all the items in the json array
         //the json we got from the response
-        for (int i = 0; i < horarios.length(); i++) {
+        for (int i = 0; i < asientos.length(); i++) {
             //getting each hero object
-            JSONObject obj = horarios.getJSONObject(i);
+            JSONObject obj = asientos.getJSONObject(i);
 
             //adding the hero to the list
             this.asientos.add(new asiento(
                     obj.getInt("id"),
-                    obj.getBoolean("asiento_ocupado"),
-                    obj.getInt("asiento_columna"),
-                    obj.getString("asiento_fila")
+                    obj.getInt("fila_asiento"),
+                    obj.getString("columna_asiento"),
+                    obj.getInt("asiento_ocupado")
             ));
 
         }
@@ -381,7 +382,7 @@ public class abm_asientos extends Fragment {
             TextView textViewName = listViewItem.findViewById(R.id.textViewName);
 
             //the update and delete textview
-            TextView textViewUpdate = listViewItem.findViewById(R.id.textViewItem);
+            TextView textViewUpdate = listViewItem.findViewById(R.id.textViewUpdate);
             TextView textViewDelete = listViewItem.findViewById(R.id.textViewDelete);
 
             final asiento asiento =asientoList.get(position);
@@ -417,7 +418,7 @@ public class abm_asientos extends Fragment {
                             .setMessage("¿Esta seguro que quiere eliminarlo?")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    eliminarAsiento(asiento.getID());
+                                    eliminarAsiento(asiento.getID(),sc.getID());
                                     //if the choice is yes we will delete the hero
                                     //method is commented because it is not yet created
                                     //deleteHero(hero.getId());

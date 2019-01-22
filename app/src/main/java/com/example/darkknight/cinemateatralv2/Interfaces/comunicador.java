@@ -32,7 +32,6 @@ public interface comunicador {
    cine darCine(int cineId);
    sala_cine darSalaCine(int cineId,int salaId);
 
-   int buscarSala();
    void mandarSalasCineAdmin(ArrayList<sala_cine>salasCine,cine c);
 
    void eliminarCine(ArrayList<cine>cines);
