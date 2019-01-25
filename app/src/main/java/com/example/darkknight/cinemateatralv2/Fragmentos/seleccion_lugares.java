@@ -1,6 +1,10 @@
 package com.example.darkknight.cinemateatralv2.Fragmentos;
 
+import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -12,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerAsiento;
 import com.example.darkknight.cinemateatralv2.Adaptadores.adaptadorSpinnerPelicula;
@@ -23,10 +28,12 @@ import com.example.darkknight.cinemateatralv2.Clases.pelicula;
 import com.example.darkknight.cinemateatralv2.Clases.sala_cine;
 import com.example.darkknight.cinemateatralv2.Interfaces.comunicador;
 import com.example.darkknight.cinemateatralv2.R;
+import com.example.darkknight.cinemateatralv2.confirmar_reserva;
 import com.google.android.gms.wallet.fragment.WalletFragmentStyle;
 
 import java.sql.BatchUpdateException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,6 +72,7 @@ public class seleccion_lugares extends Fragment {
     private ArrayAdapter<asiento>adaptadorAsiento;
     private ListView listaAsientosReservados;
     private ArrayList<asiento>asientosReservados;
+    private Button btnConfirmarAsientos;
 
     private comunicador com;
 
@@ -129,6 +137,7 @@ public class seleccion_lugares extends Fragment {
         spAsientosDisponibles = v.findViewById(R.id.spAsientosDisponibles);
         spTipoSala = v.findViewById(R.id.spTipoSala);
         listaAsientosReservados = v.findViewById(R.id.listaAsientosReservados);
+        btnConfirmarAsientos = v.findViewById(R.id.btnConfirmar);
 
 
         Bundle bundle = this.getArguments();
@@ -156,6 +165,26 @@ public class seleccion_lugares extends Fragment {
 
         adaptadorSala = new adaptadorSpinnerPelicula(getActivity(),tiposSalas);
         cargarSpinnerTiposSalas(tiposSalas,adaptadorSala);
+
+
+
+
+        btnConfirmarAsientos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager fragmentm = getActivity().getFragmentManager();
+                FragmentTransaction ft = fragmentm.beginTransaction();
+                String tagReserva;
+                Fragment fconfirmarReserva = confirmar_reserva.newInstance();
+                tagReserva = fconfirmarReserva.getClass().getName();
+                ft.replace(R.id.content_frame, fconfirmarReserva, tagReserva);
+                ft.addToBackStack(tagReserva);
+                ft.commit();
+
+
+            }
+        });
 
 
         spTipoSala.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -186,7 +215,8 @@ public class seleccion_lugares extends Fragment {
 
                 asientosReservados.add(asientoSeleccionado);
 
-                //Adaptar esta lista al listview
+                asientosResAdapter asientoRAdapter = new asientosResAdapter(getActivity().getApplicationContext(),asientosReservados);
+                listaAsientosReservados.setAdapter(asientoRAdapter);
 
             }
 
@@ -280,5 +310,65 @@ public class seleccion_lugares extends Fragment {
     public void cargarSpinnerTiposSalas(ArrayList<sala_cine>tiposSalas, ArrayAdapter<sala_cine> adaptadorTipoSala){
 
         spTipoSala.setAdapter(adaptadorTipoSala);
+    }
+    class asientosResAdapter extends ArrayAdapter<asiento> {
+
+        //our hero list
+        List<asiento> asientosDisList;
+        Context context = getContext();
+
+
+
+        //constructor to get the list
+        public asientosResAdapter(Context context,List<asiento> asientosDisList) {
+            super(context, R.layout.activity_listar_asientos_seleccionados,asientosDisList);
+            this.asientosDisList = asientosDisList;
+        }
+
+
+        //method returning list item
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            View listViewItem = inflater.inflate(R.layout.activity_listar_asientos_seleccionados, null, true);
+
+            //getting the textview for displaying name
+            TextView textViewName = listViewItem.findViewById(R.id.textViewAsientoDis);
+
+            //the update and delete textview
+            TextView textViewDelete = listViewItem.findViewById(R.id.textViewDeleteAsientoDis);
+
+            final asiento asiento = asientosDisList.get(position);
+
+            textViewName.setText(asiento.toString());
+
+            //when the user selected delete
+            textViewDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                    builder.setTitle("Quitar" + asiento.toString())
+                            .setMessage("¿Esta seguro que quiere cambiarlo?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                  asientosDisponibles.remove(asiento);
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+
+                }
+            });
+
+            return listViewItem;
+        }
+
     }
 }

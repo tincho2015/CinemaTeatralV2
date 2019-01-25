@@ -51,6 +51,8 @@ public class adaptadorSpinnerAsiento extends ArrayAdapter<asiento> {
         LayoutInflater inflater=LayoutInflater.from(context);
         View view = inflater.inflate(android.R.layout.simple_spinner_dropdown_item, null);
         TextView txv= view.findViewById(android.R.id.text1);
+
+
         if(position==0) { //Primer elemento color Azul #39399F
             txv.setBackgroundColor(Color.parseColor("#39399F"));
             txv.setTextColor(Color.parseColor("#FFFFFF")); //Texto color Blanco

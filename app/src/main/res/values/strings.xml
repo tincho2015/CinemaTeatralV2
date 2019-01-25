@@ -14,6 +14,7 @@
     <string name="title_seleccion_asiento">Seleccione un asiento a reservar:</string>
     <string name="title_lista_asientos_reservados">Asientos reservados:</string>
     <string name="title_seleccion_sala_asientos">Seleccione el tipo de sala:</string>
+    <string name="listar_asiento_seleccionado">nombre_asiento</string>
 
 
     <!-- ABM Asientos -->
@@ -223,6 +224,7 @@
     <string name="titleDatoCine">nombre_cine</string>
     <string name="titleDatoPelicula">nombre_pelicula</string>
     <string name="titleFecha">fecha</string>
+    <string name="titleCantEntradas">cant_entradas</string>
     <string name="titleHorario">horario</string>
     <string name="titlePagoTotal">pagoTotal</string>
     <string name="titleDatoSala">sala</string>
