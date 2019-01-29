@@ -25,6 +25,7 @@ import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.funcion;
 import com.example.darkknight.cinemateatralv2.Clases.horario;
 import com.example.darkknight.cinemateatralv2.Clases.pelicula;
+import com.example.darkknight.cinemateatralv2.Clases.reserva_cine;
 import com.example.darkknight.cinemateatralv2.Clases.sala_cine;
 import com.example.darkknight.cinemateatralv2.Helpers.FragmentNavigationManager;
 import com.example.darkknight.cinemateatralv2.Interfaces.NavigationManager;
@@ -554,6 +555,15 @@ public class menu_lateral_principal extends AppCompatActivity
 
     }
 
+    @Override
+    public ArrayList darAsientosDisponibles(sala_cine sc) {
+        if(sc != null ){
+
+            admin.darAsientosDisponibles(sc);
+        }
+        return null;
+    }
+
     public void mandarAsientosSalaAdmin(cine c,ArrayList<asiento>asientos, sala_cine sc){
 
         for(asiento a:asientos){
@@ -562,6 +572,13 @@ public class menu_lateral_principal extends AppCompatActivity
 
                 admin.agregarAsientoSala(c,sc,a);
             }
+        }
+    }
+    public void mandarReservaAdmin(reserva_cine rc){
+
+        if(rc !=null){
+
+            admin.agregarReservaCine(rc);
         }
     }
     /*

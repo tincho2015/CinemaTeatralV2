@@ -8,6 +8,7 @@ import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.funcion;
 import com.example.darkknight.cinemateatralv2.Clases.horario;
 import com.example.darkknight.cinemateatralv2.Clases.pelicula;
+import com.example.darkknight.cinemateatralv2.Clases.reserva_cine;
 import com.example.darkknight.cinemateatralv2.Clases.sala_cine;
 import com.example.darkknight.cinemateatralv2.Clases.sala_teatro;
 
@@ -50,6 +51,8 @@ public interface comunicador {
    void mandarAsientosSalaAdmin(ArrayList<asiento>asientos,sala_cine sc,cine c);
 
    ArrayList darAsientosDisponibles(sala_cine sc);
+
+   void mandarReservaAdmin(reserva_cine rc);
 
 
 

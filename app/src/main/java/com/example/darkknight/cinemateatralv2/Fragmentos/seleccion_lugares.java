@@ -176,7 +176,7 @@ public class seleccion_lugares extends Fragment {
                 FragmentManager fragmentm = getActivity().getFragmentManager();
                 FragmentTransaction ft = fragmentm.beginTransaction();
                 String tagReserva;
-                Fragment fconfirmarReserva = confirmar_reserva.newInstance();
+                Fragment fconfirmarReserva = confirmar_reserva.newInstance(cineReservaFinal.getID(),peliReservaFinal.getID(),horarioReservaFinal.getId(),funcionReservaFinal.getID(),asientosReservados,tipoSala.getID(),);
                 tagReserva = fconfirmarReserva.getClass().getName();
                 ft.replace(R.id.content_frame, fconfirmarReserva, tagReserva);
                 ft.addToBackStack(tagReserva);
@@ -231,36 +231,6 @@ public class seleccion_lugares extends Fragment {
     return v;
 
 
-    }
-
-    private void agregarAsiento(){
-
-
-    }
-
-    private void agregarReserva(int idCine,int idPelicula,int idFuncion,int idHorario) {
-
-        //A partir de lo seleccionadoo en los spinners, linkear cada parametro con su correspondiente seleccion.
-
-
-        //Rellenar el hashmap con lo seleccionado
-        /*
-        HashMap<String, String> params = new HashMap<>();
-        params.put("nombre", nombre);
-        params.put("direccion", direccion);
-        params.put("telefono", telefono);
-        params.put("url",url);
-        */
-
-
-
-        //Calling the create hero API
-        /*
-        request request = new request(AppConfig.URL_CREAR_CINE, params, CODE_POST_REQUEST);
-        request.execute();
-        */
-
-        // getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
 

@@ -59,7 +59,7 @@ public class AppConfig {
 
         //Reserva_cine
 
-        public static String URL_CREAR_RESERVA_CINE = "http://campobd.esy.es/Campo/Api.php?apicall=agregarReservaCine";
+        public static String URL_CREAR_RESERVA_CINE = "http://campobd.esy.es/Campo/Api.php?apicall=agregarReserva&id_espectaculo=&id_complejo=&id_tipo_complejo=&id_tipo_espectaculo=&id_sala=&id_funcion=&id_usuario=";
 
         //Reserva_teatro
 

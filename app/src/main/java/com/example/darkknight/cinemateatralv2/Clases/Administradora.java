@@ -17,6 +17,7 @@ public class Administradora
     private ArrayList<teatro>teatrosNoRepetidos;
     private ArrayList<pelicula>peliculasNoRepetidas;
     private ArrayList<obraDeTeatro>obrasNoRepetidas;
+    private ArrayList<reserva_cine>reservasCines;
 
 
     private static Administradora ourInstance = new Administradora();
@@ -39,6 +40,7 @@ public class Administradora
         teatrosNoRepetidos = new ArrayList<>();
         peliculasNoRepetidas = new ArrayList<>();
         obrasNoRepetidas = new ArrayList<>();
+        reservasCines = new ArrayList<>();
 
     }
 
@@ -353,6 +355,15 @@ public class Administradora
                 sc.eliminarPeliculas(peli);
             }
         }
+    }
+
+    public void agregarReservaCine(reserva_cine nuevaReserva ){
+
+        if(nuevaReserva != null){
+
+            reservasCines.add(nuevaReserva);
+        }
+
     }
 
 

@@ -1,9 +1,9 @@
 package com.example.darkknight.cinemateatralv2.Clases;
 
-import com.example.darkknight.cinemateatralv2.ItemReserva;
 import com.example.darkknight.cinemateatralv2.Usuarios.Usuario;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Dark Knight on 12/08/2016.
@@ -12,23 +12,33 @@ public class reserva {
 
 
         private int ID;
-        private Usuario usuario;
-        private boolean estado;
-        private Fecha fechaDesde;
-        private Fecha fechaHasta;
+        private int usuarioid;
+        private Date fechaDesde;
+        private Date fechaHasta;
         private int nroReserva;
-        private funcion funcion;
-        private asiento asiento;
+        private int funcionid;
+        private ArrayList<asiento>asientos;
 
-        public reserva(int ID, Usuario usuario, boolean estado, Fecha fechaDesde, Fecha fechaHasta, ItemReserva item) {
+
+
+    public reserva(int ID, int usuarioId,int funcionid,Date fechaHasta,int nroReserva) {
             this.ID = ID;
-            this.usuario = usuario;
-            this.estado = estado;
+            this.usuarioid = usuarioId;
             this.fechaDesde = Fecha.hoy();
             this.fechaHasta = fechaHasta;
+            this.asientos = new ArrayList<>();
+            this.nroReserva = nroReserva;
         }
 
-        public int getID() {
+    public int getNroReserva() {
+        return nroReserva;
+    }
+
+    public void setNroReserva(int nroReserva) {
+        this.nroReserva = nroReserva;
+    }
+
+    public int getID() {
             return ID;
         }
 
@@ -36,28 +46,31 @@ public class reserva {
             this.ID = ID;
         }
 
-        public Usuario getUsuario() {
-            return usuario;
+        public int getUsuario() {
+            return usuarioid;
         }
 
-        public void setUsuario(Usuario usuario) {
-            this.usuario = usuario;
+        public void setUsuario(int usuarioid) {
+            this.usuarioid = usuarioid;
         }
 
-        public boolean isEstado() {
-            return estado;
-        }
 
-        public void setEstado(boolean estado) {
-            this.estado = estado;
-        }
-
-        public Fecha getFechaHasta() {
+        public Date getFechaHasta() {
             return fechaHasta;
         }
 
-        public void setFechaHasta(Fecha fechaHasta) {
+        public void setFechaHasta(Date fechaHasta) {
             this.fechaHasta = fechaHasta;
         }
+
+    public ArrayList<asiento> getAsientos() {
+        return asientos;
+    }
+
+    public void setAsientos(ArrayList<asiento> asientos) {
+        this.asientos = asientos;
+    }
+
+
 
 }
