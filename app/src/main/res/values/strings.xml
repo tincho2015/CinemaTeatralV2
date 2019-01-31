@@ -113,7 +113,7 @@
     <string name="btn_link_to_login">¿Ya registrado? Inicia sesión!.</string>
     <string name="welcome">Bienvenido/a!</string>
     <string name="btn_logout">LOGOUT</string>
-    <string name="btnMenu">Ir al menú principal</string>
+    <string name="btn_listar_puntuadas">Mostrar espectaculos vistos</string>
     <string name="titleID">Id de usuario</string>
     <string name="show_id_usuario">id_usuario</string>
     <string name="show_nombre_usuario">nombre_usuario</string>
@@ -121,7 +121,15 @@
     <string name="show_sexo_usuario">sexo_usuario</string>
     <string name="btnEditarUsuario">Editar perfil</string>
     <string name="enlace_a_registro">¿No estas registrado?.¡Registrate ahora!</string>
+    <string name="btn_listar_reservas">Mostrar reservas hechas</string>
 
+
+    <!--Listar reservas hechas -->
+
+    <string name="title_reserva_hecha">cod_reserva</string>
+    <string name="title_espectaculo">nombre_espectaculo</string>
+    <string name="opcion_ver_detalle">Ver detalle</string>
+    <string name="opcion_puntuar">Puntuar</string>
     <!-- String Menu Principal -->
 
     <string name="btnReserva">Generar reserva</string>

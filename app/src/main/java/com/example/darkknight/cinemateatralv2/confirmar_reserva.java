@@ -198,7 +198,7 @@ public class confirmar_reserva extends Fragment {
 
             }
         });
-        
+
         return v;
     }
     private void agregarReserva(int idCine,int idPelicula,int idUsuario,int idSala,int idFuncion) {

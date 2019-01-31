@@ -19,7 +19,8 @@ public class bienvenida extends Fragment {
 
     private TextView txtName;
     private Button btnLogout;
-    private Button btnMenu;
+    private Button btnEspectaculosVistos;
+    private Button btnReservas;
 
 
 
@@ -43,7 +44,9 @@ public class bienvenida extends Fragment {
 
         txtName = view.findViewById(R.id.name);
         btnLogout =  view.findViewById(R.id.btnLogout);
-        btnMenu = view.findViewById(R.id.btnMenu);
+        btnEspectaculosVistos = view.findViewById(R.id.btnEspectaculosVistos);
+        btnReservas = view.findViewById(R.id.btnListarReservas);
+
 
         return view;
 
@@ -70,6 +73,22 @@ public class bienvenida extends Fragment {
             public void onClick(View v) {
 
                 SharedPrefManager.getInstance(getActivity()).logout();
+            }
+        });
+        btnReservas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                
+
+            }
+        });
+
+        btnEspectaculosVistos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
             }
         });
 
