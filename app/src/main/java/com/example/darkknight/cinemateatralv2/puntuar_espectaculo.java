@@ -7,24 +7,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-
-import com.example.darkknight.cinemateatralv2.Clases.reserva;
-import com.example.darkknight.cinemateatralv2.Usuarios.SharedPrefManager;
-import com.example.darkknight.cinemateatralv2.Usuarios.Usuario;
-
-import java.util.ArrayList;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link lista_espectaculos_puntuar.OnFragmentInteractionListener} interface
+ * {@link puntuar_espectaculo.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link lista_espectaculos_puntuar#newInstance} factory method to
+ * Use the {@link puntuar_espectaculo#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class lista_espectaculos_puntuar extends Fragment {
+public class puntuar_espectaculo extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -34,14 +27,9 @@ public class lista_espectaculos_puntuar extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private ListView listViewEspectaculos;
-    private ArrayList<reserva>reservasUsuario;
-
-
-
     private OnFragmentInteractionListener mListener;
 
-    public lista_espectaculos_puntuar() {
+    public puntuar_espectaculo() {
         // Required empty public constructor
     }
 
@@ -51,11 +39,11 @@ public class lista_espectaculos_puntuar extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment lista_espectaculos_puntuar.
+     * @return A new instance of fragment puntuar_espectaculo.
      */
     // TODO: Rename and change types and number of parameters
-    public static lista_espectaculos_puntuar newInstance(String param1, String param2) {
-        lista_espectaculos_puntuar fragment = new lista_espectaculos_puntuar();
+    public static puntuar_espectaculo newInstance(String param1, String param2) {
+        puntuar_espectaculo fragment = new puntuar_espectaculo();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -76,14 +64,7 @@ public class lista_espectaculos_puntuar extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_lista_espectaculos_puntuar, container, false);
-
-        listViewEspectaculos = v.findViewById(R.id.listViewEspectaculos);
-
-
-
-
-        return v;
+        return inflater.inflate(R.layout.fragment_puntuar_espectaculo, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
