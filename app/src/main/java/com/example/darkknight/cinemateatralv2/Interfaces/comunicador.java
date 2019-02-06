@@ -54,6 +54,8 @@ public interface comunicador {
 
    void mandarReservaAdmin(reserva_cine rc);
 
+   //ArrayList darReservasUsuario(int idUsuario);
+
 
 
 }

@@ -57,6 +57,10 @@ public class AppConfig {
 
         public static String URL_ELIMINAR_OBRA_TEATRO = "http://campobd.esy.es/Campo/Api.php?apicall=borrarObraTeatro&oid=";
 
+        //Reservas
+
+        public static String URL_DAR_RESERVAS_USUARIO = "http://campobd.esy.es/Campo/Api.php?apicall=darReservasUsuario&id_usuario=";
+
         //Reserva_cine
 
         public static String URL_CREAR_RESERVA_CINE = "http://campobd.esy.es/Campo/Api.php?apicall=agregarReserva&id_espectaculo=&id_complejo=&id_tipo_complejo=&id_tipo_espectaculo=&id_sala=&id_funcion=&id_usuario=";

@@ -16,4 +16,28 @@ public class reserva_cine extends reserva {
     public reserva_cine(int ID, int idUsuario,int funcionId,int cineId,int peliculaId, int scId,Date fechaHasta,int nroReserva) {
         super(ID,idUsuario,funcionId,fechaHasta,nroReserva);
     }
+
+    public int getCineId() {
+        return cineId;
+    }
+
+    public void setCineId(int cineId) {
+        this.cineId = cineId;
+    }
+
+    public int getPeliculaId() {
+        return peliculaId;
+    }
+
+    public void setPeliculaId(int peliculaId) {
+        this.peliculaId = peliculaId;
+    }
+
+    public int getScId() {
+        return scId;
+    }
+
+    public void setScId(int scId) {
+        this.scId = scId;
+    }
 }
