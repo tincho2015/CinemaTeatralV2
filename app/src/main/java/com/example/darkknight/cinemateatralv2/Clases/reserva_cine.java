@@ -17,7 +17,7 @@ public class reserva_cine extends reserva {
         super(ID,idUsuario,funcionId,fechaHasta,nroReserva);
     }
 
-    public int getCineId() {
+    public  int getCineId() {
         return cineId;
     }
 

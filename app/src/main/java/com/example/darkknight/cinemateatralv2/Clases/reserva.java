@@ -1,5 +1,7 @@
 package com.example.darkknight.cinemateatralv2.Clases;
 
+import android.os.CpuUsageInfo;
+
 import com.example.darkknight.cinemateatralv2.Usuarios.Usuario;
 
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ public class reserva {
 
 
 
-    public reserva(int ID, int usuarioId,int funcionid,Date fechaHasta,int nroReserva) {
+    public reserva(int ID, int usuarioId, int funcionid, Date fechaHasta, int nroReserva) {
             this.ID = ID;
             this.usuarioid = usuarioId;
             this.fechaDesde = Fecha.hoy();
@@ -32,6 +34,14 @@ public class reserva {
 
     public int getNroReserva() {
         return nroReserva;
+    }
+
+    public int getFuncionid() {
+        return funcionid;
+    }
+
+    public void setFuncionid(int funcionid) {
+        this.funcionid = funcionid;
     }
 
     public void setNroReserva(int nroReserva) {

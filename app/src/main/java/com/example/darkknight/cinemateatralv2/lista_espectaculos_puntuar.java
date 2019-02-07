@@ -7,12 +7,13 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +21,6 @@ import com.example.darkknight.cinemateatralv2.Clases.cine;
 import com.example.darkknight.cinemateatralv2.Clases.jSonParser;
 import com.example.darkknight.cinemateatralv2.Clases.reserva;
 import com.example.darkknight.cinemateatralv2.Clases.reserva_cine;
-import com.example.darkknight.cinemateatralv2.Fragmentos.abmSala;
 import com.example.darkknight.cinemateatralv2.Fragmentos.abm_cine_fragment;
 import com.example.darkknight.cinemateatralv2.Interfaces.comunicador;
 import com.example.darkknight.cinemateatralv2.Usuarios.SharedPrefManager;
@@ -30,7 +30,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -59,12 +62,16 @@ public class lista_espectaculos_puntuar extends Fragment {
     private String mParam2;
 
     private ListView listViewEspectaculos;
-    private ArrayList<reserva>reservasUsuario;
-
-    private ArrayAdapter<reserva>adaptadorReserva;
+    private ArrayList<reserva_cine>reservasUsuario;
 
     private comunicador com;
 
+    private android.app.FragmentTransaction ft = null;
+    private Fragment fPuntuar = null;
+
+    private String tagSala = "";
+
+    private ProgressBar pbListaPuntuar;
 
 
 
@@ -109,10 +116,11 @@ public class lista_espectaculos_puntuar extends Fragment {
         View v = inflater.inflate(R.layout.fragment_lista_espectaculos_puntuar, container, false);
 
         listViewEspectaculos = v.findViewById(R.id.listViewEspectaculos);
+        pbListaPuntuar = v.findViewById(R.id.pbListaPuntuar);
 
         reservasUsuario = new ArrayList<>();
 
-        reservasUsuario = com.d
+
 
 
 
@@ -165,7 +173,7 @@ public class lista_espectaculos_puntuar extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            barra.setVisibility(View.VISIBLE);
+            pbListaPuntuar.setVisibility(View.VISIBLE);
         }
 
 
@@ -173,7 +181,7 @@ public class lista_espectaculos_puntuar extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            barra.setVisibility(GONE);
+            pbListaPuntuar.setVisibility(GONE);
             try {
                 JSONObject object = new JSONObject(s);
                 if (!object.getBoolean("error")) {
@@ -181,6 +189,8 @@ public class lista_espectaculos_puntuar extends Fragment {
                     refrescarLista(object.getJSONArray("reservas"));
                 }
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
@@ -230,7 +240,9 @@ public class lista_espectaculos_puntuar extends Fragment {
 
             final reserva_cine reserva_c = reservasList.get(position);
 
-            textViewName.setText(reserva_c.getPeliculaId());
+            String nombrePeli = com.darNombrePeliPuntuar(reserva_c.getPeliculaId()).getNombre();
+
+            textViewName.setText(nombrePeli);
 
             //attaching click listener to update
             textViewPuntuar.setOnClickListener(new View.OnClickListener() {
@@ -241,7 +253,7 @@ public class lista_espectaculos_puntuar extends Fragment {
                     FragmentManager fragmentm = getActivity().getFragmentManager();
                     ft = fragmentm.beginTransaction();
 
-                    fPuntuar = puntuar_espectaculo.newInstance();
+                    fPuntuar = puntuar_espectaculo.newInstance(); //ver que le paso
                     tagSala = fPuntuar.getClass().getName();
                     ft.replace(R.id.content_frame, fPuntuar, fPuntuar.getClass().getName());
                     ft.addToBackStack(tagSala);
@@ -255,29 +267,36 @@ public class lista_espectaculos_puntuar extends Fragment {
         }
 
     }
-    private void refrescarLista(JSONArray cines) throws JSONException {
+    private void refrescarLista(JSONArray reservas) throws JSONException, ParseException {
         //clearing previous heroes
-        ListaCines.clear();
+        reservasUsuario.clear();
 
         //traversing through all the items in the json array
         //the json we got from the response
-        for (int i = 0; i < cines.length(); i++) {
+        for (int i = 0; i < reservas.length(); i++) {
             //getting each hero object
-            JSONObject obj = cines.getJSONObject(i);
+            JSONObject obj = reservas.getJSONObject(i);
+            JSONObject objDia= new JSONObject();
+
+            String fecha = objDia.getString("fecha_hasta");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+            Date nuevaFecha = sdf.parse(fecha);
 
             //adding the hero to the list
-            ListaCines.add(new cine(
-                    obj.getString("direccion"),
-                    obj.getInt("ID"),
-                    obj.getString("nombre"),
-                    obj.getString("telefono"),
-                    obj.getString("url")
-
+            reservasUsuario.add(new reserva_cine(
+                    obj.getInt("id_reserva"),
+                    obj.getInt("id_usuario"),
+                    obj.getInt("id_funcion"),
+                    obj.getInt("id_complejo"),
+                    obj.getInt("id_espectaculo"),
+                    obj.getInt("id_sala"),
+                    nuevaFecha,
+                    obj.getInt("nro_reserva")
             ));
         }
         //creating the adapter and setting it to the listview
-        abm_cine_fragment.cineAdapter adapter = new abm_cine_fragment.cineAdapter(getActivity().getApplicationContext(),ListaCines);
-        this.cines.setAdapter(adapter);
+        reservasUsuarioAdapter adapter = new reservasUsuarioAdapter(getActivity().getApplicationContext(),reservasUsuario);
+        this.listViewEspectaculos.setAdapter(adapter);
     }
 
     /**

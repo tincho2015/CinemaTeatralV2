@@ -581,6 +581,12 @@ public class menu_lateral_principal extends AppCompatActivity
             admin.agregarReservaCine(rc);
         }
     }
+
+    @Override
+    public pelicula darNombrePeliPuntuar(int peliId) {
+
+        admin.
+    }
     /*
     @Override
     public void mandarPelisSalaAdmin(ArrayList<pelicula> pelisSala, sala_cine sc) {

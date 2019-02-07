@@ -366,5 +366,23 @@ public class Administradora
 
     }
 
+    public pelicula darNombrePeliPuntuar(int peliId){
+
+        for(cine c: cinesNoRepetidos){
+
+            for(sala_cine sc: c.getSala_cines()){
+
+                for(pelicula p: sc.getPeliculasSala()){
+
+                    if(p.getID() == peliId){
+
+                        return p;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
 
 }
